@@ -1,4 +1,4 @@
-# Baby memo - Easy record your baby activities
+# Baby record - Easy record your baby activities
 
 ### Architecture
 
@@ -19,7 +19,7 @@
 
 1. Clone repository
 
-1. Create empty database with name `cabo` and `cabo-test`
+1. Create empty database with name `baby-record` and `cabo-record-test`
 
 1. Configuration backend
 
