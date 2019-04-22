@@ -38,4 +38,16 @@ class DumpMilk extends Entity
         'modified' => true,
         'baby' => true
     ];
+
+    /**
+     * Virtual fields that will be exposed in json/xml
+     *
+     * @var array
+     */
+    protected $_virtual = ['title'];
+
+    protected function _getTitle()
+    {
+        return __('Dump milk');
+    }
 }

@@ -46,22 +46,28 @@ class BabiesTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->hasMany('BottleMilk', [
-            'foreignKey' => 'baby_id'
+            'foreignKey' => 'baby_id',
+            'dependent' => true
         ]);
         $this->hasMany('BreastMilk', [
-            'foreignKey' => 'baby_id'
+            'foreignKey' => 'baby_id',
+            'dependent' => true
         ]);
         $this->hasMany('Custom', [
-            'foreignKey' => 'baby_id'
+            'foreignKey' => 'baby_id',
+            'dependent' => true
         ]);
         $this->hasMany('Diapers', [
-            'foreignKey' => 'baby_id'
+            'foreignKey' => 'baby_id',
+            'dependent' => true
         ]);
         $this->hasMany('DumpMilk', [
-            'foreignKey' => 'baby_id'
+            'foreignKey' => 'baby_id',
+            'dependent' => true
         ]);
         $this->hasMany('Temperature', [
-            'foreignKey' => 'baby_id'
+            'foreignKey' => 'baby_id',
+            'dependent' => true
         ]);
     }
 
@@ -89,5 +95,18 @@ class BabiesTable extends Table
             ->allowEmptyDate('birthday', false);
 
         return $validator;
+    }
+
+    /**
+     * Returns a rules checker object that will be used for validating
+     * application integrity.
+     *
+     * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
+     * @return \Cake\ORM\RulesChecker
+     */
+    public function buildRules(RulesChecker $rules)
+    {
+        $rules->add($rules->isUnique(['name']));
+        return $rules;
     }
 }
