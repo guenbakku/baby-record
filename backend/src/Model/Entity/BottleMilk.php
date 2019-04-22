@@ -46,10 +46,15 @@ class BottleMilk extends Entity
      *
      * @var array
      */
-    protected $_virtual = ['title'];
+    protected $_virtual = ['title', 'total_volume'];
 
     protected function _getTitle()
     {
         return __('Bottle milk');
+    }
+
+    protected function _getTotalVolume()
+    {
+        return $this->breast_volume + $this->fomular_volume;
     }
 }
