@@ -7,22 +7,22 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * DumpMilk Model
+ * PumpMilk Model
  *
  * @property \App\Model\Table\BabiesTable|\Cake\ORM\Association\BelongsTo $Babies
  *
- * @method \App\Model\Entity\DumpMilk get($primaryKey, $options = [])
- * @method \App\Model\Entity\DumpMilk newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\DumpMilk[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\DumpMilk|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\DumpMilk saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\DumpMilk patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\DumpMilk[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\DumpMilk findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\PumpMilk get($primaryKey, $options = [])
+ * @method \App\Model\Entity\PumpMilk newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\PumpMilk[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\PumpMilk|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\PumpMilk saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\PumpMilk patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\PumpMilk[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\PumpMilk findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class DumpMilkTable extends Table
+class PumpMilkTable extends Table
 {
     /**
      * Initialize method
@@ -34,7 +34,7 @@ class DumpMilkTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('dump_milk');
+        $this->setTable('pump_milk');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 

@@ -13,7 +13,7 @@ use Cake\Validation\Validator;
  * @property \App\Model\Table\BreastMilkTable|\Cake\ORM\Association\HasMany $BreastMilk
  * @property \App\Model\Table\CustomTable|\Cake\ORM\Association\HasMany $Custom
  * @property \App\Model\Table\DiapersTable|\Cake\ORM\Association\HasMany $Diapers
- * @property \App\Model\Table\DumpMilkTable|\Cake\ORM\Association\HasMany $DumpMilk
+ * @property \App\Model\Table\PumpMilkTable|\Cake\ORM\Association\HasMany $PumpMilk
  * @property \App\Model\Table\TemperatureTable|\Cake\ORM\Association\HasMany $Temperature
  *
  * @method \App\Model\Entity\Baby get($primaryKey, $options = [])
@@ -61,7 +61,7 @@ class BabiesTable extends Table
             'foreignKey' => 'baby_id',
             'dependent' => true
         ]);
-        $this->hasMany('DumpMilk', [
+        $this->hasMany('PumpMilk', [
             'foreignKey' => 'baby_id',
             'dependent' => true
         ]);

@@ -4,9 +4,9 @@ namespace App\Test\Fixture;
 use Cake\TestSuite\Fixture\TestFixture;
 
 /**
- * DumpMilkFixture
+ * PumpMilkFixture
  */
-class DumpMilkFixture extends TestFixture
+class PumpMilkFixture extends TestFixture
 {
     /**
      * Table name

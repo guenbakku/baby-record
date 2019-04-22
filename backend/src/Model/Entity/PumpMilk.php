@@ -4,7 +4,7 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * DumpMilk Entity
+ * PumpMilk Entity
  *
  * @property string $id
  * @property string $baby_id
@@ -17,7 +17,7 @@ use Cake\ORM\Entity;
  *
  * @property \App\Model\Entity\Baby $baby
  */
-class DumpMilk extends Entity
+class PumpMilk extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().

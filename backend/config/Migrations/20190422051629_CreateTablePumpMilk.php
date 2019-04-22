@@ -1,7 +1,7 @@
 <?php
 use Migrations\AbstractMigration;
 
-class CreateTableDumpMilk extends AbstractMigration
+class CreateTablePumpMilk extends AbstractMigration
 {
     /**
      * Change Method.
@@ -12,7 +12,7 @@ class CreateTableDumpMilk extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('dump_milk', ['id' => false, 'primary_key' => 'id']);
+        $table = $this->table('pump_milk', ['id' => false, 'primary_key' => 'id']);
         $table->addColumn('id', 'uuid', [
             'null' => false,
         ])

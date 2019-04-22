@@ -4,11 +4,11 @@ namespace App\Controller\Api;
 use Cake\Event\Event;
 
 /**
- * Dump Milk Controller
+ * Pump Milk Controller
  *
  * @method \App\Model\Entity\User[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
  */
-class DumpMilkController extends AppController
+class PumpMilkController extends AppController
 {
     public function index()
     {

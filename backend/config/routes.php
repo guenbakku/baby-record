@@ -120,7 +120,7 @@ Router::prefix('api', function (RouteBuilder $routes) {
     $routes->resources('Temperature', [
         'inflect' => 'dasherize'
     ]);
-    $routes->resources('DumpMilk', [
+    $routes->resources('PumpMilk', [
         'inflect' => 'dasherize'
     ]);
     $routes->resources('Custom', [

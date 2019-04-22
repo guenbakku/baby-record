@@ -16,7 +16,7 @@ use Cake\ORM\Entity;
  * @property \App\Model\Entity\BreastMilk[] $breast_milk
  * @property \App\Model\Entity\Custom[] $custom
  * @property \App\Model\Entity\Diaper[] $diapers
- * @property \App\Model\Entity\DumpMilk[] $dump_milk
+ * @property \App\Model\Entity\PumpMilk[] $dump_milk
  * @property \App\Model\Entity\Temperature[] $temperature
  */
 class Baby extends Entity
@@ -39,7 +39,7 @@ class Baby extends Entity
         'breast_milk' => true,
         'custom' => true,
         'diapers' => true,
-        'dump_milk' => true,
+        'pump_milk' => true,
         'temperature' => true
     ];
 }
