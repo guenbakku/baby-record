@@ -102,3 +102,17 @@ Router::scope('/', function (RouteBuilder $routes) {
  * });
  * ```
  */
+
+Router::prefix('api', function (RouteBuilder $routes) {
+
+    $routes->resources('Babies', function ($routes) {
+        $routes->resources('BreastMilk');
+        $routes->resources('BottleMilk');
+        $routes->resources('Diapers');
+        $routes->resources('Temperature');
+        $routes->resources('DumpMilk');
+        $routes->resources('Custom');
+    });
+
+    $routes->fallbacks(DashedRoute::class);
+});

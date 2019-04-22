@@ -201,3 +201,13 @@ Type::build('timestamp')
 //Inflector::rules('irregular', ['red' => 'redlings']);
 //Inflector::rules('uninflected', ['dontinflectme']);
 //Inflector::rules('transliteration', ['/å/' => 'aa']);
+
+/*
+ * Customize Time format
+ * More about formatter:
+ * http://www.icu-project.org/apiref/icu4c/classSimpleDateFormat.html#details
+ */
+\Cake\I18n\Time::setJsonEncodeFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+\Cake\I18n\FrozenTime::setJsonEncodeFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+\Cake\I18n\Date::setJsonEncodeFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+\Cake\I18n\FrozenDate::setJsonEncodeFormat("yyyy-MM-dd'T'HH:mm:ssZ");
