@@ -85,6 +85,7 @@ class BottleMilkActivitiesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
+        $rules->add($rules->isUnique(['activity_id']));
         $rules->add($rules->existsIn(['activity_id'], 'Activities'));
 
         return $rules;
