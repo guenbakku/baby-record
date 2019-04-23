@@ -1,10 +1,14 @@
 <?php
 namespace App\Controller\Api;
 
+use Cake\Core\Configure;
 use Cake\Datasource\ConnectionManager;
 use Cake\Event\Event;
 use Cake\Http\Exception\BadRequestException;
 use Cake\ORM\TableRegistry;
+use Cake\I18n\Time;
+use Cake\Utility\Hash;
+use Guenbakku\Middleware\Http\ClientTimezoneMiddleware;
 
 /**
  * Activities Controller
@@ -30,6 +34,9 @@ class ActivitiesController extends AppController
             $activityTypesTb = TableRegistry::getTableLocator()->get('ActivityTypes');
             $activityTypeTables = $activityTypesTb->getTableNames();
             $query->contain(array_merge($activityTypeTables, ['ActivityTypes']));
+
+            // Create search conditions
+            $query = $this->genIndexConditions($query);
         });
 
         return $this->Crud->execute();
@@ -97,5 +104,28 @@ class ActivitiesController extends AppController
         return $this->Crud->execute();
     }
 
-    // Inheriting the rest of FriendOfCake/Crud's methods.
+    /**
+     * Generate search conditions for index method
+     *
+     * @param Query $query
+     * @return Query
+     */
+    protected function genIndexConditions($query)
+    {
+        $val = Hash::get($this->request->getQuery(), 'filter.from');
+        if (!in_array($val, [null, ''], true)) {
+            $val = new Time($val, ClientTimezoneMiddleware::getClientTimezone());
+            $val->setTimezone(Configure::read('App.defaultTimezone'));
+            $query->where(['started >=' => $val]);
+        }
+
+        $val = Hash::get($this->request->getQuery(), 'filter.to');
+        if (!in_array($val, [null, ''], true)) {
+            $val = new Time($val, ClientTimezoneMiddleware::getClientTimezone());
+            $val->setTimezone(Configure::read('App.defaultTimezone'));
+            $query->where(['started <=' => $val]);
+        }
+
+        return $query;
+    }
 }

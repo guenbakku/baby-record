@@ -20,6 +20,8 @@ use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Guenbakku\Middleware\Http\ClientTimezoneMiddleware;
+use Guenbakku\Middleware\Http\CorsMiddleware;
 
 /**
  * Application setup class.
@@ -64,6 +66,11 @@ class Application extends BaseApplication
      */
     public function middleware($middlewareQueue)
     {
+        // Only try to add cors middleware in development mode
+        if (Configure::read('debug')) {
+            $middlewareQueue->add(CorsMiddleware::class);
+        }
+
         $middlewareQueue
             // Catch any exceptions in the lower layers,
             // and make an error page/response
@@ -78,7 +85,10 @@ class Application extends BaseApplication
             // Routes collection cache enabled by default, to disable route caching
             // pass null as cacheConfig, example: `new RoutingMiddleware($this)`
             // you might want to disable this cache in case your routing is extremely simple
-            ->add(new RoutingMiddleware($this, '_cake_routes_'));
+            ->add(new RoutingMiddleware($this, '_cake_routes_'))
+
+            // Determine client timezone
+            ->add(ClientTimezoneMiddleware::class);
 
         return $middlewareQueue;
     }
