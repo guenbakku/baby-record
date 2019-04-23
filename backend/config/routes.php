@@ -108,22 +108,7 @@ Router::prefix('api', function (RouteBuilder $routes) {
     $routes->resources('Babies', [
         'inflect' => 'dasherize'
     ]);
-    $routes->resources('BreastMilk', [
-        'inflect' => 'dasherize'
-    ]);
-    $routes->resources('BottleMilk', [
-        'inflect' => 'dasherize'
-    ]);
-    $routes->resources('Diapers', [
-        'inflect' => 'dasherize'
-    ]);
-    $routes->resources('Temperature', [
-        'inflect' => 'dasherize'
-    ]);
-    $routes->resources('PumpMilk', [
-        'inflect' => 'dasherize'
-    ]);
-    $routes->resources('Custom', [
+    $routes->resources('Activities', [
         'inflect' => 'dasherize'
     ]);
 

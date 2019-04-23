@@ -4,6 +4,7 @@ namespace App\Model\Table;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
 
 /**
@@ -75,5 +76,25 @@ class ActivityTypesTable extends Table
             ->allowEmptyString('sort_no', false);
 
         return $validator;
+    }
+
+    public function getCodes()
+    {
+        return $this->find()
+            ->select(['id', 'code'])
+            ->map(function (\Cake\ORM\Entity $entity) {
+                return $entity->code;
+            })
+            ->toArray();
+    }
+
+    public function getTableNames()
+    {
+        return $this->find()
+            ->select(['id', 'code'])
+            ->map(function (\Cake\ORM\Entity $entity) {
+                return Inflector::camelize(Inflector::pluralize($entity->code));
+            })
+            ->toArray();
     }
 }

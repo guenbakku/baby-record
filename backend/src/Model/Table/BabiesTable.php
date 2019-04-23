@@ -47,6 +47,8 @@ class BabiesTable extends Table
 
         $this->hasMany('Activities', [
             'foreignKey' => 'baby_id',
+            'dependent' => true,
+            'cascadeCallbacks' => true, // TODO: Customize delete api to improve performance.
         ]);
     }
 

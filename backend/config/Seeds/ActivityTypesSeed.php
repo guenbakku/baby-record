@@ -22,7 +22,7 @@ class ActivityTypesSeed extends AbstractSeed
         $data = [
             [
                 'id' => 1,
-                'code' => 'BottleMilk',
+                'code' => 'bottle_milk_activity',
                 'label' => 'Bottle Milk',
                 'sort_no' => 1,
                 'created' => $now,
@@ -30,7 +30,7 @@ class ActivityTypesSeed extends AbstractSeed
             ],
             [
                 'id' => 2,
-                'code' => 'BreastMilk',
+                'code' => 'breast_milk_activity',
                 'label' => 'Breast Milk',
                 'sort_no' => 2,
                 'created' => $now,
@@ -38,7 +38,7 @@ class ActivityTypesSeed extends AbstractSeed
             ],
             [
                 'id' => 3,
-                'code' => 'PumpMilk',
+                'code' => 'pump_milk_activity',
                 'label' => 'Pump Milk',
                 'sort_no' => 3,
                 'created' => $now,
@@ -46,7 +46,7 @@ class ActivityTypesSeed extends AbstractSeed
             ],
             [
                 'id' => 4,
-                'code' => 'Diaper',
+                'code' => 'diaper_activity',
                 'label' => 'Diaper',
                 'sort_no' => 4,
                 'created' => $now,
@@ -54,7 +54,7 @@ class ActivityTypesSeed extends AbstractSeed
             ],
             [
                 'id' => 5,
-                'code' => 'Temperature',
+                'code' => 'temperature_activity',
                 'label' => 'Temperature',
                 'sort_no' => 5,
                 'created' => $now,
@@ -62,7 +62,7 @@ class ActivityTypesSeed extends AbstractSeed
             ],
             [
                 'id' => 6,
-                'code' => 'Custom',
+                'code' => 'custom_activity',
                 'label' => 'Custom',
                 'sort_no' => 6,
                 'created' => $now,
