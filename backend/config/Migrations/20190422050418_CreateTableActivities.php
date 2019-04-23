@@ -1,7 +1,7 @@
 <?php
 use Migrations\AbstractMigration;
 
-class CreateTableCustom extends AbstractMigration
+class CreateTableActivities extends AbstractMigration
 {
     /**
      * Change Method.
@@ -12,15 +12,17 @@ class CreateTableCustom extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('custom', ['id' => false, 'primary_key' => 'id']);
+        $table = $this->table('activities', ['id' => false, 'primary_key' => 'id']);
         $table->addColumn('id', 'uuid', [
+            'null' => false,
+        ])
+        ->addColumn('activity_type_id', 'integer', [
             'null' => false,
         ])
         ->addColumn('baby_id', 'uuid', [
             'null' => false,
         ])
-        ->addColumn('title', 'string', [
-            'limit' => 128,
+        ->addColumn('started', 'datetime', [
             'null' => false,
         ])
         ->addColumn('memo', 'string', [
@@ -33,6 +35,7 @@ class CreateTableCustom extends AbstractMigration
         ->addColumn('modified', 'datetime', [
             'null' => false,
         ])
+        ->addIndex(['activity_type_id'])
         ->addIndex(['baby_id'])
         ->create();
     }

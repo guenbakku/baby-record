@@ -1,7 +1,7 @@
 <?php
 use Migrations\AbstractMigration;
 
-class CreateTableBreastMilk extends AbstractMigration
+class CreateTableActivityTypes extends AbstractMigration
 {
     /**
      * Change Method.
@@ -12,22 +12,20 @@ class CreateTableBreastMilk extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('breast_milk', ['id' => false, 'primary_key' => 'id']);
-        $table->addColumn('id', 'uuid', [
+        $table = $this->table('activity_types', ['id' => false, 'primary_key' => 'id']);
+        $table->addColumn('id', 'integer', [
             'null' => false,
         ])
-        ->addColumn('baby_id', 'uuid', [
+        ->addColumn('code', 'string', [
+            'limit' => 64,
             'null' => false,
         ])
-        ->addColumn('started', 'datetime', [
+        ->addColumn('label', 'string', [
+            'limit' => 64,
             'null' => false,
         ])
-        ->addColumn('duration', 'integer', [
+        ->addColumn('sort_no', 'integer', [
             'null' => false,
-        ])
-        ->addColumn('memo', 'string', [
-            'limit' => 256,
-            'null' => true,
         ])
         ->addColumn('created', 'datetime', [
             'null' => false,
@@ -35,7 +33,7 @@ class CreateTableBreastMilk extends AbstractMigration
         ->addColumn('modified', 'datetime', [
             'null' => false,
         ])
-        ->addIndex(['baby_id'])
+        ->addIndex(['code'])
         ->create();
     }
 }

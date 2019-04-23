@@ -1,7 +1,7 @@
 <?php
 use Migrations\AbstractMigration;
 
-class CreateTableTemperature extends AbstractMigration
+class CreateTableTemperatureActivities extends AbstractMigration
 {
     /**
      * Change Method.
@@ -12,14 +12,11 @@ class CreateTableTemperature extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('temperature', ['id' => false, 'primary_key' => 'id']);
+        $table = $this->table('temperature_activities', ['id' => false, 'primary_key' => 'id']);
         $table->addColumn('id', 'uuid', [
             'null' => false,
         ])
-        ->addColumn('baby_id', 'uuid', [
-            'null' => false,
-        ])
-        ->addColumn('started', 'datetime', [
+        ->addColumn('activity_id', 'uuid', [
             'null' => false,
         ])
         ->addColumn('temperature', 'decimal', [
@@ -27,17 +24,13 @@ class CreateTableTemperature extends AbstractMigration
             'precision' => 3,
             'null' => false,
         ])
-        ->addColumn('memo', 'string', [
-            'limit' => 256,
-            'null' => true,
-        ])
         ->addColumn('created', 'datetime', [
             'null' => false,
         ])
         ->addColumn('modified', 'datetime', [
             'null' => false,
         ])
-        ->addIndex(['baby_id'])
+        ->addIndex(['activity_id'])
         ->create();
     }
 }
