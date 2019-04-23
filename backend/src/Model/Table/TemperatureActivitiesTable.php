@@ -7,22 +7,22 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Temperature Model
+ * TemperatureActivities Model
  *
- * @property \App\Model\Table\BabiesTable|\Cake\ORM\Association\BelongsTo $Babies
+ * @property \App\Model\Table\ActivitiesTable|\Cake\ORM\Association\BelongsTo $Activities
  *
- * @method \App\Model\Entity\Temperature get($primaryKey, $options = [])
- * @method \App\Model\Entity\Temperature newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Temperature[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Temperature|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Temperature saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Temperature patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Temperature[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Temperature findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\TemperatureActivity get($primaryKey, $options = [])
+ * @method \App\Model\Entity\TemperatureActivity newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\TemperatureActivity[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\TemperatureActivity|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\TemperatureActivity saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\TemperatureActivity patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\TemperatureActivity[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\TemperatureActivity findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class TemperatureTable extends Table
+class TemperatureActivitiesTable extends Table
 {
     /**
      * Initialize method
@@ -34,14 +34,14 @@ class TemperatureTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('temperature');
+        $this->setTable('temperature_activities');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Babies', [
-            'foreignKey' => 'baby_id',
+        $this->belongsTo('Activities', [
+            'foreignKey' => 'activity_id',
             'joinType' => 'INNER'
         ]);
     }
@@ -59,19 +59,9 @@ class TemperatureTable extends Table
             ->allowEmptyString('id', 'create');
 
         $validator
-            ->dateTime('started')
-            ->requirePresence('started', 'create')
-            ->allowEmptyDateTime('started', false);
-
-        $validator
             ->decimal('temperature')
             ->requirePresence('temperature', 'create')
             ->allowEmptyString('temperature', false);
-
-        $validator
-            ->scalar('memo')
-            ->maxLength('memo', 256)
-            ->allowEmptyString('memo');
 
         return $validator;
     }
@@ -85,7 +75,7 @@ class TemperatureTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['baby_id'], 'Babies'));
+        $rules->add($rules->existsIn(['activity_id'], 'Activities'));
 
         return $rules;
     }

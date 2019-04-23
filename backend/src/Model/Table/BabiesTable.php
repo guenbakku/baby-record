@@ -45,29 +45,8 @@ class BabiesTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->hasMany('BottleMilk', [
+        $this->hasMany('Activities', [
             'foreignKey' => 'baby_id',
-            'dependent' => true
-        ]);
-        $this->hasMany('BreastMilk', [
-            'foreignKey' => 'baby_id',
-            'dependent' => true
-        ]);
-        $this->hasMany('Custom', [
-            'foreignKey' => 'baby_id',
-            'dependent' => true
-        ]);
-        $this->hasMany('Diapers', [
-            'foreignKey' => 'baby_id',
-            'dependent' => true
-        ]);
-        $this->hasMany('PumpMilk', [
-            'foreignKey' => 'baby_id',
-            'dependent' => true
-        ]);
-        $this->hasMany('Temperature', [
-            'foreignKey' => 'baby_id',
-            'dependent' => true
         ]);
     }
 

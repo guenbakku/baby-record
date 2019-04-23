@@ -7,22 +7,22 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * BottleMilk Model
+ * BottleMilkActivities Model
  *
- * @property \App\Model\Table\BabiesTable|\Cake\ORM\Association\BelongsTo $Babies
+ * @property \App\Model\Table\ActivitiesTable|\Cake\ORM\Association\BelongsTo $Activities
  *
- * @method \App\Model\Entity\BottleMilk get($primaryKey, $options = [])
- * @method \App\Model\Entity\BottleMilk newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\BottleMilk[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\BottleMilk|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\BottleMilk saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\BottleMilk patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\BottleMilk[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\BottleMilk findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\BottleMilkActivity get($primaryKey, $options = [])
+ * @method \App\Model\Entity\BottleMilkActivity newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\BottleMilkActivity[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\BottleMilkActivity|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\BottleMilkActivity saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\BottleMilkActivity patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\BottleMilkActivity[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\BottleMilkActivity findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class BottleMilkTable extends Table
+class BottleMilkActivitiesTable extends Table
 {
     /**
      * Initialize method
@@ -34,14 +34,14 @@ class BottleMilkTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('bottle_milk');
+        $this->setTable('bottle_milk_activities');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Babies', [
-            'foreignKey' => 'baby_id',
+        $this->belongsTo('Activities', [
+            'foreignKey' => 'activity_id',
             'joinType' => 'INNER'
         ]);
     }
@@ -59,11 +59,6 @@ class BottleMilkTable extends Table
             ->allowEmptyString('id', 'create');
 
         $validator
-            ->dateTime('started')
-            ->requirePresence('started', 'create')
-            ->allowEmptyDateTime('started', false);
-
-        $validator
             ->integer('duration')
             ->requirePresence('duration', 'create')
             ->allowEmptyString('duration', false);
@@ -78,11 +73,6 @@ class BottleMilkTable extends Table
             ->requirePresence('fomular_volume', 'create')
             ->allowEmptyString('fomular_volume', false);
 
-        $validator
-            ->scalar('memo')
-            ->maxLength('memo', 256)
-            ->allowEmptyString('memo');
-
         return $validator;
     }
 
@@ -95,7 +85,7 @@ class BottleMilkTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['baby_id'], 'Babies'));
+        $rules->add($rules->existsIn(['activity_id'], 'Activities'));
 
         return $rules;
     }

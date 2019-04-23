@@ -7,22 +7,22 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * Custom Model
+ * CustomActivities Model
  *
- * @property \App\Model\Table\BabiesTable|\Cake\ORM\Association\BelongsTo $Babies
+ * @property \App\Model\Table\ActivitiesTable|\Cake\ORM\Association\BelongsTo $Activities
  *
- * @method \App\Model\Entity\Custom get($primaryKey, $options = [])
- * @method \App\Model\Entity\Custom newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Custom[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Custom|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Custom saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Custom patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Custom[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Custom findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\CustomActivity get($primaryKey, $options = [])
+ * @method \App\Model\Entity\CustomActivity newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\CustomActivity[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\CustomActivity|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\CustomActivity saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\CustomActivity patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\CustomActivity[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\CustomActivity findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class CustomTable extends Table
+class CustomActivitiesTable extends Table
 {
     /**
      * Initialize method
@@ -34,14 +34,14 @@ class CustomTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('custom');
+        $this->setTable('custom_activities');
         $this->setDisplayField('title');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Babies', [
-            'foreignKey' => 'baby_id',
+        $this->belongsTo('Activities', [
+            'foreignKey' => 'activity_id',
             'joinType' => 'INNER'
         ]);
     }
@@ -64,11 +64,6 @@ class CustomTable extends Table
             ->requirePresence('title', 'create')
             ->allowEmptyString('title', false);
 
-        $validator
-            ->scalar('memo')
-            ->maxLength('memo', 256)
-            ->allowEmptyString('memo');
-
         return $validator;
     }
 
@@ -81,7 +76,7 @@ class CustomTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['baby_id'], 'Babies'));
+        $rules->add($rules->existsIn(['activity_id'], 'Activities'));
 
         return $rules;
     }

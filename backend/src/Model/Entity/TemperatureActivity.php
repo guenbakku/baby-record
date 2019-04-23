@@ -4,17 +4,17 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Baby Entity
+ * TemperatureActivity Entity
  *
  * @property string $id
- * @property string $name
- * @property \Cake\I18n\FrozenDate $birthday
+ * @property string $activity_id
+ * @property float $temperature
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  *
- * @property \App\Model\Entity\Activities[] $activities
+ * @property \App\Model\Entity\Activity $activity
  */
-class Baby extends Entity
+class TemperatureActivity extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -26,10 +26,10 @@ class Baby extends Entity
      * @var array
      */
     protected $_accessible = [
-        'name' => true,
-        'birthday' => true,
+        'activity_id' => true,
+        'temperature' => true,
         'created' => true,
         'modified' => true,
-        'activities' => true
+        'activity' => true
     ];
 }
