@@ -36,11 +36,17 @@
     <v-footer :fixed="fixed" app>
       <span>&copy; 2019</span>
     </v-footer>
+    <speed-dial />
   </v-app>
 </template>
 
 <script>
+import SpeedDial from '~/components/SpeedDial'
+
 export default {
+  components: {
+    SpeedDial
+  },
   data() {
     return {
       clipped: true,
@@ -61,7 +67,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'BabyRecord'
     }
   }
 }

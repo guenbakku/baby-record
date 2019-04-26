@@ -52,14 +52,15 @@
           <v-spacer />
           <v-btn color="primary" flat nuxt to="/inspire">Continue</v-btn>
         </v-card-actions>
+        <speed-dial />
       </v-card>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
+import Logo from '~/components/Logo'
+import VuetifyLogo from '~/components/VuetifyLogo'
 
 export default {
   components: {
