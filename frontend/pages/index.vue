@@ -52,7 +52,6 @@
           <v-spacer />
           <v-btn color="primary" flat nuxt to="/inspire">Continue</v-btn>
         </v-card-actions>
-        <speed-dial />
       </v-card>
     </v-flex>
   </v-layout>

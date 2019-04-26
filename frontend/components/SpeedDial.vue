@@ -1,38 +1,70 @@
 <template>
-  <v-speed-dial v-model="fab" bottom right fixed :direction="direction">
-    <template v-slot:activator>
-      <v-btn v-model="fab" color="green" dark fab>
+  <div>
+    <v-speed-dial
+      v-model="fab"
+      bottom
+      right
+      fixed
+      direction="top"
+      transition="slide-y-reverse-transition"
+    >
+      <template v-slot:activator>
+        <v-btn v-model="fab" color="green" dark fab>
+          <v-icon>add</v-icon>
+          <v-icon>close</v-icon>
+        </v-btn>
+      </template>
+      <v-btn
+        v-for="(dialog, key) in dialogs"
+        :key="key"
+        :color="color"
+        dark
+        small
+        @click="openDialog(dialog)"
+      >
+        {{ dialog.title }}
         <v-icon>add</v-icon>
-        <v-icon>close</v-icon>
       </v-btn>
-    </template>
-    <v-btn dark small :color="color">
-      Sữa mẹ
-      <v-icon>add</v-icon>
-    </v-btn>
-    <v-btn dark small :color="color">
-      Sữa bình
-      <v-icon>add</v-icon>
-    </v-btn>
-    <v-btn dark small :color="color">
-      Vắt sữa
-      <v-icon>add</v-icon>
-    </v-btn>
-    <v-btn dark small :color="color">
-      Thay bỉm
-      <v-icon>add</v-icon>
-    </v-btn>
-  </v-speed-dial>
+    </v-speed-dial>
+    <v-dialog v-model="dialog" fullscreen transition="dialog-bottom-transition">
+      <v-card>
+        <v-toolbar dark color="primary">
+          <v-btn icon dark @click="dialog = false">
+            <v-icon>close</v-icon>
+          </v-btn>
+          <v-toolbar-title>
+            {{ title }}
+          </v-toolbar-title>
+        </v-toolbar>
+        <v-card-text>
+          <component :is="component" />
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <script>
+import { getFormComponents, getFormMetas } from '@/components/forms/forms'
+
 export default {
   name: 'SpeedDial',
+  components: getFormComponents(),
   data: () => ({
-    color: 'red',
+    color: 'primary',
     fab: false,
-    direction: 'top'
-  })
+    dialog: false,
+    dialogs: getFormMetas(),
+    title: null,
+    component: null
+  }),
+  methods: {
+    openDialog: function(dialog) {
+      this.dialog = !this.dialog
+      this.title = dialog.title
+      this.component = dialog.component
+    }
+  }
 }
 </script>
 
