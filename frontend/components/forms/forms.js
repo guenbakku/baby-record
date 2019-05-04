@@ -41,7 +41,6 @@ const getFormComponents = function() {
     const component = require(`./${componentName}`).default
     components[componentName] = component
   }
-  window.console.log(components)
   return components
 }
 

@@ -27,6 +27,8 @@
     <v-toolbar :clipped-left="clipped" fixed app color="primary">
       <v-toolbar-side-icon @click="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
+      <v-spacer />
+      <baby-switch />
     </v-toolbar>
     <v-content>
       <v-container>
@@ -41,10 +43,12 @@
 </template>
 
 <script>
+import BabySwitch from '~/components/BabySwitch'
 import SpeedDial from '~/components/SpeedDial'
 
 export default {
   components: {
+    BabySwitch,
     SpeedDial
   },
   data() {

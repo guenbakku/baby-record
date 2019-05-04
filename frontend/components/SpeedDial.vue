@@ -35,6 +35,8 @@
           <v-toolbar-title>
             {{ title }}
           </v-toolbar-title>
+          <v-spacer />
+          <baby-switch />
         </v-toolbar>
         <v-card-text>
           <component :is="component" />
@@ -45,11 +47,15 @@
 </template>
 
 <script>
-import { getFormComponents, getFormMetas } from '@/components/forms/forms'
+import { getFormComponents, getFormMetas } from '~/components/forms/forms'
+import BabySwitch from '~/components/BabySwitch';
 
 export default {
   name: 'SpeedDial',
-  components: getFormComponents(),
+  components: {
+    ...getFormComponents(),
+    BabySwitch
+  },
   data: () => ({
     color: 'primary',
     fab: false,
