@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="currentBaby">
     <v-menu :nudge-width="100">
       <template v-slot:activator="{ on }">
         <div v-on="on">
@@ -45,6 +45,9 @@ export default {
     babies() {
       return this.$store.getters['babies/getBabies']
     }
+  },
+  mounted () {
+    this.$store.dispatch('babies/getBabies')
   },
   methods: {
     changeBaby(id) {

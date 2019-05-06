@@ -2,20 +2,7 @@ const STORAGE_CURRENT_BABY_ID = 'current_baby_id'
 
 export const state = () => ({
   current: undefined,
-  babies: {
-    "32457bf2-7f72-4416-98f5-aed93363aa02": {
-      id: "32457bf2-7f72-4416-98f5-aed93363aa02",
-      name: "Yuna",
-      birthday: "2019-03-31",
-      avatar: "https://vuetifyjs.com/apple-touch-icon-180x180.png"
-    },
-    "b5dfe1ce-22ac-4f80-a611-9befe4fc3692": {
-      id: "b5dfe1ce-22ac-4f80-a611-9befe4fc3692",
-      name: "Rina",
-      birthday: "2019-03-31",
-      avatar: "https://vuetifyjs.com/apple-touch-icon-180x180.png"
-    }
-  }
+  babies: {}
 })
 
 export const getters = {
@@ -49,5 +36,26 @@ export const mutations = {
   setCurrent (state, { id }) {
     window.localStorage.setItem(STORAGE_CURRENT_BABY_ID, id)
     state.current = id
+  },
+  setBabies (state, { babies }) {
+    const data = {}
+    for (const baby of babies) {
+      // TODO: remove this line
+      baby.avatar = 'https://vuetifyjs.com/apple-touch-icon-180x180.png'
+      data[baby.id] = baby
+    }
+    state.babies = data
+  }
+}
+
+export const actions = {
+  getBabies ({ commit }) {
+    return this.$axios.get('babies')
+      .then(function (res) {
+        commit('setBabies', { babies: res.data.data })
+      })
+      .catch((err) => {
+        window.console.log(err)
+      })
   }
 }
