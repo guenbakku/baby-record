@@ -1,4 +1,5 @@
 import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
+import Dotenv from 'dotenv-webpack'
 import pkg from './package'
 
 export default {
@@ -37,7 +38,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/vuetify'],
+  plugins: [
+    '@/plugins/axios',
+    '@/plugins/vuetify'
+  ],
 
   /*
    ** Nuxt.js modules
@@ -77,6 +81,8 @@ export default {
           loader: 'eslint-loader',
           exclude: /(node_modules)/
         })
+
+        config.plugins.push(new Dotenv())
       }
     }
   }
