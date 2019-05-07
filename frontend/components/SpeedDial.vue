@@ -48,7 +48,7 @@
 
 <script>
 import { getFormComponents, getFormMetas } from '~/components/forms/forms'
-import BabySwitch from '~/components/BabySwitch';
+import BabySwitch from '~/components/BabySwitch'
 
 export default {
   name: 'SpeedDial',

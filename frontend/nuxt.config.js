@@ -25,10 +25,14 @@ export default {
     ]
   },
 
+  router: {
+    middleware: 'load-babies'
+  },
+
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: '#fff', continuous: true },
 
   /*
    ** Global CSS

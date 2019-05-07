@@ -46,9 +46,6 @@ export default {
       return this.$store.getters['babies/getBabies']
     }
   },
-  mounted () {
-    this.$store.dispatch('babies/getBabies')
-  },
   methods: {
     changeBaby(id) {
       this.$store.commit('babies/setCurrent', {id})
