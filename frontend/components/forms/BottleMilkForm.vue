@@ -27,17 +27,20 @@
       v-model="form.memo"
       label="Ghi chú"
     ></v-text-field>
-    {{ test }}
-    {{ form.memo }}
+    {{ form.started }}
   </form>
 </template>
 
 <script>
 export default {
+  model: {
+    prop: 'reset',
+    event: 'reset'
+  },
   props: {
-    test: {
-      type: Number,
-      default: null
+    reset: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -47,9 +50,18 @@ export default {
         duration: null,
         breast_volume: null,
         fomular_volume: null,
-        memo: this.test
+        memo: null
       }
     }
   },
+  watch: {
+    reset: {
+      immediate: true,
+      handler(val) {
+        this.$set(this.form, 'started', this.$moment().format('YYYY-MM-DD[T]H:mm'))
+        this.$emit('reset', false)
+      }
+    }
+  }
 }
 </script>

@@ -44,6 +44,7 @@ export default {
    */
   plugins: [
     '@/plugins/axios',
+    '@/plugins/moment',
     '@/plugins/vuetify'
   ],
 

@@ -39,7 +39,7 @@
           <baby-switch />
         </v-toolbar>
         <v-card-text>
-          <component :is="component" />
+          <component :is="component" v-model="resetForm"/>
         </v-card-text>
       </v-card>
     </v-dialog>
@@ -62,13 +62,15 @@ export default {
     dialog: false,
     dialogs: getFormMetas(),
     title: null,
-    component: null
+    component: null,
+    resetForm: false
   }),
   methods: {
     openDialog: function (dialog) {
       this.dialog = !this.dialog
       this.title = dialog.title
       this.component = dialog.component
+      this.resetForm = true
     }
   }
 }

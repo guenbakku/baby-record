@@ -17,7 +17,9 @@
     "@nuxtjs/pwa": "^2.6.0",
     "cross-env": "^5.2.0",
     "dotenv-webpack": "^1.7.0",
+    "moment-timezone": "^0.5.25",
     "nuxt": "^2.4.0",
+    "vue-moment": "^4.0.0",
     "vuetify": "^1.5.13",
     "vuetify-loader": "^1.2.1"
   },
