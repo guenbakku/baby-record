@@ -65,7 +65,7 @@ export default {
     component: null
   }),
   methods: {
-    openDialog: function(dialog) {
+    openDialog: function (dialog) {
       this.dialog = !this.dialog
       this.title = dialog.title
       this.component = dialog.component

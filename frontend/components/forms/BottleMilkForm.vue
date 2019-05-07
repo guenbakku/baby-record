@@ -4,13 +4,14 @@
       v-model="form.started"
       label="Bắt đầu"
       required
+      type="datetime-local"
     ></v-text-field>
     <v-text-field
       v-model="form.duration"
       label="Thời gian"
-      mask="##:##:##"
-      placeholder="00:00:00"
+      suffix="phút"
       required
+      type="number"
     ></v-text-field>
     <v-text-field
       v-model="form.breast_volume"
@@ -26,17 +27,29 @@
       v-model="form.memo"
       label="Ghi chú"
     ></v-text-field>
-    {{ form.duration }}
+    {{ test }}
+    {{ form.memo }}
   </form>
 </template>
 
 <script>
 export default {
-  data: () => ({
-    form: {
-      started: null,
-      duration: null
+  props: {
+    test: {
+      type: Number,
+      default: null
     }
-  })
+  },
+  data() {
+    return {
+      form: {
+        started: null,
+        duration: null,
+        breast_volume: null,
+        fomular_volume: null,
+        memo: this.test
+      }
+    }
+  },
 }
 </script>

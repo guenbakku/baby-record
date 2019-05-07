@@ -10,10 +10,10 @@ const FORMS = {
     title: 'Sữa bình',
     component: 'BottleMilkForm'
   },
-  pumpMilk: {
-    title: 'Vắt sữa',
-    component: 'BottleMilkForm'
-  }
+  // pumpMilk: {
+  //   title: 'Vắt sữa',
+  //   component: 'BottleMilkForm'
+  // },
   // diaper: {
   //   title: 'Thay bỉm',
   //   component: 'DiaperForm'
