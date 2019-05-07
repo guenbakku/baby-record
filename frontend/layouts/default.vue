@@ -39,16 +39,19 @@
       <span>&copy; 2019</span>
     </v-footer>
     <speed-dial />
+    <flash />
   </v-app>
 </template>
 
 <script>
 import BabySwitch from '~/components/BabySwitch'
+import Flash from '~/components/Flash'
 import SpeedDial from '~/components/SpeedDial'
 
 export default {
   components: {
     BabySwitch,
+    Flash,
     SpeedDial
   },
   data() {

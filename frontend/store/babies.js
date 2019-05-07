@@ -54,8 +54,5 @@ export const actions = {
       .then(function (res) {
         commit('setBabies', { babies: res.data.data })
       })
-      .catch((err) => {
-        window.console.log(err)
-      })
   }
 }
