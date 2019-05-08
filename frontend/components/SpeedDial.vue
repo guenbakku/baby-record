@@ -18,59 +18,29 @@
         v-for="(dialog, key) in dialogs"
         :key="key"
         :color="color"
+        :to="{ name: 'activities-type', params: { type: key} }"
         dark
         small
-        @click="openDialog(dialog)"
       >
         {{ dialog.title }}
         <v-icon>add</v-icon>
       </v-btn>
     </v-speed-dial>
-    <v-dialog v-model="dialog" fullscreen transition="dialog-bottom-transition">
-      <v-card>
-        <v-toolbar dark color="primary">
-          <v-btn icon dark @click="dialog = false">
-            <v-icon>close</v-icon>
-          </v-btn>
-          <v-toolbar-title>
-            {{ title }}
-          </v-toolbar-title>
-          <v-spacer />
-          <baby-switch />
-        </v-toolbar>
-        <v-card-text>
-          <component :is="component" v-model="resetForm"/>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
   </div>
 </template>
 
 <script>
-import { getFormComponents, getFormMetas } from '~/components/forms/forms'
-import BabySwitch from '~/components/BabySwitch'
+import { getFormMetas } from '~/components/forms/forms'
 
 export default {
   name: 'SpeedDial',
-  components: {
-    ...getFormComponents(),
-    BabySwitch
-  },
   data: () => ({
     color: 'primary',
-    fab: false,
-    dialog: false,
-    dialogs: getFormMetas(),
-    title: null,
-    component: null,
-    resetForm: false
+    fab: false
   }),
-  methods: {
-    openDialog: function (dialog) {
-      this.dialog = !this.dialog
-      this.title = dialog.title
-      this.component = dialog.component
-      this.resetForm = true
+  computed: {
+    dialogs: function () {
+      return getFormMetas()
     }
   }
 }

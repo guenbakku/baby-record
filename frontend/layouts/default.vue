@@ -38,7 +38,6 @@
     <v-footer :fixed="fixed" app>
       <span>&copy; 2019</span>
     </v-footer>
-    <speed-dial />
     <flash />
   </v-app>
 </template>
@@ -46,13 +45,11 @@
 <script>
 import BabySwitch from '~/components/BabySwitch'
 import Flash from '~/components/Flash'
-import SpeedDial from '~/components/SpeedDial'
 
 export default {
   components: {
     BabySwitch,
-    Flash,
-    SpeedDial
+    Flash
   },
   data() {
     return {
@@ -62,13 +59,13 @@ export default {
       items: [
         {
           icon: 'apps',
-          title: 'Welcome',
-          to: '/'
+          title: 'Ghi chép',
+          to: '/activities'
         },
         {
           icon: 'bubble_chart',
-          title: 'Inspire',
-          to: '/inspire'
+          title: 'Em bé',
+          to: '/babies'
         }
       ],
       miniVariant: false,

@@ -33,16 +33,6 @@
 
 <script>
 export default {
-  model: {
-    prop: 'reset',
-    event: 'reset'
-  },
-  props: {
-    reset: {
-      type: Boolean,
-      default: false
-    }
-  },
   data() {
     return {
       form: {
@@ -54,13 +44,12 @@ export default {
       }
     }
   },
-  watch: {
-    reset: {
-      immediate: true,
-      handler(val) {
-        this.$set(this.form, 'started', this.$moment().format('YYYY-MM-DD[T]H:mm'))
-        this.$emit('reset', false)
-      }
+  mounted() {
+    this.resetForm()
+  },
+  methods: {
+    resetForm() {
+      this.$set(this.form, 'started', this.$moment().format('YYYY-MM-DD[T]H:mm'))
     }
   }
 }
