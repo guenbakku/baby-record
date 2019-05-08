@@ -1,13 +1,12 @@
 <template>
   <v-layout row nowrap>
     <v-flex xs12>
-      <v-card :elevation="0">
+      <v-card>
         <v-card-actions>
           <v-btn icon :to="{name: 'activities'}" :active-class="'dummy'">
             <v-icon>keyboard_arrow_left</v-icon>
           </v-btn>
-          <div class="subheading">{{ title }}</div>
-          <v-spacer></v-spacer>
+          <span class="subheading">{{ title }}</span>
         </v-card-actions>
         <v-divider />
         <v-card-text>
