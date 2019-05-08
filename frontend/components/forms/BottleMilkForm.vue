@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     resetForm() {
-      this.$set(this.form, 'started', this.$moment().format('YYYY-MM-DD[T]H:mm'))
+      this.$set(this.form, 'started', this.$moment().format('YYYY-MM-DD[T]HH:mm'))
     }
   }
 }
