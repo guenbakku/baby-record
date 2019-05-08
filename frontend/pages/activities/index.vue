@@ -4,16 +4,8 @@
       <v-layout row nowrap>
         <v-flex xs12>
           <v-card class="table">
-            <v-card-actions>
-              <v-btn icon>
-                <v-icon>arrow_left</v-icon>
-              </v-btn>
-              <v-spacer></v-spacer>
-              <span class="subheading">2019/12/01</span>
-              <v-spacer></v-spacer>
-              <v-btn icon>
-                <v-icon>arrow_right</v-icon>
-              </v-btn>
+            <v-card-actions style="justify-content: center">
+              <date-picker />
             </v-card-actions>
             <v-layout row nowrap>
               <v-flex xs6 class="cell">
@@ -54,12 +46,14 @@
 </template>
 
 <script>
-import Activity from '~/components/Activity'
+import Activity from '~/components/activity/Activity'
+import DatePicker from '~/components/activity/DatePicker'
 import SpeedDial from '~/components/SpeedDial'
 
 export default {
   components: {
     Activity,
+    DatePicker,
     SpeedDial
   }
 }
