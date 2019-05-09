@@ -6,16 +6,16 @@ export const state = () => ({
 })
 
 export const getters = {
-  getCurrent (state) {
+  getCurrent(state) {
     let currentId
 
     currentId = state.current
-    if(currentId && state.babies[currentId]) {
+    if (currentId && state.babies[currentId]) {
       return state.babies[currentId]
     }
 
     currentId = window.localStorage.getItem(STORAGE_CURRENT_BABY_ID)
-    if(currentId && state.babies[currentId]) {
+    if (currentId && state.babies[currentId]) {
       return state.babies[currentId]
     }
 
@@ -27,17 +27,17 @@ export const getters = {
     return {}
   },
 
-  getBabies (state) {
+  getBabies(state) {
     return state.babies
   }
 }
 
 export const mutations = {
-  setCurrent (state, { id }) {
+  setCurrent(state, { id }) {
     window.localStorage.setItem(STORAGE_CURRENT_BABY_ID, id)
     state.current = id
   },
-  setBabies (state, { babies }) {
+  setBabies(state, { babies }) {
     const data = {}
     for (const baby of babies) {
       // TODO: remove this line
@@ -49,10 +49,9 @@ export const mutations = {
 }
 
 export const actions = {
-  getBabies ({ commit }) {
-    return this.$axios.get('babies')
-      .then(function (res) {
-        commit('setBabies', { babies: res.data.data })
-      })
+  getBabies({ commit }) {
+    return this.$axios.get('babies').then(function(res) {
+      commit('setBabies', { babies: res.data.data })
+    })
   }
 }

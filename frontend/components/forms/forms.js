@@ -9,7 +9,7 @@ const FORMS = {
   bottleMilk: {
     title: 'Sữa bình',
     component: 'BottleMilkForm'
-  },
+  }
   // pumpMilk: {
   //   title: 'Vắt sữa',
   //   component: 'BottleMilkForm'

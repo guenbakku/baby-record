@@ -7,11 +7,7 @@
     top
   >
     {{ text }}
-    <v-btn
-      dark
-      flat
-      @click="snackbar = false"
-    >
+    <v-btn dark flat @click="snackbar = false">
       <v-icon>close</v-icon>
     </v-btn>
   </v-snackbar>
@@ -20,21 +16,21 @@
 <script>
 export default {
   data: () => ({
-    timeout: 10000,
+    timeout: 10000
   }),
   computed: {
     snackbar: {
-      get: function () {
+      get: function() {
         return this.$store.state.flash.show
       },
-      set: function (val) {
+      set: function(val) {
         this.$store.commit('flash/hide')
       }
     },
-    text () {
+    text() {
       return this.$store.state.flash.text
     },
-    color () {
+    color() {
       return this.$store.getters['flash/color']
     }
   }

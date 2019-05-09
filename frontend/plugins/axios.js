@@ -1,4 +1,4 @@
-export default function ({ $axios, store }) {
+export default function({ $axios, store }) {
   /**
    * Because environment variables parsed by dotenv-webpack
    * only be used after webpack bundling, so we must set them
@@ -6,7 +6,7 @@ export default function ({ $axios, store }) {
    */
   $axios.defaults.baseURL = process.env.API_BASE_URL
   $axios.defaults.headers.common = {
-    'Accept': 'application/json',
+    Accept: 'application/json',
     'Content-Type': 'application/json'
   }
 

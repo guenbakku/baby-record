@@ -18,7 +18,7 @@
         v-for="(dialog, key) in dialogs"
         :key="key"
         :color="color"
-        :to="{ name: 'activities-type', params: { type: key} }"
+        :to="{ name: 'activities-type', params: { type: key } }"
         dark
         small
       >
@@ -39,7 +39,7 @@ export default {
     fab: false
   }),
   computed: {
-    dialogs: function () {
+    dialogs: function() {
       return getFormMetas()
     }
   }

@@ -23,10 +23,7 @@
       label="Lượng sữa công thức"
       suffix="ml"
     ></v-text-field>
-    <v-text-field
-      v-model="form.memo"
-      label="Ghi chú"
-    ></v-text-field>
+    <v-text-field v-model="form.memo" label="Ghi chú"></v-text-field>
     {{ form.started }}
   </form>
 </template>
@@ -49,7 +46,11 @@ export default {
   },
   methods: {
     resetForm() {
-      this.$set(this.form, 'started', this.$moment().format('YYYY-MM-DD[T]HH:mm'))
+      this.$set(
+        this.form,
+        'started',
+        this.$moment().format('YYYY-MM-DD[T]HH:mm')
+      )
     }
   }
 }

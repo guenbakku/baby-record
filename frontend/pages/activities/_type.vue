@@ -3,14 +3,14 @@
     <v-flex xs12>
       <v-card>
         <v-card-actions>
-          <v-btn icon :to="{name: 'activities'}" :active-class="'dummy'">
+          <v-btn icon :to="{ name: 'activities' }" :active-class="'dummy'">
             <v-icon>keyboard_arrow_left</v-icon>
           </v-btn>
           <span class="subheading">{{ title }}</span>
         </v-card-actions>
         <v-divider />
         <v-card-text>
-          <component :is="component"/>
+          <component :is="component" />
         </v-card-text>
       </v-card>
     </v-flex>
@@ -22,13 +22,13 @@ import { getFormComponents, getFormMetas } from '~/components/forms/forms'
 
 export default {
   components: {
-    ...getFormComponents(),
+    ...getFormComponents()
   },
   computed: {
-    component: function () {
-      return `${ this.$route.params.type }Form`
+    component: function() {
+      return `${this.$route.params.type}Form`
     },
-    title: function () {
+    title: function() {
       return getFormMetas()[this.$route.params.type].title
     }
   }

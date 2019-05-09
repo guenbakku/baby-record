@@ -29,15 +29,15 @@ export default {
     }
   },
   computed: {
-    activityType: function () {
+    activityType: function() {
       return this.activity.activity_type.code
     },
-    typeStyle: function () {
+    typeStyle: function() {
       const styles = {
-        'breast_milk_activity': {
+        breast_milk_activity: {
           backgroundColor: 'orange'
         },
-        'bottle_milk_activity': {
+        bottle_milk_activity: {
           backgroundColor: 'crimson'
         }
       }
@@ -50,10 +50,10 @@ export default {
 <style scoped>
 .activity {
   padding: 15px 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1)
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 .activity:first-child {
-  border-top: none
+  border-top: none;
 }
 .time {
   display: flex;
@@ -65,7 +65,7 @@ export default {
   width: 60px;
   min-width: 60px;
   align-items: center;
-  justify-content: center
+  justify-content: center;
 }
 .content {
   display: flex;

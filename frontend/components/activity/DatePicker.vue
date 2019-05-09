@@ -1,8 +1,5 @@
 <template>
-  <v-menu
-    v-model="menu"
-    :close-on-content-click="false"
-  >
+  <v-menu v-model="menu" :close-on-content-click="false">
     <template v-slot:activator="{ on }">
       <v-icon>event</v-icon>
       <span class="subheading" v-on="on">{{ date }}</span>
@@ -26,10 +23,10 @@ export default {
   },
   computed: {
     date: {
-      get: function () {
+      get: function() {
         return this.$store.state.activities.date
       },
-      set: function (date) {
+      set: function(date) {
         this.$store.commit('activities/setDate', { date })
       }
     },

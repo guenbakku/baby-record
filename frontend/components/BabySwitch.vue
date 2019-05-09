@@ -3,7 +3,7 @@
     <v-menu :nudge-width="100">
       <template v-slot:activator="{ on }">
         <div v-on="on">
-          <span class="name">{{currentBaby.name}}</span>
+          <span class="name">{{ currentBaby.name }}</span>
           <v-avatar :tile="false" size="30px" color="grey lighten-4">
             <img :src="currentBaby.avatar" alt="avatar" />
           </v-avatar>
@@ -17,8 +17,10 @@
           </v-list-tile-avatar>
 
           <v-list-tile-content>
-            <v-list-tile-title>{{currentBaby.name}}</v-list-tile-title>
-            <v-list-tile-sub-title>{{calcBabyAge(currentBaby.birthday)}}</v-list-tile-sub-title>
+            <v-list-tile-title>{{ currentBaby.name }}</v-list-tile-title>
+            <v-list-tile-sub-title>
+              {{ calcBabyAge(currentBaby.birthday) }}
+            </v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -29,7 +31,7 @@
           :key="id"
           @click="changeBaby(id)"
         >
-          <v-list-tile-title>{{baby.name}}</v-list-tile-title>
+          <v-list-tile-title>{{ baby.name }}</v-list-tile-title>
         </v-list-tile>
       </v-list>
     </v-menu>
@@ -48,7 +50,7 @@ export default {
   },
   methods: {
     changeBaby(id) {
-      this.$store.commit('babies/setCurrent', {id})
+      this.$store.commit('babies/setCurrent', { id })
     },
     calcBabyAge(day) {
       const birthday = new Date(day)
@@ -75,7 +77,7 @@ export default {
       // }
 
       // TODO: implement this function
-      return "To be implemented"
+      return 'To be implemented'
     }
   }
 }

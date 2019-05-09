@@ -7,3 +7,7 @@ export const mutations = {
     state.date = date
   }
 }
+
+export const actions = {
+  getActivities() {}
+}

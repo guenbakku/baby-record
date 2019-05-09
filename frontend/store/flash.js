@@ -10,7 +10,7 @@ export const state = () => ({
 })
 
 export const getters = {
-  color (state) {
+  color(state) {
     return COLORS[state.type]
   }
 }

@@ -1,6 +1,6 @@
 <script>
 export default {
-  fetch ({ params, redirect }) {
+  fetch({ params, redirect }) {
     redirect(301, { name: 'activities' })
   }
 }
