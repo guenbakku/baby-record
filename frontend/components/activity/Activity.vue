@@ -1,13 +1,25 @@
+<i18n>
+{
+  "vi": {
+    "Bottle Milk": "Bú bình",
+    "Breast Milk": "Bú mẹ",
+    "Pump Milk": "Vắt sữa",
+    "Diaper": "Tã"
+  }
+}
+</i18n>
+
 <template>
   <v-layout row nowrap class="activity">
     <div class="time">
-      10:00
+      {{ activity.started | moment('HH:mm') }}
     </div>
-    <div class="type" :style="typeStyle">
-      Bú bình
+    <div class="type text-truncate" :style="typeStyle">
+      {{ $t(activity.activity_type.label) }}
     </div>
     <div class="content">
-      500 ml (SM: 100 ml, CT: 400ml)
+      <span>500 ml (SM: 100 ml, CT: 400ml)</span>
+      <span class="grey--text">{{ activity.memo }}</span>
     </div>
   </v-layout>
 </template>
@@ -30,6 +42,7 @@ export default {
   },
   computed: {
     activityType: function() {
+      window.console.log(this.$i18n.locale)
       return this.activity.activity_type.code
     },
     typeStyle: function() {
@@ -59,6 +72,7 @@ export default {
   display: flex;
   width: 45px;
   min-width: 45px;
+  align-items: center;
 }
 .type {
   display: flex;
@@ -70,8 +84,7 @@ export default {
 .content {
   display: flex;
   padding-left: 5px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  align-items: center;
+  flex-wrap: wrap;
 }
 </style>

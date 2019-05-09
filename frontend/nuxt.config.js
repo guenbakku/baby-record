@@ -43,6 +43,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '@/plugins/vue-i18n',
     '@/plugins/axios',
     '@/plugins/moment',
     '@/plugins/vuetify'
@@ -85,6 +86,12 @@ export default {
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
           exclude: /(node_modules)/
+        })
+
+        config.module.rules.push({
+          resourceQuery: /blockType=i18n/,
+          type: 'javascript/auto',
+          loader: '@kazupon/vue-i18n-loader'
         })
 
         config.plugins.push(new Dotenv())

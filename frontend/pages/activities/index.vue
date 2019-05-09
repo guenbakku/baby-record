@@ -35,13 +35,9 @@
       <v-layout row nowrap class="mt-3">
         <v-flex xs12>
           <v-card>
-            <activity
-              :activity="{ activity_type: { code: 'breast_milk_activity' } }"
-            />
-            <activity
-              :activity="{ activity_type: { code: 'bottle_milk_activity' } }"
-            />
-            <activity />
+            <activity :activity="activity" />
+            <activity :activity="activity" />
+            <activity :activity="activity2" />
           </v-card>
         </v-flex>
       </v-layout>
@@ -60,6 +56,25 @@ export default {
     Activity,
     DatePicker,
     SpeedDial
+  },
+  data() {
+    return {
+      activity: {
+        started: '2019-04-22T05:46:56+0000',
+        activity_type: {
+          code: 'breast_milk_activity',
+          label: 'Breast Milk'
+        }
+      },
+      activity2: {
+        started: '2019-04-22T06:46:56+0000',
+        activity_type: {
+          code: 'bottle_milk_activity',
+          label: 'Bottle Milk'
+        },
+        memo: 'This is test memo This is test memo This is test memo'
+      }
+    }
   }
 }
 </script>
