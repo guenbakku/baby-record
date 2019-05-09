@@ -1,5 +1,7 @@
 /**
- * List of forms
+ * Maps.
+ * The order of items in this object is
+ * the order of buttons in SpeedDial component.
  */
 const MAPS = {
   breast_milk_activity: {
@@ -9,27 +11,27 @@ const MAPS = {
   bottle_milk_activity: {
     title: 'Sữa bình',
     component: 'BottleMilkForm'
+  },
+  pump_milk_activity: {
+    title: 'Vắt sữa',
+    component: 'PumpMilkForm'
+  },
+  diaper_activity: {
+    title: 'Thay bỉm',
+    component: 'DiaperForm'
+  },
+  temperature_activity: {
+    title: 'Nhiệt độ',
+    component: 'TemperatureForm'
+  },
+  custom_activity: {
+    title: 'Nhập tự do',
+    component: 'CustomForm'
   }
-  // pumpMilk: {
-  //   title: 'Vắt sữa',
-  //   component: 'BottleMilkForm'
-  // },
-  // diaper: {
-  //   title: 'Thay bỉm',
-  //   component: 'DiaperForm'
-  // },
-  // temperature: {
-  //   title: 'Nhiệt độ',
-  //   component: 'TemperatureForm'
-  // },
-  // custom: {
-  //   title: 'Nhập tự do',
-  //   component: 'CustomForm'
-  // }
 }
 
 /**
- * Return list of component object of forms.
+ * Return list of component object.
  *
  * @param Void
  * @return {Object}
@@ -45,7 +47,7 @@ const loadComponents = function() {
 }
 
 /**
- * Return list of forms.
+ * Return maps.
  *
  * @param Void
  * @return {Object}

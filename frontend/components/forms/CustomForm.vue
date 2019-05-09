@@ -1,5 +1,5 @@
 <template>
-  <div>BreastMilkForm</div>
+  <div>CustomForm</div>
 </template>
 
 <script>

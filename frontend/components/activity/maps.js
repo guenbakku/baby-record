@@ -39,7 +39,7 @@ const loadComponents = function() {
 }
 
 /**
- * Return map.
+ * Return maps.
  *
  * @param Void
  * @return {Object}
