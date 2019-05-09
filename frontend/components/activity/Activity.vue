@@ -4,7 +4,9 @@
     "Bottle Milk": "Bú bình",
     "Breast Milk": "Bú mẹ",
     "Pump Milk": "Vắt sữa",
-    "Diaper": "Tã"
+    "Diaper": "Tã",
+    "Temperature": "Nhiệt độ",
+    "Custom": "Tự do"
   }
 }
 </i18n>
@@ -18,7 +20,7 @@
       {{ $t(activity.activity_type.label) }}
     </div>
     <div class="content">
-      <span>500 ml (SM: 100 ml, CT: 400ml)</span>
+      <span>{{ content }}</span>
       <span class="grey--text">{{ activity.memo }}</span>
     </div>
   </v-layout>
@@ -41,20 +43,84 @@ export default {
     }
   },
   computed: {
-    activityType: function() {
-      window.console.log(this.$i18n.locale)
-      return this.activity.activity_type.code
-    },
     typeStyle: function() {
       const styles = {
         breast_milk_activity: {
-          backgroundColor: 'orange'
+          backgroundColor: 'teal'
         },
         bottle_milk_activity: {
           backgroundColor: 'crimson'
+        },
+        diaper_activity: {
+          backgroundColor: 'blueviolet'
+        },
+        temperature_activity: {
+          backgroundColor: 'firebrick'
+        },
+        pump_milk_activity: {
+          backgroundColor: 'royalblue'
+        },
+        custom_activity: {
+          backgroundColor: 'deeppink'
         }
       }
-      return styles[this.activityType]
+      return styles[this.activity.activity_type.code]
+    },
+    content: function() {
+      switch (this.activity.activity_type.code) {
+        case 'temperature_activity': {
+          const temperature = this.activity.temperature_activity.temperature
+          return `${temperature}°C`
+        }
+        case 'pump_milk_activity': {
+          const seconds = this.activity.pump_milk_activity.duration
+          const minutes = Math.floor(
+            this.$moment.duration(seconds, 'seconds').asMinutes()
+          )
+          const volume = this.activity.pump_milk_activity.volume
+          return `${minutes} phút/${volume} ml`
+        }
+        case 'diaper_activity': {
+          const events = {
+            is_pee: 'Tè',
+            is_shit: 'Ị'
+          }
+          for (const key in events) {
+            if (!this.activity.diaper_activity[key]) {
+              delete events[key]
+            }
+          }
+          const labels = Object.values(events)
+          if (labels.length > 0) {
+            return labels.join(' + ')
+          } else {
+            return 'Không có gì'
+          }
+        }
+        case 'breast_milk_activity': {
+          const seconds = this.activity.breast_milk_activity.duration
+          const minutes = Math.floor(
+            this.$moment.duration(seconds, 'seconds').asMinutes()
+          )
+          return `${minutes} phút`
+        }
+        case 'bottle_milk_activity': {
+          const seconds = this.activity.bottle_milk_activity.duration
+          const minutes = Math.floor(
+            this.$moment.duration(seconds, 'seconds').asMinutes()
+          )
+          const breastVolume = this.activity.bottle_milk_activity.breast_volume
+          const fomularVolume = this.activity.bottle_milk_activity
+            .fomular_volume
+          const totalVolume = breastVolume + fomularVolume
+          return `${minutes} phút/${totalVolume} ml (SM: ${breastVolume} ml, CT: ${fomularVolume} ml)`
+        }
+        case 'custom_activity': {
+          return this.activity.custom_activity.title
+        }
+        default:
+          return 'Unknown'
+      }
     }
   }
 }

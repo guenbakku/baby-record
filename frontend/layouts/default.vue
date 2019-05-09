@@ -31,7 +31,7 @@
       <baby-switch />
     </v-toolbar>
     <v-content>
-      <v-container>
+      <v-container class="pb-5">
         <nuxt />
       </v-container>
     </v-content>
