@@ -95,7 +95,7 @@ export default {
             label: 'Diaper'
           },
           diaper_activity: {
-            is_pee: false,
+            is_pee: true,
             is_shit: false
           },
           memo: null
@@ -143,7 +143,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .table .row {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }

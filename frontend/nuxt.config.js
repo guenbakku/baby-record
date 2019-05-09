@@ -45,6 +45,7 @@ export default {
   plugins: [
     '@/plugins/vue-i18n',
     '@/plugins/axios',
+    '@/plugins/change-case',
     '@/plugins/moment',
     '@/plugins/vuetify'
   ],

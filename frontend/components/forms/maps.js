@@ -1,12 +1,12 @@
 /**
  * List of forms
  */
-const FORMS = {
-  breastMilk: {
+const MAPS = {
+  breast_milk_activity: {
     title: 'Sữa mẹ',
     component: 'BreastMilkForm'
   },
-  bottleMilk: {
+  bottle_milk_activity: {
     title: 'Sữa bình',
     component: 'BottleMilkForm'
   }
@@ -34,10 +34,10 @@ const FORMS = {
  * @param Void
  * @return {Object}
  */
-const getFormComponents = function() {
+const loadComponents = function() {
   const components = {}
-  for (const key in FORMS) {
-    const componentName = FORMS[key].component
+  for (const key in MAPS) {
+    const componentName = MAPS[key].component
     const component = require(`./${componentName}`).default
     components[componentName] = component
   }
@@ -50,8 +50,8 @@ const getFormComponents = function() {
  * @param Void
  * @return {Object}
  */
-const getFormMetas = function() {
-  return FORMS
+const getMaps = function() {
+  return MAPS
 }
 
-export { getFormComponents, getFormMetas }
+export { loadComponents, getMaps }

@@ -1,0 +1,26 @@
+.activity {
+  padding: 15px 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+.activity:first-child {
+  border-top: none;
+}
+.time {
+  display: flex;
+  width: 45px;
+  min-width: 45px;
+  align-items: center;
+}
+.type {
+  display: flex;
+  width: 60px;
+  min-width: 60px;
+  align-items: center;
+  justify-content: center;
+}
+.content {
+  display: flex;
+  padding-left: 5px;
+  align-items: center;
+  flex-wrap: wrap;
+}

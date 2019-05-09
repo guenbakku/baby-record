@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getFormMetas } from '~/components/forms/forms'
+import { getMaps } from '~/components/forms/maps'
 
 export default {
   name: 'SpeedDial',
@@ -40,7 +40,7 @@ export default {
   }),
   computed: {
     dialogs: function() {
-      return getFormMetas()
+      return getMaps()
     }
   }
 }

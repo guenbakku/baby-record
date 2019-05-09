@@ -18,18 +18,18 @@
 </template>
 
 <script>
-import { getFormComponents, getFormMetas } from '~/components/forms/forms'
+import { loadComponents, getMaps } from '~/components/forms/maps'
 
 export default {
   components: {
-    ...getFormComponents()
+    ...loadComponents()
   },
   computed: {
     component: function() {
-      return `${this.$route.params.type}Form`
+      return getMaps()[this.$route.params.type].component
     },
     title: function() {
-      return getFormMetas()[this.$route.params.type].title
+      return getMaps()[this.$route.params.type].title
     }
   }
 }
