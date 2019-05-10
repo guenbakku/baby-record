@@ -24,7 +24,7 @@ export const getters = {
       return state.babies[firstId]
     }
 
-    return {}
+    return undefined
   },
 
   getBabies(state) {
@@ -50,8 +50,16 @@ export const mutations = {
 
 export const actions = {
   getBabies({ commit }) {
-    return this.$axios.get('babies').then(function(res) {
-      commit('setBabies', { babies: res.data.data })
-    })
+    return this.$axios
+      .get('babies', {
+        params: {
+          sort: 'created',
+          direction: 'asc'
+        }
+      })
+      .then(function(res) {
+        commit('setBabies', { babies: res.data.data })
+        return res
+      })
   }
 }
