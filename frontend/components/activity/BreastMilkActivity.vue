@@ -40,9 +40,7 @@ export default {
     content: function() {
       const content = this.activity.breast_milk_activity
       const seconds = content.duration
-      const minutes = Math.floor(
-        this.$moment.duration(seconds, 'seconds').asMinutes()
-      )
+      const minutes = this.$moment.duration(seconds, 'seconds').minutes()
       return `${minutes} phút`
     }
   }
