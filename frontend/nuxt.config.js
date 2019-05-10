@@ -43,10 +43,10 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '@/plugins/moment',
     '@/plugins/vue-i18n',
     '@/plugins/axios',
     '@/plugins/change-case',
-    '@/plugins/moment',
     '@/plugins/vuetify'
   ],
 

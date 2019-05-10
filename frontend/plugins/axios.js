@@ -1,14 +1,15 @@
-export default function({ $axios, store }) {
+import moment from 'moment-timezone'
+
+export default function({ $axios, store, app }) {
   /**
    * Because environment variables parsed by dotenv-webpack
    * only be used after webpack bundling, so we must set them
    * in this plugin file instead of file `nuxt.config.js`
    */
   $axios.defaults.baseURL = process.env.API_BASE_URL
-  $axios.defaults.headers.common = {
-    Accept: 'application/json',
-    'Content-Type': 'application/json'
-  }
+  $axios.setHeader('Accept', 'application/json')
+  $axios.setHeader('Content-Type', 'application/json')
+  $axios.setHeader('X-Timezone', moment.tz.guess())
 
   /**
    * Configure interceptor on error
