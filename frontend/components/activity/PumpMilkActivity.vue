@@ -42,7 +42,7 @@ export default {
       const seconds = content.duration
       const minutes = this.$moment.duration(seconds, 'seconds').minutes()
       const volume = content.volume
-      return `${minutes} phút/${volume} ml`
+      return `${minutes} phút / ${volume} ml`
     }
   }
 }

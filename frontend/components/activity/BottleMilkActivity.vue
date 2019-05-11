@@ -44,7 +44,7 @@ export default {
       const breastVolume = content.breast_volume
       const fomularVolume = content.fomular_volume
       const totalVolume = breastVolume + fomularVolume
-      return `${minutes} phút/${totalVolume} ml (SM: ${breastVolume} ml, CT: ${fomularVolume} ml)`
+      return `${minutes} phút / ${totalVolume} ml (SM: ${breastVolume} ml, CT: ${fomularVolume} ml)`
     }
   }
 }
