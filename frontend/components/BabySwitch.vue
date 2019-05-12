@@ -42,15 +42,15 @@
 export default {
   computed: {
     currentBaby() {
-      return this.$store.getters['babies/getCurrent']
+      return this.$store.getters['babies/current']
     },
     babies() {
-      return this.$store.getters['babies/getBabies']
+      return this.$store.state.babies.babies
     }
   },
   methods: {
     changeBaby(id) {
-      this.$store.commit('babies/setCurrent', { id })
+      this.$store.commit('babies/setCurrentId', { id })
     },
     calcBabyAge(day) {
       const birthday = new Date(day)

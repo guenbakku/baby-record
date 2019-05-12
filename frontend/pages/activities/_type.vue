@@ -10,8 +10,18 @@
         </v-card-actions>
         <v-divider />
         <v-card-text>
-          <component :is="component" />
+          <component
+            :is="component"
+            ref="form"
+            @completed="$router.push({ name: 'activities' })"
+          />
         </v-card-text>
+        <v-divider />
+        <v-card-actions>
+          <v-btn color="green" @click="$refs.form.addActivity()">
+            Gửi
+          </v-btn>
+        </v-card-actions>
       </v-card>
     </v-flex>
   </v-layout>

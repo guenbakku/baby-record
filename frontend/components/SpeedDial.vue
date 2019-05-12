@@ -17,8 +17,8 @@
       <v-btn
         v-for="(dialog, key) in dialogs"
         :key="key"
-        :color="color"
         :to="{ name: 'activities-type', params: { type: key } }"
+        color="primary"
         dark
         small
       >
@@ -35,7 +35,6 @@ import { getMaps } from '~/components/forms/maps'
 export default {
   name: 'SpeedDial',
   data: () => ({
-    color: 'primary',
     fab: false
   }),
   computed: {

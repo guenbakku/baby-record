@@ -101,7 +101,7 @@ export default {
       return this.$store.state.activities.activities
     },
     baby: function() {
-      return this.$store.getters['babies/getCurrent']
+      return this.$store.getters['babies/current']
     },
     date: function() {
       return this.$store.state.activities.date

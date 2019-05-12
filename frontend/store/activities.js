@@ -47,5 +47,16 @@ export const actions = {
         commit('setActivities', { activities: res.data.data })
         return res
       })
+  },
+
+  /**
+   * Add activity of provided babyId to database
+   * @param {Object} param0
+   * @param {Object} param1
+   */
+  addActivity({ commit }, { babyId, activity }) {
+    return this.$axios.post('activities', activity, {
+      params: { baby_id: babyId }
+    })
   }
 }

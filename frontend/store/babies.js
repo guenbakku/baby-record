@@ -1,15 +1,15 @@
 const STORAGE_CURRENT_BABY_ID = 'current_baby_id'
 
 export const state = () => ({
-  current: undefined,
+  currentId: undefined,
   babies: {}
 })
 
 export const getters = {
-  getCurrent(state) {
+  current(state) {
     let currentId
 
-    currentId = state.current
+    currentId = state.currentId
     if (currentId && state.babies[currentId]) {
       return state.babies[currentId]
     }
@@ -25,17 +25,13 @@ export const getters = {
     }
 
     return undefined
-  },
-
-  getBabies(state) {
-    return state.babies
   }
 }
 
 export const mutations = {
-  setCurrent(state, { id }) {
+  setCurrentId(state, { id }) {
     window.localStorage.setItem(STORAGE_CURRENT_BABY_ID, id)
-    state.current = id
+    state.currentId = id
   },
   setBabies(state, { babies }) {
     const data = {}
