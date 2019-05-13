@@ -43,6 +43,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '@/plugins/object-path',
     '@/plugins/moment',
     '@/plugins/vue-i18n',
     '@/plugins/axios',
