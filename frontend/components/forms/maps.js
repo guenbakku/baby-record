@@ -5,11 +5,11 @@
  */
 const MAPS = {
   breast_milk_activity: {
-    title: 'Sữa mẹ',
+    title: 'Bú mẹ',
     component: 'BreastMilkForm'
   },
   bottle_milk_activity: {
-    title: 'Sữa bình',
+    title: 'Bú bình',
     component: 'BottleMilkForm'
   },
   pump_milk_activity: {
@@ -17,7 +17,7 @@ const MAPS = {
     component: 'PumpMilkForm'
   },
   diaper_activity: {
-    title: 'Thay bỉm',
+    title: 'Thay tã',
     component: 'DiaperForm'
   },
   temperature_activity: {

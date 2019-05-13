@@ -25,7 +25,7 @@
         </v-layout>
         <v-layout row nowrap>
           <v-flex xs6 class="cell">
-            <span class="header">Tã</span>
+            <span class="header">Thay tã</span>
             <!-- eslint-disable prettier/prettier -->
             {{ summaryResult.diaper_activity.times }} lần
             (ị: {{ summaryResult.diaper_activity.shit_times }} lần,

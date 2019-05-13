@@ -4,7 +4,7 @@
       {{ activity.started | moment('HH:mm') }}
     </div>
     <div class="type text-truncate" :style="typeStyle">
-      Tã
+      Thay tã
     </div>
     <div class="content">
       <span>{{ content }}</span>

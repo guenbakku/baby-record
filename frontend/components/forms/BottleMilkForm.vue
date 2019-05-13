@@ -18,20 +18,20 @@
       type="number"
     />
     <v-text-field
-      v-model.number="form.bottle_milk_activity.breast_volume"
-      :error-messages="
-        $objectPath.get(errors, 'bottle_milk_activity.breast_volume', null)
-      "
-      label="Lượng sữa mẹ"
-      suffix="ml"
-      type="number"
-    />
-    <v-text-field
       v-model.number="form.bottle_milk_activity.fomular_volume"
       :error-messages="
         $objectPath.get(errors, 'bottle_milk_activity.fomular_volume', null)
       "
       label="Lượng sữa công thức"
+      suffix="ml"
+      type="number"
+    />
+    <v-text-field
+      v-model.number="form.bottle_milk_activity.breast_volume"
+      :error-messages="
+        $objectPath.get(errors, 'bottle_milk_activity.breast_volume', null)
+      "
+      label="Lượng sữa mẹ"
       suffix="ml"
       type="number"
     />
