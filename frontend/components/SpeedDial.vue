@@ -9,7 +9,7 @@
       transition="slide-y-reverse-transition"
     >
       <template v-slot:activator>
-        <v-btn v-model="fab" color="green" dark fab>
+        <v-btn v-model="fab" color="success" dark fab>
           <v-icon>add</v-icon>
           <v-icon>close</v-icon>
         </v-btn>

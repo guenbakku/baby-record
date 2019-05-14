@@ -58,5 +58,18 @@ export const actions = {
     return this.$axios.post('activities', activity, {
       params: { baby_id: babyId }
     })
+  },
+
+  /**
+   * View activity
+   * @param {Object} param0
+   * @param {Object} param1
+   */
+  viewActivity({ commit }, { activityId }) {
+    return this.$axios.get(`activities/${activityId}`)
+  },
+
+  editActivity({ commit }, { activityId, activity }) {
+    return this.$axios.put(`activities/${activityId}`, activity)
   }
 }

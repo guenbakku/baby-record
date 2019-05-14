@@ -6,7 +6,7 @@
           <v-btn icon :to="{ name: 'activities' }" :active-class="'dummy'">
             <v-icon>keyboard_arrow_left</v-icon>
           </v-btn>
-          <span class="subheading">{{ title }}</span>
+          <span class="subheading">Thêm {{ title.toLowerCase() }}</span>
         </v-card-actions>
         <v-divider />
         <v-card-text>
@@ -15,7 +15,7 @@
         <v-divider />
         <v-card-actions>
           <v-btn color="green" @click="addActivity">
-            Gửi
+            Thêm
           </v-btn>
         </v-card-actions>
       </v-card>

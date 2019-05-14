@@ -1,5 +1,5 @@
 <template>
-  <v-layout row nowrap class="activity">
+  <router-link :to="editRoute" tag="div" class="layout row nowrap activity">
     <div class="time">
       {{ activity.started | moment('HH:mm') }}
     </div>
@@ -10,11 +10,16 @@
       <span>{{ content }}</span>
       <span class="grey--text">{{ activity.memo }}</span>
     </div>
-  </v-layout>
+    <v-spacer />
+    <v-icon>keyboard_arrow_right</v-icon>
+  </router-link>
 </template>
 
 <script>
+import ActivityMixin from './activity.mixin'
+
 export default {
+  mixins: [ActivityMixin],
   props: {
     activity: {
       type: Object,

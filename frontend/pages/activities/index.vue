@@ -44,12 +44,16 @@
     </v-flex>
     <v-flex xs12 class="mt-3">
       <v-card>
-        <v-card-text v-if="isNoData">
+        <v-card-text v-if="!completed">
+          <v-progress-circular indeterminate color="success" />
+        </v-card-text>
+        <v-card-text v-else-if="isNoData">
           <v-icon>room_service</v-icon>
           Không có dữ liệu
         </v-card-text>
         <activity
           v-for="activity in activities"
+          v-else
           :key="activity.id"
           :activity="activity"
         />
@@ -115,11 +119,9 @@ export default {
   },
   watch: {
     babyAndDate: function(vals) {
-      this.$store.commit('activities/setActivities', { activities: {} })
       const shouldCall = vals.filter(vals => !!vals).length > 0
       if (shouldCall) {
         this.completed = false
-        this.$nuxt.$loading.start()
         this.$store
           .dispatch('activities/getActivities', {
             babyId: this.baby.id,
@@ -128,10 +130,12 @@ export default {
           .then(res => {
             this.summary()
             this.completed = true
-            this.$nuxt.$loading.finish()
           })
       }
     }
+  },
+  mounted: function() {
+    this.$store.commit('activities/setActivities', { activities: {} })
   },
   methods: {
     summary: function() {

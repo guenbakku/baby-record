@@ -14,6 +14,7 @@
           :error-message="
             $objectPath.get(errors, 'diaper_activity.is_pee', null)
           "
+          color="primary"
           label="Có tè"
         />
       </v-flex>
@@ -23,6 +24,7 @@
           :error-message="
             $objectPath.get(errors, 'diaper_activity.is_shit', null)
           "
+          color="primary"
           label="Có ị"
         />
       </v-flex>
