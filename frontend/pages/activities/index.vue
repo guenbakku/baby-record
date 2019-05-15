@@ -118,19 +118,22 @@ export default {
     }
   },
   watch: {
-    babyAndDate: function(vals) {
-      const shouldCall = vals.filter(vals => !!vals).length > 0
-      if (shouldCall) {
-        this.completed = false
-        this.$store
-          .dispatch('activities/getActivities', {
-            babyId: this.baby.id,
-            date: this.date
-          })
-          .then(res => {
-            this.summary()
-            this.completed = true
-          })
+    babyAndDate: {
+      immediate: true,
+      handler: function(vals) {
+        const shouldCall = vals.filter(vals => !!vals).length > 0
+        if (shouldCall) {
+          this.completed = false
+          this.$store
+            .dispatch('activities/getActivities', {
+              babyId: this.baby.id,
+              date: this.date
+            })
+            .then(res => {
+              this.summary()
+              this.completed = true
+            })
+        }
       }
     }
   },
