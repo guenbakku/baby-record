@@ -26,7 +26,13 @@ export default {
   },
 
   router: {
-    middleware: 'load-babies'
+    mode: 'hash',
+    base: '/frontend/',
+    middleware: ['load-babies']
+  },
+
+  generate: {
+    dir: '../backend/webroot/frontend'
   },
 
   /*
@@ -59,6 +65,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa'
   ],
+
   /*
    ** Axios module configuration
    */
