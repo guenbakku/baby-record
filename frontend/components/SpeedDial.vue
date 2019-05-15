@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { getMaps } from '~/components/forms/maps'
+import { getMaps } from '~/components/activity-forms/maps'
 
 export default {
   name: 'SpeedDial',
