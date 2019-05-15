@@ -17,7 +17,7 @@
       <v-btn
         v-for="(dialog, key) in dialogs"
         :key="key"
-        :to="{ name: 'activities-type', params: { type: key } }"
+        :to="{ name: 'activities-add-type', params: { type: key } }"
         color="primary"
         dark
         small

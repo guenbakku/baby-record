@@ -3,7 +3,7 @@
     <v-flex xs12>
       <v-card class="table">
         <v-card-actions style="justify-content: center">
-          <date-picker />
+          <date-picker :date="date" @selected="changeDate" />
         </v-card-actions>
         <v-layout row nowrap>
           <v-flex xs6 class="cell">
@@ -74,6 +74,9 @@ export default {
     DatePicker,
     SpeedDial
   },
+  validate({ params }) {
+    return !params.date || /^\d{4}-\d{2}-\d{2}$/.test(params.date)
+  },
   data() {
     return {
       completed: false,
@@ -108,7 +111,7 @@ export default {
       return this.$store.getters['babies/current']
     },
     date: function() {
-      return this.$store.state.activities.date
+      return this.$route.params.date || this.$moment().format('YYYY-MM-DD')
     },
     babyAndDate: function() {
       return [this.baby, this.date]
@@ -132,6 +135,10 @@ export default {
     this.$store.commit('activities/setActivities', { activities: {} })
   },
   methods: {
+    changeDate: function(date) {
+      this.$store.commit('activities/setDate', { date })
+      this.$router.push({ name: 'activities-date', params: { date } })
+    },
     getActivities: function() {
       this.completed = false
       this.$store

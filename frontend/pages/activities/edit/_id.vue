@@ -3,7 +3,7 @@
     <v-flex xs12>
       <v-card>
         <v-card-actions>
-          <v-btn icon :to="{ name: 'activities' }" :active-class="'dummy'">
+          <v-btn icon :to="activitiesPageRoute" active-class="dummy">
             <v-icon>keyboard_arrow_left</v-icon>
           </v-btn>
           <span class="subheading">Sửa {{ title.toLowerCase() }}</span>
@@ -25,7 +25,7 @@
             Sửa
           </v-btn>
           <v-spacer />
-          <v-btn color="red" @click="addActivity">
+          <v-btn color="red">
             Xóa
           </v-btn>
         </v-card-actions>
@@ -46,14 +46,23 @@ export default {
     errors: {}
   }),
   computed: {
+    date: function() {
+      return this.$store.state.activities.date
+    },
+    type: function() {
+      return this.activity ? this.activity.activity_type.code : undefined
+    },
     component: function() {
-      return getMaps()[this.$route.params.type].component
+      return this.type ? getMaps()[this.type].component : undefined
     },
     title: function() {
-      return getMaps()[this.$route.params.type].title
+      return this.type ? getMaps()[this.type].title : ''
     },
     activityId: function() {
       return this.$route.params.id
+    },
+    activitiesPageRoute: function() {
+      return { name: 'activities-date', params: { date: this.date } }
     }
   },
   mounted: function() {
@@ -88,7 +97,7 @@ export default {
             text: 'Sửa ghi chép thành công'
           })
           this.$nuxt.$loading.finish()
-          this.$router.push({ name: 'activities' })
+          this.$router.push(this.activitiesPageRoute)
         })
         .catch(err => {
           if (err.response && err.response.status === 422) {

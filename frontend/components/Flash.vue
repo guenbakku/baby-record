@@ -10,7 +10,7 @@
 <script>
 export default {
   data: () => ({
-    timeout: 10000
+    timeout: 6000
   }),
   computed: {
     snackbar: {

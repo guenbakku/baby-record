@@ -2,10 +2,10 @@
   <v-menu v-model="menu" :close-on-content-click="false">
     <template v-slot:activator="{ on }">
       <v-icon>event</v-icon>
-      <span class="subheading" v-on="on">{{ date }}</span>
+      <span class="subheading" v-on="on">{{ mDate }}</span>
     </template>
     <v-date-picker
-      v-model="date"
+      v-model="mDate"
       no-title
       :locale="locale"
       :first-day-of-week="1"
@@ -16,18 +16,24 @@
 
 <script>
 export default {
+  props: {
+    date: {
+      type: String,
+      default: null
+    }
+  },
   data() {
     return {
       menu: false
     }
   },
   computed: {
-    date: {
+    mDate: {
       get: function() {
-        return this.$store.state.activities.date
+        return this.date || this.$moment().format('YYYY-MM-DD')
       },
       set: function(date) {
-        this.$store.commit('activities/setDate', { date })
+        this.$emit('selected', date)
       }
     },
     locale() {

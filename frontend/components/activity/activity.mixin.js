@@ -5,7 +5,7 @@ export default {
   computed: {
     editRoute: function() {
       return {
-        name: 'activities-type-id',
+        name: 'activities-edit-id',
         params: {
           type: this.activity.activity_type.code,
           id: this.activity.id

@@ -1,7 +1,7 @@
 <script>
 export default {
   fetch({ params, redirect }) {
-    redirect(301, { name: 'activities' })
+    redirect(301, { name: 'activities-date' })
   }
 }
 </script>

@@ -3,7 +3,7 @@
     <v-flex xs12>
       <v-card>
         <v-card-actions>
-          <v-btn icon :to="{ name: 'activities' }" :active-class="'dummy'">
+          <v-btn icon :to="activitiesPageRoute" active-class="dummy">
             <v-icon>keyboard_arrow_left</v-icon>
           </v-btn>
           <span class="subheading">Thêm {{ title.toLowerCase() }}</span>
@@ -30,6 +30,9 @@ export default {
   components: {
     ...loadComponents()
   },
+  validate({ params }) {
+    return params.type && getMaps()[params.type]
+  },
   data: () => ({
     errors: {}
   }),
@@ -39,6 +42,12 @@ export default {
     },
     title: function() {
       return getMaps()[this.$route.params.type].title
+    },
+    date: function() {
+      return this.$store.state.activities.date
+    },
+    activitiesPageRoute: function() {
+      return { name: 'activities-date', params: { date: this.date } }
     }
   },
   methods: {
@@ -57,7 +66,7 @@ export default {
             text: 'Thêm ghi chép thành công'
           })
           this.$nuxt.$loading.finish()
-          this.$router.push({ name: 'activities' })
+          this.$router.push(this.activitiesPageRoute)
         })
         .catch(err => {
           if (err.response && err.response.status === 422) {
