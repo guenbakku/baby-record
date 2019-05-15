@@ -121,18 +121,9 @@ export default {
     babyAndDate: {
       immediate: true,
       handler: function(vals) {
-        const shouldCall = vals.filter(vals => !!vals).length > 0
+        const shouldCall = vals.filter(vals => !!vals).length === vals.length
         if (shouldCall) {
-          this.completed = false
-          this.$store
-            .dispatch('activities/getActivities', {
-              babyId: this.baby.id,
-              date: this.date
-            })
-            .then(res => {
-              this.summary()
-              this.completed = true
-            })
+          this.getActivities()
         }
       }
     }
@@ -141,6 +132,18 @@ export default {
     this.$store.commit('activities/setActivities', { activities: {} })
   },
   methods: {
+    getActivities: function() {
+      this.completed = false
+      this.$store
+        .dispatch('activities/getActivities', {
+          babyId: this.baby.id,
+          date: this.date
+        })
+        .then(res => {
+          this.summary()
+          this.completed = true
+        })
+    },
     summary: function() {
       const methods = {
         breast_milk_activity: {

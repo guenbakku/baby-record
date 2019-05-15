@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { loadComponents, getMaps } from '~/components/forms/maps'
+import { loadComponents, getMaps } from '~/components/activity-forms/maps'
 
 export default {
   components: {
