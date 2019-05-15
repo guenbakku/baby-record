@@ -69,7 +69,21 @@ export const actions = {
     return this.$axios.get(`activities/${activityId}`)
   },
 
+  /**
+   * Edit activity
+   * @param {Object} param0
+   * @param {Object} param1
+   */
   editActivity({ commit }, { activityId, activity }) {
     return this.$axios.put(`activities/${activityId}`, activity)
+  },
+
+  /**
+   * Delete activity
+   * @param {Object} param0
+   * @param {Object} param1
+   */
+  deleteActivity({ commit }, { activityId }) {
+    return this.$axios.delete(`activities/${activityId}`)
   }
 }

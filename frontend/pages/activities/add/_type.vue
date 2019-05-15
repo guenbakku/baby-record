@@ -14,7 +14,7 @@
         </v-card-text>
         <v-divider />
         <v-card-actions>
-          <v-btn color="green" @click="addActivity">
+          <v-btn color="success" :loading="loading" @click="addActivity">
             Thêm
           </v-btn>
         </v-card-actions>
@@ -34,7 +34,8 @@ export default {
     return params.type && getMaps()[params.type]
   },
   data: () => ({
-    errors: {}
+    errors: {},
+    loading: false
   }),
   computed: {
     component: function() {
@@ -52,7 +53,7 @@ export default {
   },
   methods: {
     addActivity: function() {
-      this.$nuxt.$loading.start()
+      this.loading = true
       this.errors = {}
       const babyId = this.$store.getters['babies/current'].id
       const activity = this.$refs.form.getData()
@@ -65,7 +66,6 @@ export default {
           this.$store.commit('flash/success', {
             text: 'Thêm ghi chép thành công'
           })
-          this.$nuxt.$loading.finish()
           this.$router.push(this.activitiesPageRoute)
         })
         .catch(err => {
@@ -75,6 +75,9 @@ export default {
             })
             this.errors = err.response.data.data.parsedErrors
           }
+        })
+        .then(() => {
+          this.loading = false
         })
     }
   }

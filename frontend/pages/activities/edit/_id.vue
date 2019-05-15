@@ -20,14 +20,15 @@
           <v-progress-circular v-else indeterminate color="success" />
         </v-card-text>
         <v-divider />
-        <v-card-actions>
-          <v-btn color="success" @click="editActivity">
+        <v-card-actions v-if="activity">
+          <v-btn color="success" :loading="loading" @click="editActivity">
             Sửa
           </v-btn>
           <v-spacer />
-          <v-btn color="red">
-            Xóa
-          </v-btn>
+          <delete-button
+            :activity-id="activity.id"
+            @deleted="afterDeletedActivity"
+          />
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -36,14 +37,17 @@
 
 <script>
 import { loadComponents, getMaps } from '~/components/activity-forms/maps'
+import DeleteButton from '~/components/activity-forms/DeleteButton'
 
 export default {
   components: {
-    ...loadComponents()
+    ...loadComponents(),
+    DeleteButton
   },
   data: () => ({
     activity: undefined,
-    errors: {}
+    errors: {},
+    loading: false
   }),
   computed: {
     date: function() {
@@ -78,13 +82,13 @@ export default {
         .catch(err => {
           if (err.response && err.response.status === 404) {
             this.$store.commit('flash/error', {
-              text: 'Không tìm thấy dữ liệu'
+              text: 'Không tìm thấy ghi chép'
             })
           }
         })
     },
     editActivity: function() {
-      this.$nuxt.$loading.start()
+      this.loading = true
       this.errors = {}
       const activity = this.$refs.form.getData()
       this.$store
@@ -96,7 +100,6 @@ export default {
           this.$store.commit('flash/success', {
             text: 'Sửa ghi chép thành công'
           })
-          this.$nuxt.$loading.finish()
           this.$router.push(this.activitiesPageRoute)
         })
         .catch(err => {
@@ -107,6 +110,12 @@ export default {
             this.errors = err.response.data.data.parsedErrors
           }
         })
+        .then(() => {
+          this.loading = false
+        })
+    },
+    afterDeletedActivity: function() {
+      this.$router.push(this.activitiesPageRoute)
     }
   }
 }

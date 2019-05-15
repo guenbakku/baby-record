@@ -49,7 +49,7 @@
         </v-card-text>
         <v-card-text v-else-if="isNoData">
           <v-icon>room_service</v-icon>
-          Không có dữ liệu
+          Chưa có ghi chép nào cả
         </v-card-text>
         <activity
           v-for="activity in activities"
