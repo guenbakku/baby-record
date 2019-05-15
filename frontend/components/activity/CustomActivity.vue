@@ -34,13 +34,6 @@ export default {
       })
     }
   },
-  data() {
-    return {
-      typeStyle: {
-        backgroundColor: 'deeppink'
-      }
-    }
-  },
   computed: {
     content: function() {
       const content = this.activity.custom_activity

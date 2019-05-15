@@ -3,22 +3,28 @@
  */
 const MAPS = {
   bottle_milk_activity: {
-    component: 'BottleMilkActivity'
+    component: 'BottleMilkActivity',
+    color: 'crimson'
   },
   breast_milk_activity: {
-    component: 'BreastMilkActivity'
+    component: 'BreastMilkActivity',
+    color: 'teal'
   },
   custom_activity: {
-    component: 'CustomActivity'
+    component: 'CustomActivity',
+    color: 'deeppink'
   },
   diaper_activity: {
-    component: 'DiaperActivity'
+    component: 'DiaperActivity',
+    color: 'blueviolet'
   },
   pump_milk_activity: {
-    component: 'PumpMilkActivity'
+    component: 'PumpMilkActivity',
+    color: 'royalblue'
   },
   temperature_activity: {
-    component: 'TemperatureActivity'
+    component: 'TemperatureActivity',
+    color: 'firebrick'
   }
 }
 

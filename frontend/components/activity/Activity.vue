@@ -1,5 +1,5 @@
 <template>
-  <component :is="component" :activity="activity" />
+  <component :is="component" :activity="activity" :color="color" />
 </template>
 
 <script>
@@ -18,6 +18,9 @@ export default {
   computed: {
     component: function() {
       return getMaps()[this.activity.activity_type.code].component
+    },
+    color: function() {
+      return getMaps()[this.activity.activity_type.code].color
     }
   }
 }

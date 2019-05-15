@@ -34,13 +34,6 @@ export default {
       })
     }
   },
-  data() {
-    return {
-      typeStyle: {
-        backgroundColor: 'royalblue'
-      }
-    }
-  },
   computed: {
     content: function() {
       const content = this.activity.pump_milk_activity

@@ -34,13 +34,6 @@ export default {
       })
     }
   },
-  data() {
-    return {
-      typeStyle: {
-        backgroundColor: 'firebrick'
-      }
-    }
-  },
   computed: {
     content: function() {
       const content = this.activity.temperature_activity

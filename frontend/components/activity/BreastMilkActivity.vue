@@ -34,13 +34,6 @@ export default {
       })
     }
   },
-  data() {
-    return {
-      typeStyle: {
-        backgroundColor: 'teal'
-      }
-    }
-  },
   computed: {
     content: function() {
       const content = this.activity.breast_milk_activity

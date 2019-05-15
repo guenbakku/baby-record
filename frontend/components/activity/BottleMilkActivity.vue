@@ -34,13 +34,6 @@ export default {
       })
     }
   },
-  data() {
-    return {
-      typeStyle: {
-        backgroundColor: 'crimson'
-      }
-    }
-  },
   computed: {
     content: function() {
       const content = this.activity.bottle_milk_activity

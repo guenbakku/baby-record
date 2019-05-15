@@ -34,13 +34,6 @@ export default {
       })
     }
   },
-  data() {
-    return {
-      typeStyle: {
-        backgroundColor: 'blueviolet'
-      }
-    }
-  },
   computed: {
     content: function() {
       const content = this.activity.diaper_activity
