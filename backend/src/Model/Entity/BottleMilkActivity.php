@@ -4,21 +4,19 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * BottleMilk Entity
+ * BottleMilkActivity Entity
  *
  * @property string $id
- * @property string $baby_id
- * @property \Cake\I18n\FrozenTime $started
+ * @property string $activity_id
  * @property int $duration
  * @property int $breast_volume
  * @property int $fomular_volume
- * @property string|null $memo
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  *
- * @property \App\Model\Entity\Baby $baby
+ * @property \App\Model\Entity\Activity $activity
  */
-class BottleMilk extends Entity
+class BottleMilkActivity extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -30,28 +28,16 @@ class BottleMilk extends Entity
      * @var array
      */
     protected $_accessible = [
-        'baby_id' => true,
-        'started' => true,
+        'activity_id' => true,
         'duration' => true,
         'breast_volume' => true,
         'fomular_volume' => true,
-        'memo' => true,
         'created' => true,
         'modified' => true,
-        'baby' => true
+        'activity' => true
     ];
 
-    /**
-     * Virtual fields that will be exposed in json/xml
-     *
-     * @var array
-     */
-    protected $_virtual = ['title', 'total_volume'];
-
-    protected function _getTitle()
-    {
-        return __('Bottle milk');
-    }
+    protected $_virtual = ['total_volume'];
 
     protected function _getTotalVolume()
     {

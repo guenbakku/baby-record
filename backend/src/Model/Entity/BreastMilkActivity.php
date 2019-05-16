@@ -4,18 +4,17 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Custom Entity
+ * BreastMilkActivity Entity
  *
  * @property string $id
- * @property string $baby_id
- * @property string $title
- * @property string|null $memo
+ * @property string $activity_id
+ * @property int $duration
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  *
- * @property \App\Model\Entity\Baby $baby
+ * @property \App\Model\Entity\Activity $activity
  */
-class Custom extends Entity
+class BreastMilkActivity extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -27,23 +26,10 @@ class Custom extends Entity
      * @var array
      */
     protected $_accessible = [
-        'baby_id' => true,
-        'title' => true,
-        'memo' => true,
+        'activity_id' => true,
+        'duration' => true,
         'created' => true,
         'modified' => true,
-        'baby' => true
+        'activity' => true
     ];
-
-    /**
-     * Virtual fields that will be exposed in json/xml
-     *
-     * @var array
-     */
-    protected $_virtual = ['title'];
-
-    protected function _getTitle()
-    {
-        return __('Custom');
-    }
 }

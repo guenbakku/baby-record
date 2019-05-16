@@ -7,22 +7,22 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 
 /**
- * BreastMilk Model
+ * BreastMilkActivities Model
  *
- * @property \App\Model\Table\BabiesTable|\Cake\ORM\Association\BelongsTo $Babies
+ * @property \App\Model\Table\ActivitiesTable|\Cake\ORM\Association\BelongsTo $Activities
  *
- * @method \App\Model\Entity\BreastMilk get($primaryKey, $options = [])
- * @method \App\Model\Entity\BreastMilk newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\BreastMilk[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\BreastMilk|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\BreastMilk saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\BreastMilk patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\BreastMilk[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\BreastMilk findOrCreate($search, callable $callback = null, $options = [])
+ * @method \App\Model\Entity\BreastMilkActivity get($primaryKey, $options = [])
+ * @method \App\Model\Entity\BreastMilkActivity newEntity($data = null, array $options = [])
+ * @method \App\Model\Entity\BreastMilkActivity[] newEntities(array $data, array $options = [])
+ * @method \App\Model\Entity\BreastMilkActivity|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\BreastMilkActivity saveOrFail(\Cake\Datasource\EntityInterface $entity, $options = [])
+ * @method \App\Model\Entity\BreastMilkActivity patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
+ * @method \App\Model\Entity\BreastMilkActivity[] patchEntities($entities, array $data, array $options = [])
+ * @method \App\Model\Entity\BreastMilkActivity findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
-class BreastMilkTable extends Table
+class BreastMilkActivitiesTable extends Table
 {
     /**
      * Initialize method
@@ -34,14 +34,14 @@ class BreastMilkTable extends Table
     {
         parent::initialize($config);
 
-        $this->setTable('breast_milk');
+        $this->setTable('breast_milk_activities');
         $this->setDisplayField('id');
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Babies', [
-            'foreignKey' => 'baby_id',
+        $this->belongsTo('Activities', [
+            'foreignKey' => 'activity_id',
             'joinType' => 'INNER'
         ]);
     }
@@ -59,19 +59,9 @@ class BreastMilkTable extends Table
             ->allowEmptyString('id', 'create');
 
         $validator
-            ->dateTime('started')
-            ->requirePresence('started', 'create')
-            ->allowEmptyDateTime('started', false);
-
-        $validator
             ->integer('duration')
             ->requirePresence('duration', 'create')
             ->allowEmptyString('duration', false);
-
-        $validator
-            ->scalar('memo')
-            ->maxLength('memo', 256)
-            ->allowEmptyString('memo');
 
         return $validator;
     }
@@ -85,7 +75,8 @@ class BreastMilkTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['baby_id'], 'Babies'));
+        $rules->add($rules->isUnique(['activity_id']));
+        $rules->add($rules->existsIn(['activity_id'], 'Activities'));
 
         return $rules;
     }

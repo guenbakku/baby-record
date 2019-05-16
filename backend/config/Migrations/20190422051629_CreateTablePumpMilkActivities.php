@@ -1,7 +1,7 @@
 <?php
 use Migrations\AbstractMigration;
 
-class CreateTableBottleMilk extends AbstractMigration
+class CreateTablePumpMilkActivities extends AbstractMigration
 {
     /**
      * Change Method.
@@ -12,30 +12,18 @@ class CreateTableBottleMilk extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('bottle_milk', ['id' => false, 'primary_key' => 'id']);
+        $table = $this->table('pump_milk_activities', ['id' => false, 'primary_key' => 'id']);
         $table->addColumn('id', 'uuid', [
             'null' => false,
         ])
-        ->addColumn('baby_id', 'uuid', [
-            'null' => false,
-        ])
-        ->addColumn('started', 'datetime', [
+        ->addColumn('activity_id', 'uuid', [
             'null' => false,
         ])
         ->addColumn('duration', 'integer', [
             'null' => false,
         ])
-        ->addColumn('breast_volume', 'integer', [
-            'default' => 0,
+        ->addColumn('volume', 'integer', [
             'null' => false,
-        ])
-        ->addColumn('fomular_volume', 'integer', [
-            'default' => 0,
-            'null' => false,
-        ])
-        ->addColumn('memo', 'string', [
-            'limit' => 256,
-            'null' => true,
         ])
         ->addColumn('created', 'datetime', [
             'null' => false,
@@ -43,7 +31,7 @@ class CreateTableBottleMilk extends AbstractMigration
         ->addColumn('modified', 'datetime', [
             'null' => false,
         ])
-        ->addIndex(['baby_id'])
+        ->addIndex(['activity_id'])
         ->create();
     }
 }

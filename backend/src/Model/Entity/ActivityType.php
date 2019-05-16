@@ -4,19 +4,18 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Temperature Entity
+ * ActivityType Entity
  *
- * @property string $id
- * @property string $baby_id
- * @property \Cake\I18n\FrozenTime $started
- * @property float $temperature
- * @property string|null $memo
+ * @property int $id
+ * @property string $code
+ * @property string $label
+ * @property int $sort_no
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  *
- * @property \App\Model\Entity\Baby $baby
+ * @property \App\Model\Entity\Activity[] $activities
  */
-class Temperature extends Entity
+class ActivityType extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -28,24 +27,11 @@ class Temperature extends Entity
      * @var array
      */
     protected $_accessible = [
-        'baby_id' => true,
-        'started' => true,
-        'temperature' => true,
-        'memo' => true,
+        'code' => true,
+        'label' => true,
+        'sort_no' => true,
         'created' => true,
         'modified' => true,
-        'baby' => true
+        'activities' => true
     ];
-
-    /**
-     * Virtual fields that will be exposed in json/xml
-     *
-     * @var array
-     */
-    protected $_virtual = ['title'];
-
-    protected function _getTitle()
-    {
-        return __('Temperature');
-    }
 }

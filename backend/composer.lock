@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "909302508b81bfee9030b708aeffd338",
+    "content-hash": "f61b71032e319e7179745688410f56bf",
     "packages": [
         {
             "name": "aura/intl",
@@ -371,6 +371,46 @@
                 "update"
             ],
             "time": "2018-12-09T16:34:19+00:00"
+        },
+        {
+            "name": "guenbakku/cake-middleware",
+            "version": "0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guenbakku/cake-middleware.git",
+                "reference": "9b477a2c09c390b9af91f421a64f307bf344ad50"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guenbakku/cake-middleware/zipball/9b477a2c09c390b9af91f421a64f307bf344ad50",
+                "reference": "9b477a2c09c390b9af91f421a64f307bf344ad50",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": ">=3.5",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7|^6.0"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Guenbakku\\Middleware\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "NVB",
+                    "homepage": "http://nvb-online.com"
+                }
+            ],
+            "description": "Collection of middlewares for CakePHP",
+            "time": "2019-04-23T06:36:25+00:00"
         },
         {
             "name": "mobiledetect/mobiledetectlib",

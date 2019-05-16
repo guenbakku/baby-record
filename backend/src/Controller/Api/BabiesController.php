@@ -8,5 +8,5 @@ namespace App\Controller\Api;
  */
 class BabiesController extends AppController
 {
-    // Inherit FriendOfCake/Crud's methods.
+    // Inheriting the rest of FriendOfCake/Crud's methods.
 }
