@@ -60,7 +60,7 @@ Router::scope('/', function (RouteBuilder $routes) {
     /**
      * Redirect root path to frontend
      */
-    $routes->redirect('/', '/frontend/index.html');
+    $routes->redirect('/', '/frontend');
 
     /**
      * Connect catchall routes for all controllers.
