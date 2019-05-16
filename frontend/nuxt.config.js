@@ -1,5 +1,4 @@
 import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
-import Dotenv from 'dotenv-webpack'
 import pkg from './package'
 
 export default {
@@ -62,6 +61,7 @@ export default {
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
+    '@nuxtjs/dotenv',
     '@nuxtjs/axios',
     '@nuxtjs/pwa'
   ],
@@ -102,8 +102,6 @@ export default {
           type: 'javascript/auto',
           loader: '@kazupon/vue-i18n-loader'
         })
-
-        config.plugins.push(new Dotenv())
       }
     }
   }
