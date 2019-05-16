@@ -4,7 +4,7 @@
       <v-card>
         <v-card-actions>
           <v-btn icon :to="activitiesPageRoute" active-class="dummy">
-            <v-icon>keyboard_arrow_left</v-icon>
+            <v-icon>keyboard_backspace</v-icon>
           </v-btn>
           <span class="subheading">Thêm {{ title.toLowerCase() }}</span>
         </v-card-actions>
