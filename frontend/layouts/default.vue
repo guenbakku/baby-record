@@ -24,23 +24,33 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar :clipped-left="clipped" fixed app>
+    <v-toolbar :clipped-left="clipped" fixed app color="primary">
       <v-toolbar-side-icon @click="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
+      <v-spacer />
+      <baby-switch />
     </v-toolbar>
     <v-content>
-      <v-container>
+      <v-container class="pb-5">
         <nuxt />
       </v-container>
     </v-content>
     <v-footer :fixed="fixed" app>
       <span>&copy; 2019</span>
     </v-footer>
+    <flash />
   </v-app>
 </template>
 
 <script>
+import BabySwitch from '~/components/BabySwitch'
+import Flash from '~/components/Flash'
+
 export default {
+  components: {
+    BabySwitch,
+    Flash
+  },
   data() {
     return {
       clipped: true,
@@ -49,19 +59,19 @@ export default {
       items: [
         {
           icon: 'apps',
-          title: 'Welcome',
-          to: '/'
+          title: 'Ghi chép',
+          to: '/activities'
         },
         {
           icon: 'bubble_chart',
-          title: 'Inspire',
-          to: '/inspire'
+          title: 'Em bé',
+          to: '/babies'
         }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'BabyRecord'
     }
   }
 }

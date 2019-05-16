@@ -1,4 +1,5 @@
 import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
+import Dotenv from 'dotenv-webpack'
 import pkg from './package'
 
 export default {
@@ -24,10 +25,20 @@ export default {
     ]
   },
 
+  router: {
+    mode: 'hash',
+    base: '/frontend/',
+    middleware: ['load-babies']
+  },
+
+  generate: {
+    dir: '../backend/webroot/frontend'
+  },
+
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: '#fff', continuous: true },
 
   /*
    ** Global CSS
@@ -37,7 +48,14 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/vuetify'],
+  plugins: [
+    '@/plugins/object-path',
+    '@/plugins/moment',
+    '@/plugins/vue-i18n',
+    '@/plugins/axios',
+    '@/plugins/change-case',
+    '@/plugins/vuetify'
+  ],
 
   /*
    ** Nuxt.js modules
@@ -47,6 +65,7 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/pwa'
   ],
+
   /*
    ** Axios module configuration
    */
@@ -77,6 +96,14 @@ export default {
           loader: 'eslint-loader',
           exclude: /(node_modules)/
         })
+
+        config.module.rules.push({
+          resourceQuery: /blockType=i18n/,
+          type: 'javascript/auto',
+          loader: '@kazupon/vue-i18n-loader'
+        })
+
+        config.plugins.push(new Dotenv())
       }
     }
   }
