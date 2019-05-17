@@ -89,14 +89,22 @@ class ActivitiesTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
+        $validator->setProvider('datetime', '\App\Model\Validation\DateTimeValidation');
+
         $validator
             ->uuid('id')
             ->allowEmptyString('id', 'create');
 
         $validator
-            ->dateTime('started')
             ->requirePresence('started', 'create')
-            ->allowEmptyDateTime('started', false);
+            ->allowEmptyDateTime('started', false)
+            ->add('started', [
+                'format' => [
+                    'rule' => 'isISO8601',
+                    'message' => __('The provided value must be in ISO-8601 format'),
+                    'provider' => 'datetime',
+                ]
+            ]);
 
         $validator
             ->scalar('memo')
