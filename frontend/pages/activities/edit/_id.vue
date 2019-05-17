@@ -3,7 +3,7 @@
     <v-flex xs12>
       <v-card>
         <v-card-actions>
-          <v-btn icon :to="activitiesPageRoute" active-class="dummy">
+          <v-btn icon :to="getRouteToActivitiesPage()" active-class="dummy">
             <v-icon>keyboard_backspace</v-icon>
           </v-btn>
           <span class="subheading">Sửa {{ title.toLowerCase() }}</span>
@@ -64,15 +64,16 @@ export default {
     },
     activityId: function() {
       return this.$route.params.id
-    },
-    activitiesPageRoute: function() {
-      return { name: 'activities-date', params: { date: this.date } }
     }
   },
   mounted: function() {
     this.getActivity()
   },
   methods: {
+    getRouteToActivitiesPage: function(date = undefined) {
+      date = date || this.date
+      return { name: 'activities-date', params: { date } }
+    },
     getActivity: function() {
       this.$store
         .dispatch('activities/viewActivity', { activityId: this.activityId })
@@ -100,7 +101,7 @@ export default {
           this.$store.commit('flash/success', {
             text: 'Sửa ghi chép thành công'
           })
-          this.$router.push(this.activitiesPageRoute)
+          this.$router.push(this.getRouteToActivitiesPage())
         })
         .catch(err => {
           if (err.response && err.response.status === 422) {
@@ -115,7 +116,7 @@ export default {
         })
     },
     afterDeletedActivity: function() {
-      this.$router.push(this.activitiesPageRoute)
+      this.$router.push(this.getRouteToActivitiesPage())
     }
   }
 }

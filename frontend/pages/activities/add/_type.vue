@@ -3,7 +3,7 @@
     <v-flex xs12>
       <v-card>
         <v-card-actions>
-          <v-btn icon :to="activitiesPageRoute" active-class="dummy">
+          <v-btn icon :to="getRouteToActivitiesPage()" active-class="dummy">
             <v-icon>keyboard_backspace</v-icon>
           </v-btn>
           <span class="subheading">Thêm {{ title.toLowerCase() }}</span>
@@ -46,12 +46,13 @@ export default {
     },
     date: function() {
       return this.$store.state.activities.date
-    },
-    activitiesPageRoute: function() {
-      return { name: 'activities-date', params: { date: this.date } }
     }
   },
   methods: {
+    getRouteToActivitiesPage: function(date = undefined) {
+      date = date || this.date
+      return { name: 'activities-date', params: { date } }
+    },
     addActivity: function() {
       this.loading = true
       this.errors = {}
@@ -66,7 +67,9 @@ export default {
           this.$store.commit('flash/success', {
             text: 'Thêm ghi chép thành công'
           })
-          this.$router.push(this.activitiesPageRoute)
+          const date = this.$moment(activity.started).format('YYYY-MM-DD')
+          const route = this.getRouteToActivitiesPage(date)
+          this.$router.push(route)
         })
         .catch(err => {
           if (err.response && err.response.status === 422) {

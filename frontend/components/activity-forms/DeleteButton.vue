@@ -10,8 +10,8 @@
       <v-divider />
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="secondary" flat @click="dialog = false">Hủy</v-btn>
-        <v-btn color="info" flat :loading="loading" @click="deleteActivity">
+        <v-btn color="info" flat @click="dialog = false">Hủy</v-btn>
+        <v-btn color="warning" flat :loading="loading" @click="deleteActivity">
           OK
         </v-btn>
       </v-card-actions>
