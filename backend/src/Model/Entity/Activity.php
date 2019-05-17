@@ -1,7 +1,10 @@
 <?php
 namespace App\Model\Entity;
 
+use Cake\Core\Configure;
 use Cake\ORM\Entity;
+use Cake\I18n\Time;
+use Guenbakku\Middleware\Http\ClientTimezoneMiddleware;
 
 /**
  * Activity Entity
@@ -50,4 +53,20 @@ class Activity extends Entity
         'pump_milk_activity' => true,
         'temperature_activity' => true
     ];
+
+    /**
+     * Convert value set to field 'started' to Cake\I18n\Time object
+     * and set that timezone to the value of settings in server side.
+     *
+     * @param Any
+     * @return \Cake\I18n\Time $time
+     */
+    protected function _setStarted($val)
+    {
+        if (!($val instanceof Time)) {
+            $val = new Time($val, ClientTimezoneMiddleware::getClientTimezone());
+        }
+        $val->setTimezone(Configure::read('App.defaultTimezone'));
+        return $val;
+    }
 }
