@@ -25,7 +25,7 @@
       <baby-switch />
     </v-toolbar>
     <v-content>
-      <v-container class="pb-5">
+      <v-container>
         <nuxt />
       </v-container>
     </v-content>
