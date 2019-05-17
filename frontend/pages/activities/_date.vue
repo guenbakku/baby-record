@@ -1,5 +1,5 @@
 <template>
-  <v-layout row wrap>
+  <v-layout row wrap class="pb-5">
     <v-flex xs12>
       <v-card class="table">
         <v-card-actions style="justify-content: center">

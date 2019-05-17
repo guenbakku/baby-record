@@ -53,9 +53,7 @@ export default {
     },
     transformDataToProp(form) {
       return {
-        started: this.$moment(form.started)
-          .utc()
-          .format('YYYY-MM-DD HH:mm:ss'),
+        started: this.$moment(form.started).toISOString(),
         memo: form.memo,
         activity_type_id: 2,
         breast_milk_activity: {
