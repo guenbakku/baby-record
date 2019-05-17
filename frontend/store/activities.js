@@ -2,7 +2,7 @@ import Vue from 'vue'
 import qs from 'qs'
 
 export const state = () => ({
-  date: new Date().toISOString().substr(0, 10),
+  date: undefined,
   activities: []
 })
 

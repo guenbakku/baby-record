@@ -111,7 +111,11 @@ export default {
       return this.$store.getters['babies/current']
     },
     date: function() {
-      return this.$route.params.date || this.$moment().format('YYYY-MM-DD')
+      return (
+        this.$route.params.date ||
+        this.$store.state.activities.date ||
+        this.$moment().format('YYYY-MM-DD')
+      )
     },
     babyAndDate: function() {
       return [this.baby, this.date]
