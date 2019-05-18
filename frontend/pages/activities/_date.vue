@@ -137,10 +137,10 @@ export default {
   },
   mounted: function() {
     this.$store.commit('activities/setActivities', { activities: {} })
+    this.$store.commit('activities/setDate', { date: this.date })
   },
   methods: {
     changeDate: function(date) {
-      this.$store.commit('activities/setDate', { date })
       this.$router.push({ name: 'activities-date', params: { date } })
     },
     getActivities: function() {
