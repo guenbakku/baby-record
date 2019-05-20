@@ -38,6 +38,47 @@ ShowTag=1
 ShowCommonAttributes=0
 
 [Relation]
+Entity1=users
+Entity2=babies
+RelationType1=2
+RelationType2=3
+Fields1=id
+Fields2=user_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,835,9165,800,R,R
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20190520110008
+LineMode=0
+Bar1=84
+Bar2=916
+Bar3=80
+TermPos1=R
+TermPos2=R
+
+[Entity]
+PName=users
+LName=Users
+Comment=
+TableOption=
+Page=Main
+Left=400
+Top=100
+Field="ID","id","UUID","NOT NULL",0,"","",$FFFFFFFF,""
+Field="Email","email","VARCHAR(256)","NOT NULL",,"","",$FFFFFFFF,""
+Field="Password","password","VARCHAR(256)","NOT NULL",,"","",$FFFFFFFF,""
+Field="Name","name","VARCHAR(64)",,,"","",$FFFFFFFF,""
+Field="Created time","created","DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+Field="Updated time","modified","DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20190520105812
+Position="Main",400,100
+
+[Relation]
 Entity1=Activities
 Entity2=custom_activities
 RelationType1=2
@@ -193,7 +234,7 @@ Fields1=id
 Fields2=baby_id
 Cardinarity1=
 Cardinarity2=
-Position="MAIN",0,819,9181,550,R,R
+Position="MAIN",0,819,9181,689,R,R
 Dependence=0
 Caption=
 PName=
@@ -201,7 +242,7 @@ ModifiedDateTime=20190423085230
 LineMode=0
 Bar1=82
 Bar2=918
-Bar3=55
+Bar3=69
 TermPos1=R
 TermPos2=R
 
@@ -210,8 +251,8 @@ PName=activity_types
 LName=Activitie Types
 Comment=
 TableOption=
-Page=Main
-Left=700
+Page=MAIN
+Left=1500
 Top=400
 Field="ID","id","INT","NOT NULL",0,"","",$FFFFFFFF,""
 Field="Code","code","VARCHAR(64)","NOT NULL",,"","",$FFFFFFFF,""
@@ -223,15 +264,15 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20190423093147
-Position="Main",700,400,380,159
+Position="MAIN",1500,400,380,159
 
 [Entity]
 PName=Activities
 LName=Activities
 Comment=
 TableOption=
-Page=Main
-Left=700
+Page=MAIN
+Left=1500
 Top=100
 Field="ID","id","UUID","NOT NULL",0,"","",$FFFFFFFF,""
 Field="Activity type ID","activity_type_id","INT","NOT NULL",,"","",$FFFFFFFF,""
@@ -244,7 +285,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20190423085711
-Position="Main",700,100,470,189
+Position="MAIN",1500,100,470,189
 
 [Entity]
 PName=custom_activities
@@ -252,7 +293,7 @@ LName=Custom activities
 Comment=
 TableOption=
 Page=MAIN
-Left=1450
+Left=2250
 Top=1250
 Field="ID","id","UUID","NOT NULL",0,"","",$FFFFFFFF,""
 Field="Activity ID","activity_id","UUID","NOT NULL",,"","",$FFFFFFFF,""
@@ -263,7 +304,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20190423085846
-Position="MAIN",1450,1250
+Position="MAIN",2250,1250
 
 [Entity]
 PName=dump_milk_activities
@@ -271,7 +312,7 @@ LName=Dump milk activities
 Comment=
 TableOption=
 Page=MAIN
-Left=1450
+Left=2250
 Top=1000
 Field="ID","id","UUID","NOT NULL",0,"","",$FFFFFFFF,""
 Field="Activity ID","activity_id","UUID","NOT NULL",,"","",$FFFFFFFF,""
@@ -283,7 +324,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20190423085804
-Position="MAIN",1450,1000
+Position="MAIN",2250,1000
 
 [Entity]
 PName=temperature_activities
@@ -291,7 +332,7 @@ LName=Temperature activities
 Comment=
 TableOption=
 Page=MAIN
-Left=1450
+Left=2250
 Top=800
 Field="ID","id","UUID","NOT NULL",0,"","",$FFFFFFFF,""
 Field="Activity ID","activity_id","UUID","NOT NULL",,"","",$FFFFFFFF,""
@@ -302,7 +343,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20190423085747
-Position="MAIN",1450,800
+Position="MAIN",2250,800
 
 [Entity]
 PName=diaper_activities
@@ -310,7 +351,7 @@ LName=Diaper activities
 Comment=
 TableOption=
 Page=MAIN
-Left=1450
+Left=2250
 Top=550
 Field="ID","id","UUID","NOT NULL",0,"","",$FFFFFFFF,""
 Field="Activity ID","activity_id","UUID","NOT NULL",,"","",$FFFFFFFF,""
@@ -322,7 +363,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20190423085730
-Position="MAIN",1450,550
+Position="MAIN",2250,550
 
 [Entity]
 PName=bottle_milk_activities
@@ -330,7 +371,7 @@ LName=Bottle milk activities
 Comment=
 TableOption=
 Page=MAIN
-Left=1450
+Left=2250
 Top=300
 Field="ID","id","UUID","NOT NULL",0,"","",$FFFFFFFF,""
 Field="Activity ID","activity_id","UUID","NOT NULL",,"","",$FFFFFFFF,""
@@ -343,7 +384,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20190423085722
-Position="MAIN",1450,300,462,179
+Position="MAIN",2250,300,462,179
 
 [Entity]
 PName=breast_milk_activities
@@ -351,7 +392,7 @@ LName=Breast milk activities
 Comment=
 TableOption=
 Page=MAIN
-Left=1450
+Left=2250
 Top=100
 Field="ID","id","UUID","NOT NULL",0,"","",$FFFFFFFF,""
 Field="Activity ID","activity_id","UUID","NOT NULL",,"","",$FFFFFFFF,""
@@ -362,7 +403,7 @@ EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20190423085718
-Position="MAIN",1450,100
+Position="MAIN",2250,100
 
 [Entity]
 PName=babies
@@ -370,9 +411,10 @@ LName=Babies
 Comment=
 TableOption=
 Page=MAIN
-Left=200
+Left=1000
 Top=100
 Field="ID","id","UUID","NOT NULL",0,"","",$FFFFFFFF,""
+Field="User ID","user_id","UUID","NOT NULL",,"","",$FFFFFFFF,""
 Field="Name","name","VARCHAR(64)","NOT NULL",,"","",$FFFFFFFF,""
 Field="Birthday","birthday","DATE","NOT NULL",,"","",$FFFFFFFF,""
 Field="Created time","created","DATETIME","NOT NULL",,"","",$FFFFFFFF,""
@@ -380,5 +422,5 @@ Field="Updated time","modified","DATETIME","NOT NULL",,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20190422105600
-Position="MAIN",200,100
+ModifiedDateTime=20190520105916
+Position="MAIN",1000,100,380,159
