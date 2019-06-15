@@ -39,6 +39,7 @@
 <script>
 import BabySwitch from '~/components/BabySwitch'
 import Flash from '~/components/Flash'
+import pkg from '~/package'
 
 export default {
   components: {
@@ -65,7 +66,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'BabyRecord'
+      title: pkg.title
     }
   }
 }
