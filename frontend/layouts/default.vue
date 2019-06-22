@@ -7,7 +7,9 @@
       fixed
       app
     >
+      <login-user />
       <v-list>
+        <v-divider />
         <v-list-tile v-for="(item, i) in items" :key="i" :to="item.to" router>
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
@@ -37,12 +39,14 @@
 </template>
 
 <script>
+import LoginUser from '~/components/LoginUser'
 import BabySwitch from '~/components/BabySwitch'
 import Flash from '~/components/Flash'
 import pkg from '~/package'
 
 export default {
   components: {
+    LoginUser,
     BabySwitch,
     Flash
   },
@@ -61,6 +65,12 @@ export default {
           icon: 'bubble_chart',
           title: 'Em bé',
           to: '/babies'
+        },
+        {
+          divider: true,
+          icon: 'power_off',
+          title: 'Đăng xuất',
+          to: '/logout'
         }
       ],
       miniVariant: false,
