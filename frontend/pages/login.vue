@@ -20,13 +20,7 @@
           >
           </v-text-field>
           <v-card-actions>
-            <v-btn
-              type="submit"
-              color="dark"
-              block
-              :loading="loading"
-              @click="authenticate"
-            >
+            <v-btn type="submit" color="dark" block :loading="loading">
               Đăng nhập
             </v-btn>
           </v-card-actions>
