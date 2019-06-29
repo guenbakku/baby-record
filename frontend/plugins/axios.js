@@ -30,7 +30,7 @@ const parseValidatedErrors = function(
   return parsed
 }
 
-export default function({ $axios, store, app }) {
+export default function({ $axios, store }) {
   /**
    * Because environment variables parsed by dotenv-webpack
    * only be used after webpack bundling, so we must set them
@@ -40,6 +40,14 @@ export default function({ $axios, store, app }) {
   $axios.setHeader('Accept', 'application/json')
   $axios.setHeader('Content-Type', 'application/json')
   $axios.setHeader('X-Timezone', moment.tz.guess())
+
+  $axios.onRequest(config => {
+    // Add access token to request
+    const token = store.state.auth.token
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+  })
 
   /**
    * Configure interceptor on error
