@@ -89,10 +89,6 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['isAuthenticated'])
-  },
-  mounted() {
-    this.$store.commit('babies/loadFromLocalStorage')
-    this.$store.commit('auth/loadFromLocalStorage')
   }
 }
 </script>

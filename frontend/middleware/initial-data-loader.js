@@ -1,7 +1,10 @@
 /**
- * Load data from server before initializing app
+ * Initialize app data
  */
 export default function({ store }) {
+  store.commit('babies/loadFromLocalStorage')
+  store.commit('auth/loadFromLocalStorage')
+
   const isAuthenticated = store.getters['auth/isAuthenticated']
   if (!isAuthenticated) {
     return
