@@ -50,6 +50,10 @@ class BabiesTable extends Table
             'dependent' => true,
             'cascadeCallbacks' => true, // TODO: Customize delete api to improve performance.
         ]);
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**
@@ -87,6 +91,7 @@ class BabiesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
+        $rules->add($rules->existsIn(['user_id'], 'users'));
         $rules->add($rules->isUnique(['name']));
         return $rules;
     }

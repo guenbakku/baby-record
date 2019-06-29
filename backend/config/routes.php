@@ -98,11 +98,19 @@ Router::scope('/', function (RouteBuilder $routes) {
 
 Router::prefix('api', function (RouteBuilder $routes) {
 
+    $routes->resources('Activities', [
+        'inflect' => 'dasherize'
+    ]);
     $routes->resources('Babies', [
         'inflect' => 'dasherize'
     ]);
-    $routes->resources('Activities', [
-        'inflect' => 'dasherize'
+    $routes->resources('Users', [
+        'inflect' => 'dasherize',
+        'map' => [
+            'me' => ['action' => 'me', 'method' => 'GET'],
+            'token' => ['action'=> 'token', 'method' => 'POST']
+        ],
+        'only' => ['me', 'token'],
     ]);
 
     $routes->fallbacks(DashedRoute::class);
