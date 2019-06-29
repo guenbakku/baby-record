@@ -61,6 +61,10 @@ export default function({ $axios, store }) {
       store.commit('flash/error', {
         text: 'There is intenal error in api server'
       })
+    } else if (error.response.status === 401) {
+      store.commit('flash/error', {
+        text: '401 Unauthorized. Please logout and login again'
+      })
     } else if (error.response.status === 422) {
       error.response.data.data.parsedErrors = parseValidatedErrors(
         error.response.data.data.errors

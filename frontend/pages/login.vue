@@ -69,7 +69,7 @@ export default {
         .catch(err => {
           if (err.response && err.response.status === 401) {
             this.$store.commit('flash/error', {
-              text: 'Email hoặc mật khẩu đăng nhập không chính xác.'
+              text: 'Email hoặc mật khẩu không chính xác'
             })
           }
         })
