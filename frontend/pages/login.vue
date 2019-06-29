@@ -1,37 +1,52 @@
 <template>
-  <v-card flat>
-    <v-card-text>
-      <v-form @submit.prevent="authenticate">
-        <v-text-field
-          v-model="form.email"
-          prepend-icon="email"
-          name="Email"
-          label="Email"
-        >
-        </v-text-field>
-        <v-text-field
-          v-model="form.password"
-          prepend-icon="lock"
-          name="Password"
-          label="Mật khẩu"
-          type="password"
-        >
-        </v-text-field>
-        <v-card-actions>
-          <v-btn
-            type="submit"
-            color="dark"
-            block
-            :loading="loading"
-            @click="authenticate"
+  <div>
+    <div class="brand">BABY RECORD</div>
+    <v-card flat>
+      <v-card-text>
+        <v-form @submit.prevent="authenticate">
+          <v-text-field
+            v-model="form.email"
+            prepend-icon="email"
+            name="Email"
+            label="Email"
           >
-            Đăng nhập
-          </v-btn>
-        </v-card-actions>
-      </v-form>
-    </v-card-text>
-  </v-card>
+          </v-text-field>
+          <v-text-field
+            v-model="form.password"
+            prepend-icon="lock"
+            name="Password"
+            label="Mật khẩu"
+            type="password"
+          >
+          </v-text-field>
+          <v-card-actions>
+            <v-btn
+              type="submit"
+              color="dark"
+              block
+              :loading="loading"
+              @click="authenticate"
+            >
+              Đăng nhập
+            </v-btn>
+          </v-card-actions>
+        </v-form>
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
+
+<style lang="stylus" scoped>
+.brand {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 3rem 0;
+  color: #888;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, .7),
+               1px 1px 1px rgba(255, 255, 255, .7);
+}
+</style>
 
 <script>
 export default {

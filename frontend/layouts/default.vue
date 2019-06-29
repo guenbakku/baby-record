@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
     <v-navigation-drawer
-      v-show="isAuthenticated"
+      v-if="isAuthenticated"
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
@@ -21,8 +21,14 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar :clipped-left="clipped" fixed app color="primary">
-      <v-toolbar-side-icon v-if="isAuthenticated" @click="drawer = !drawer" />
+    <v-toolbar
+      v-if="isAuthenticated"
+      :clipped-left="clipped"
+      fixed
+      app
+      color="primary"
+    >
+      <v-toolbar-side-icon @click="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <baby-switch />
@@ -33,7 +39,7 @@
       </v-container>
     </v-content>
     <v-footer :fixed="fixed" app>
-      <span>&copy; 2019</span>
+      <span class="ml-3">guenbakku &copy; {{ $moment().format('YYYY') }}</span>
     </v-footer>
     <flash />
   </v-app>
