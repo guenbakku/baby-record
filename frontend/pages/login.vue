@@ -54,7 +54,7 @@ export default {
     }
   },
   fetch({ redirect, store }) {
-    if (store.getters['auth/token']) {
+    if (store.getters['auth/isAuthenticated']) {
       redirect(302, { name: 'activities-date' })
     }
   },
