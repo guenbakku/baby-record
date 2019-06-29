@@ -37,7 +37,7 @@ export const actions = {
           filter: { from, to },
           limit: 999,
           sort: 'started',
-          direction: 'asc'
+          direction: 'desc'
         },
         paramsSerializer: function(params) {
           return qs.stringify(params, { arrayFormat: 'brackets' })

@@ -2,22 +2,24 @@
   <v-layout row nowrap>
     <v-flex xs12>
       <v-card>
-        <v-card-actions>
-          <v-btn icon :to="getRouteToActivitiesPage()" active-class="dummy">
-            <v-icon>keyboard_backspace</v-icon>
-          </v-btn>
-          <span class="subheading">Thêm {{ title.toLowerCase() }}</span>
-        </v-card-actions>
-        <v-divider />
-        <v-card-text>
-          <component :is="component" ref="form" :errors="errors" />
-        </v-card-text>
-        <v-divider />
-        <v-card-actions>
-          <v-btn color="success" :loading="loading" @click="addActivity">
-            Thêm
-          </v-btn>
-        </v-card-actions>
+        <v-form @submit.prevent="addActivity">
+          <v-card-actions>
+            <v-btn icon :to="getRouteToActivitiesPage()" active-class="dummy">
+              <v-icon>keyboard_backspace</v-icon>
+            </v-btn>
+            <span class="subheading">Thêm {{ title.toLowerCase() }}</span>
+          </v-card-actions>
+          <v-divider />
+          <v-card-text>
+            <component :is="component" ref="form" :errors="errors" />
+          </v-card-text>
+          <v-divider />
+          <v-card-actions>
+            <v-btn type="submit" color="success" :loading="loading">
+              Thêm
+            </v-btn>
+          </v-card-actions>
+        </v-form>
       </v-card>
     </v-flex>
   </v-layout>

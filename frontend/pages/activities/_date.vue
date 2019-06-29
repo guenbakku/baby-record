@@ -28,8 +28,8 @@
             <span class="header">Thay tã</span>
             <!-- eslint-disable prettier/prettier -->
             {{ summaryResult.diaper_activity.times }} lần
-            (ị: {{ summaryResult.diaper_activity.shit_times }} lần,
-              tè: {{ summaryResult.diaper_activity.pee_times }} lần)
+            (tè: {{ summaryResult.diaper_activity.pee_times }} lần,
+              ị: {{ summaryResult.diaper_activity.shit_times }} lần)
             <!-- eslint-enable -->
           </v-flex>
           <v-flex xs6 class="cell">

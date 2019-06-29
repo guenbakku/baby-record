@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <div>
     <v-text-field
       v-model="form.started"
       :error-messages="errors.started"
@@ -34,7 +34,7 @@
       :error-messages="errors.memo"
       label="Ghi chú"
     />
-  </form>
+  </div>
 </template>
 
 <script>
