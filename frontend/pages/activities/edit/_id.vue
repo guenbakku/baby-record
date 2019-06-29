@@ -2,34 +2,36 @@
   <v-layout row nowrap>
     <v-flex xs12>
       <v-card>
-        <v-card-actions>
-          <v-btn icon :to="getRouteToActivitiesPage()" active-class="dummy">
-            <v-icon>keyboard_backspace</v-icon>
-          </v-btn>
-          <span class="subheading">Sửa {{ title.toLowerCase() }}</span>
-        </v-card-actions>
-        <v-divider />
-        <v-card-text>
-          <component
-            :is="component"
-            v-if="activity"
-            ref="form"
-            :data="activity"
-            :errors="errors"
-          />
-          <v-progress-circular v-else indeterminate color="success" />
-        </v-card-text>
-        <v-divider />
-        <v-card-actions v-if="activity">
-          <v-btn color="success" :loading="loading" @click="editActivity">
-            Sửa
-          </v-btn>
-          <v-spacer />
-          <delete-button
-            :activity-id="activity.id"
-            @deleted="afterDeletedActivity"
-          />
-        </v-card-actions>
+        <v-form @submit.prevent="editActivity">
+          <v-card-actions>
+            <v-btn icon :to="getRouteToActivitiesPage()" active-class="dummy">
+              <v-icon>keyboard_backspace</v-icon>
+            </v-btn>
+            <span class="subheading">Sửa {{ title.toLowerCase() }}</span>
+          </v-card-actions>
+          <v-divider />
+          <v-card-text>
+            <component
+              :is="component"
+              v-if="activity"
+              ref="form"
+              :data="activity"
+              :errors="errors"
+            />
+            <v-progress-circular v-else indeterminate color="success" />
+          </v-card-text>
+          <v-divider />
+          <v-card-actions v-if="activity">
+            <v-btn type="submit" color="success" :loading="loading">
+              Sửa
+            </v-btn>
+            <v-spacer />
+            <delete-button
+              :activity-id="activity.id"
+              @deleted="afterDeletedActivity"
+            />
+          </v-card-actions>
+        </v-form>
       </v-card>
     </v-flex>
   </v-layout>
