@@ -32,7 +32,7 @@ export default {
   router: {
     mode: 'hash',
     base: '/frontend/',
-    middleware: ['load-babies']
+    middleware: ['initial-data-loader']
   },
 
   generate: {

@@ -1,12 +1,13 @@
 const STORAGE_TOKEN_KEY = 'token'
 
 export const state = () => ({
+  token: undefined,
   profile: {}
 })
 
 export const getters = {
-  token(state) {
-    return window.localStorage.getItem(STORAGE_TOKEN_KEY) || undefined
+  isAuthenticated(state) {
+    return state.token !== undefined
   }
 }
 
@@ -19,6 +20,13 @@ export const mutations = {
   },
   setProfile(state, { profile }) {
     state.profile = profile
+  },
+  clearAll(state) {
+    state.profile = {}
+    state.token = undefined
+  },
+  loadFromLocalStorage(state) {
+    state.token = window.localStorage.getItem(STORAGE_TOKEN_KEY) || undefined
   }
 }
 
@@ -31,6 +39,7 @@ export const actions = {
       })
       .then(res => {
         commit('setToken', { token: res.data.data.token })
+        commit('loadFromLocalStorage')
         return res
       })
   },

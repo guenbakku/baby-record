@@ -41,11 +41,13 @@ export default function({ $axios, store }) {
   $axios.setHeader('Content-Type', 'application/json')
   $axios.setHeader('X-Timezone', moment.tz.guess())
 
-  // Add access token to request
-  const token = store.getters['auth/token']
-  if (token) {
-    $axios.setHeader('Authorization', `Bearer ${token}`)
-  }
+  $axios.onRequest(config => {
+    // Add access token to request
+    const token = store.state.auth.token
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+  })
 
   /**
    * Configure interceptor on error

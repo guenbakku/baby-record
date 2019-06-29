@@ -1,9 +1,5 @@
 <template>
   <v-card flat>
-    <v-card-title primary-title>
-      <h3>Đăng nhập</h3>
-    </v-card-title>
-    <v-divider />
     <v-card-text>
       <v-form @submit.prevent="authenticate">
         <v-text-field
@@ -22,7 +18,15 @@
         >
         </v-text-field>
         <v-card-actions>
-          <v-btn color="dark" block @click="authenticate">Login</v-btn>
+          <v-btn
+            type="submit"
+            color="dark"
+            block
+            :loading="loading"
+            @click="authenticate"
+          >
+            Đăng nhập
+          </v-btn>
         </v-card-actions>
       </v-form>
     </v-card-text>
@@ -36,7 +40,8 @@ export default {
       form: {
         email: null,
         password: null
-      }
+      },
+      loading: false
     }
   },
   fetch({ redirect, store }) {
@@ -46,9 +51,22 @@ export default {
   },
   methods: {
     authenticate() {
-      this.$store.dispatch('auth/authenticate', this.form).then(res => {
-        this.$router.push({ name: 'activities-date' })
-      })
+      this.loading = true
+      this.$store
+        .dispatch('auth/authenticate', this.form)
+        .then(res => {
+          this.$router.push({ name: 'activities-date' })
+        })
+        .catch(err => {
+          if (err.response && err.response.status === 401) {
+            this.$store.commit('flash/error', {
+              text: 'Email hoặc mật khẩu đăng nhập không chính xác.'
+            })
+          }
+        })
+        .then(() => {
+          this.loading = false
+        })
     }
   }
 }

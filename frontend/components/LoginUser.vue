@@ -19,9 +19,6 @@ import { mapState } from 'vuex'
 export default {
   computed: {
     ...mapState('auth', ['profile'])
-  },
-  mounted() {
-    this.$store.dispatch('auth/getProfile')
   }
 }
 </script>

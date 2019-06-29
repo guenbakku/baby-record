@@ -1,6 +1,7 @@
 <template>
   <v-app dark>
     <v-navigation-drawer
+      v-show="isAuthenticated"
       v-model="drawer"
       :mini-variant="miniVariant"
       :clipped="clipped"
@@ -21,7 +22,7 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar :clipped-left="clipped" fixed app color="primary">
-      <v-toolbar-side-icon @click="drawer = !drawer" />
+      <v-toolbar-side-icon v-if="isAuthenticated" @click="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <baby-switch />
@@ -42,6 +43,7 @@
 import LoginUser from '~/components/LoginUser'
 import BabySwitch from '~/components/BabySwitch'
 import Flash from '~/components/Flash'
+import { mapGetters } from 'vuex'
 import pkg from '~/package'
 
 export default {
@@ -78,6 +80,13 @@ export default {
       rightDrawer: false,
       title: pkg.title
     }
+  },
+  computed: {
+    ...mapGetters('auth', ['isAuthenticated'])
+  },
+  mounted() {
+    this.$store.commit('babies/loadFromLocalStorage')
+    this.$store.commit('auth/loadFromLocalStorage')
   }
 }
 </script>
