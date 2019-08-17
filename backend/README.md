@@ -1,51 +1,45 @@
-# CakePHP Application Skeleton
+# baby-record/backend
 
-[![Build Status](https://img.shields.io/travis/cakephp/app/master.svg?style=flat-square)](https://travis-ci.org/cakephp/app)
-[![Total Downloads](https://img.shields.io/packagist/dt/cakephp/app.svg?style=flat-square)](https://packagist.org/packages/cakephp/app)
-
-A skeleton for creating applications with [CakePHP](https://cakephp.org) 3.x.
-
-The framework source code can be found here: [cakephp/cakephp](https://github.com/cakephp/cakephp).
+> Easy record your baby activities
 
 ## Installation
 
-1. Download [Composer](https://getcomposer.org/doc/00-intro.md) or update `composer self-update`.
-2. Run `php composer.phar create-project --prefer-dist cakephp/app [app_name]`.
+1. Clone source code from git and change to root path.
 
-If Composer is installed globally, run
+1. Build docker image
+    ``` bash
+    $ docker-compose build
+    ```
 
-```bash
-composer create-project --prefer-dist cakephp/app
-```
+1. Start docker services
+    ``` bash
+    $ docker-compose up -d
+    ```
 
-In case you want to use a custom app dir name (e.g. `/myapp/`):
+1. Access to phpMyAdmin via http://localhost:4040 and create following 2 databases:
+    * `baby-record`
+    * `baby-record-test`
 
-```bash
-composer create-project --prefer-dist cakephp/app myapp
-```
+1. SSH to `php` service, and execute following commands
+    ``` bash
+    $ docker-compose exec php /bin/bash
 
-You can now either use your machine's webserver to view the default home page, or start
-up the built-in webserver with:
+    # Install composer libraries
+    > composer install
 
-```bash
-bin/cake server -p 8765
-```
+    # Execute database migration
+    > bin/cake migrations migrate
+    > bin/cake migrations seed
 
-Then visit `http://localhost:8765` to see the welcome page.
+    # Exit SSH
+    > exit
+    ```
 
-## Update
+## How to develop
 
-Since this skeleton is a starting point for your application and various files
-would have been modified as per your needs, there isn't a way to provide
-automated upgrades, so you have to do any updates manually.
+1. Start docker service
+    ``` bash
+    $ docker-compose up -d
+    ```
 
-## Configuration
-
-Read and edit `config/app.php` and setup the `'Datasources'` and any other
-configuration relevant for your application.
-
-## Layout
-
-The app skeleton uses a subset of [Foundation](http://foundation.zurb.com/) (v5) CSS
-framework by default. You can, however, replace it with any other library or
-custom styles.
+1. Edit source code on your local machine and access to http://localhost:8080 to check the update.

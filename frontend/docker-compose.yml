@@ -1,0 +1,19 @@
+version: "3"
+services:
+  nuxt:
+    container_name: baby-record-frontend
+    build: ./docker/nuxt
+    image: node:nuxt
+    working_dir: /home/node/app
+    volumes:
+      - ./:/home/node/app
+    ports:
+      - 4000:3000 # host:container
+    environment:
+      - HOST=0.0.0.0
+    networks:
+      - baby-record
+    command: npm run dev
+networks:
+    baby-record:
+      driver: bridge

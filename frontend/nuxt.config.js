@@ -4,6 +4,15 @@ import pkg from './package'
 export default {
   mode: 'spa',
 
+  /**
+   * Fix hot reloading issue when develop by using docker for windows
+   */
+  watchers: {
+    webpack: {
+      poll: true
+    }
+  },
+
   /*
    ** Headers of the page
    */
