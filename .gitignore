@@ -3,6 +3,7 @@
 /backend/*
 /frontend/*
 /vendor/*
+*.pem
 
 # OS generated files #
 ######################

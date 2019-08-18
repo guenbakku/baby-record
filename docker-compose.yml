@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  php:
+    build: ./docker/php
+    image: php:7.2-apache-deploy
+    container_name: baby-record-deploy
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - baby-record
+networks:
+    baby-record:
+      driver: bridge

@@ -4,32 +4,24 @@
 
 1. Pull source code from `origin` to new folder and checkout to branch `deploy`.
 
-1. Connect to virtual machine via SSH
+1. Copy private key `ec2-virginia-ec2-user.pem` (which is used to connect to web server) to directory `docker/php` in source code.
 
-    1. Composer installation
+1. Build docker image
+    ```
+    $ docker-compose build
+    ```
 
-        ```
-        $ cd /path/to/deploy
-        $ composer install
-        ```
-
-    1. Copy private key of web server to virtual machine and set correct permission
-
-        ```
-        $ mkdir ~/.ssh/private_keys
-        $ chmod 700 ~/.ssh/private_keys
-        $ cp /path/to/private_key.pem ~/.ssh/private_keys/
-        $ chmod 400 ~/.ssh/private_keys/private_key.pem
-        ```
+1. Install composer libraries
+    ```
+    $ docker-compose run --rm php composer install
+    ```
 
 ## Deployment
 
-Connect to virtual machine via SSH
-
-1. Go to deploy script folder
-
+1. Start docker service and SSH into it
     ```
-    $ cd /path/to/deploy
+    $ docker-compose up -d
+    $ docker-compose exec php /bin/bash
     ```
 
 1. Execute one of below commands
