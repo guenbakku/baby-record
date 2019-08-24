@@ -45,4 +45,4 @@ export default {
 }
 </script>
 
-<style scoped src="./style.css"></style>
+<style scoped lang="stylus" src="./style.styl"></style>

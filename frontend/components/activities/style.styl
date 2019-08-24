@@ -2,12 +2,18 @@
   padding: 15px 10px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
-}
-.activity:active {
-  background: rgba(255, 255, 255, 0.1);
-}
-.activity:first-child {
-  border-top: none;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  &:active {
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  &:first-child {
+    border-top: none;
+  }
 }
 .time {
   display: flex;
