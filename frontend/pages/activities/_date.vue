@@ -64,8 +64,8 @@
 </template>
 
 <script>
-import Activity from '~/components/activity/Activity'
-import DatePicker from '~/components/activity/DatePicker'
+import Activity from '~/components/activities/Activity'
+import DatePicker from '~/components/activities/DatePicker'
 import SpeedDial from '~/components/SpeedDial'
 
 export default {
