@@ -18,9 +18,7 @@
 
           <v-list-tile-content>
             <v-list-tile-title>{{ currentBaby.name }}</v-list-tile-title>
-            <v-list-tile-sub-title>
-              {{ calcBabyAge(currentBaby.birthday) }}
-            </v-list-tile-sub-title>
+            <v-list-tile-sub-title>{{ age }}</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -39,45 +37,30 @@
 </template>
 
 <script>
+import DatetimeMixin from '~/mixins/datetime.mixin.js'
+
 export default {
+  mixins: [DatetimeMixin],
   computed: {
     currentBaby() {
       return this.$store.getters['babies/current']
     },
     babies() {
       return this.$store.state.babies.babies
+    },
+    age() {
+      const age = this.calcAge(this.currentBaby.birthday)
+      window.console.log(age)
+      if (age[0] > 0) {
+        return `${age[0]} tuổi ${age[1]} tháng`
+      } else {
+        return `${age[1]} tháng ${age[2]} ngày`
+      }
     }
   },
   methods: {
     changeBaby(id) {
       this.$store.commit('babies/setCurrentId', { id })
-    },
-    calcBabyAge(day) {
-      const birthday = new Date(day)
-      const now = new Date()
-      // const age = {
-      //   years: 0,
-      //   months: 0,
-      //   days: 0
-      // }
-
-      if (birthday > now) {
-        throw new Error(`Birthday can't not be a future time`)
-      }
-
-      // if (birthday.getFullYear() === now.getFullYear()) {
-      //   age.months = now.getMonth() - birthday.getMonth()
-      //   age.days = now.getDate() - birthday.getDate()
-      //   return age
-      // } else {
-      //   age.years = now.getFullYear() - birthday.getFullYear()
-      //   age.months = now.getMonth() - birthday.getMonth()
-      //   age.months = age.months < 0 ? age.months + 12 : age.months
-
-      // }
-
-      // TODO: implement this function
-      return 'To be implemented'
     }
   }
 }
