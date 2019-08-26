@@ -50,7 +50,6 @@ export default {
     },
     age() {
       const age = this.calcAge(this.currentBaby.birthday)
-      window.console.log(age)
       if (age[0] > 0) {
         return `${age[0]} tuổi ${age[1]} tháng`
       } else {
