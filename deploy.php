@@ -29,6 +29,13 @@ task('deploy:npm_build', function () {
 })->desc('Run npm installation and building');
 
 /**
+ * Restart php-fpm to clear cache
+ */
+task('deploy:restart-php-fpm', function () {
+    run ('sudo service php-fpm restart');
+})->desc('Restart php-fpm to clear cache');
+
+/**
  * Main task
  */
 task('deploy', [
@@ -45,6 +52,7 @@ task('deploy', [
     'deploy:npm_build',
     'deploy:writable',
     'deploy:symlink',
+    'deploy:restart-php-fpm',
     'deploy:unlock',
     'cleanup',
 ])->desc('Deploy your project');
