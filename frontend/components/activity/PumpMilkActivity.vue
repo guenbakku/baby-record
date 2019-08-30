@@ -38,7 +38,7 @@ export default {
     content: function() {
       const content = this.activity.pump_milk_activity
       const seconds = content.duration
-      const minutes = this.$moment.duration(seconds, 'seconds').minutes()
+      const minutes = this.$moment.duration(seconds, 'seconds').asMinutes()
       const volume = content.volume
       return `${minutes} phút / ${volume} ml`
     }

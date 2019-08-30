@@ -38,7 +38,7 @@ export default {
     content: function() {
       const content = this.activity.bottle_milk_activity
       const seconds = content.duration
-      const minutes = this.$moment.duration(seconds, 'seconds').minutes()
+      const minutes = this.$moment.duration(seconds, 'seconds').asMinutes()
       const breastVolume = content.breast_volume
       const fomularVolume = content.fomular_volume
       const totalVolume = breastVolume + fomularVolume
