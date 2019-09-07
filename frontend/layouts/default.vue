@@ -29,7 +29,7 @@
       color="primary"
     >
       <v-toolbar-side-icon @click="drawer = !drawer" />
-      <v-toolbar-title v-text="'Em bé'" />
+      <v-toolbar-title v-text="headerTitle" />
       <v-spacer />
       <baby-switch />
     </v-toolbar>
@@ -51,7 +51,7 @@
 import LoginUser from '~/components/LoginUser'
 import BabySwitch from '~/components/BabySwitch'
 import Flash from '~/components/Flash'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import pkg from '~/package'
 
 export default {
@@ -90,7 +90,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('auth', ['isAuthenticated'])
+    ...mapGetters('auth', ['isAuthenticated']),
+    ...mapState('config', ['headerTitle'])
   }
 }
 </script>

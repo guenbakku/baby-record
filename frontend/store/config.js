@@ -1,3 +1,9 @@
 export const state = () => ({
-  locale: 'vi'
+  headerTitle: undefined
 })
+
+export const mutations = {
+  setHeaderTitle(state, { value }) {
+    state.headerTitle = value
+  }
+}
