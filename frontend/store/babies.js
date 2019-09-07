@@ -45,6 +45,10 @@ export const mutations = {
 }
 
 export const actions = {
+  /**
+   * Get babies list
+   * @param {Object} param0
+   */
   getBabies({ commit }) {
     return this.$axios
       .get('babies', {
@@ -57,5 +61,32 @@ export const actions = {
         commit('setBabies', { babies: res.data.data })
         return res
       })
+  },
+
+  /**
+   * View baby
+   * @param {Object} param0
+   * @param {Object} param1
+   */
+  viewBaby({ commit }, { babyId }) {
+    return this.$axios.get(`babies/${babyId}`)
+  },
+
+  /**
+   * Edit baby
+   * @param {Object} param0
+   * @param {Object} param1
+   */
+  editBaby({ commit }, { babyId, baby }) {
+    return this.$axios.put(`babies/${babyId}`, baby)
+  },
+
+  /**
+   * Delete baby
+   * @param {Object} param0
+   * @param {Object} param1
+   */
+  deleteBaby({ commit }, { babyId }) {
+    return this.$axios.delete(`babies/${babyId}`)
   }
 }
