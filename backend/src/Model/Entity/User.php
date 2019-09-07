@@ -31,8 +31,8 @@ class User extends Entity
         'email' => true,
         'password' => true,
         'name' => true,
-        'created' => true,
-        'modified' => true,
+        'created' => false,
+        'modified' => false,
         'babies' => true
     ];
 

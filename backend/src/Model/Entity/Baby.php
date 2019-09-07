@@ -29,8 +29,8 @@ class Baby extends Entity
         'user_id' => true,
         'name' => true,
         'birthday' => true,
-        'created' => true,
-        'modified' => true,
+        'created' => false,
+        'modified' => false,
         'activities' => true
     ];
 }

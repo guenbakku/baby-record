@@ -30,8 +30,8 @@ class DiaperActivity extends Entity
         'activity_id' => true,
         'is_pee' => true,
         'is_shit' => true,
-        'created' => true,
-        'modified' => true,
+        'created' => false,
+        'modified' => false,
         'activity' => true
     ];
 }
