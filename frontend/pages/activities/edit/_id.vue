@@ -26,10 +26,15 @@
               Sửa
             </v-btn>
             <v-spacer />
-            <delete-button
-              :activity-id="activity.id"
-              @deleted="afterDeletedActivity"
-            />
+            <confirm-button
+              :message="'Bạn có chắc chắn muốn xóa ghi chép này?'"
+              :loading="loading"
+              @confirmed="deleteActivity()"
+            >
+              <template v-slot:activator="{ on }">
+                <v-btn color="error" :loading="loading" v-on="on">Xóa</v-btn>
+              </template>
+            </confirm-button>
           </v-card-actions>
         </v-form>
       </v-card>
@@ -39,12 +44,12 @@
 
 <script>
 import { loadComponents, getMaps } from '~/components/activity-forms/maps'
-import DeleteButton from '~/components/activity-forms/DeleteButton'
+import ConfirmButton from '~/components/ConfirmButton'
 
 export default {
   components: {
     ...loadComponents(),
-    DeleteButton
+    ConfirmButton
   },
   data: () => ({
     activity: undefined,
@@ -72,6 +77,9 @@ export default {
     this.getActivity()
   },
   methods: {
+    test: function() {
+      alert('OK')
+    },
     getRouteToActivitiesPage: function(date = undefined) {
       date = date || this.date
       return { name: 'activities-date', params: { date } }
@@ -117,8 +125,26 @@ export default {
           this.loading = false
         })
     },
-    afterDeletedActivity: function() {
-      this.$router.push(this.getRouteToActivitiesPage())
+    deleteActivity: function() {
+      this.loading = true
+      this.$store
+        .dispatch('activities/deleteActivity', { activityId: this.activityId })
+        .then(res => {
+          this.$store.commit('flash/success', {
+            text: 'Xóa ghi chép thành công'
+          })
+          this.$router.push(this.getRouteToActivitiesPage())
+        })
+        .catch(err => {
+          if (err.response && err.response.status === 404) {
+            this.$store.commit('flash/error', {
+              text: 'Không tìm thấy ghi chép'
+            })
+          }
+        })
+        .then(() => {
+          this.loading = false
+        })
     }
   }
 }
