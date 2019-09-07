@@ -7,7 +7,7 @@
         <baby-list v-else :babies="babies" />
       </v-card>
     </v-flex>
-    <v-btn fixed dark fab bottom right color="success">
+    <v-btn fixed dark fab bottom right color="success" :to="addRoute">
       <v-icon>add</v-icon>
     </v-btn>
   </v-layout>
@@ -29,8 +29,13 @@ export default {
     babies() {
       return this.$store.state.babies.babies
     },
-    isNoData: function() {
+    isNoData() {
       return this.completed && Object.keys(this.babies || {}).length === 0
+    },
+    addRoute() {
+      return {
+        name: 'babies-add'
+      }
     }
   },
   mounted() {

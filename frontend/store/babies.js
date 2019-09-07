@@ -64,6 +64,15 @@ export const actions = {
   },
 
   /**
+   * Add baby
+   * @param {Object} param0
+   * @param {Object} param1
+   */
+  addBaby({ commit }, { baby }) {
+    return this.$axios.post('babies', baby)
+  },
+
+  /**
    * View baby
    * @param {Object} param0
    * @param {Object} param1
