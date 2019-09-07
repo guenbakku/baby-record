@@ -42,6 +42,8 @@
       <span class="ml-3">
         {{ title }} &copy; {{ $moment().format('YYYY') }}
       </span>
+      <v-spacer />
+      <span class="mr-3">v.{{ version }}</span>
     </v-footer>
     <flash />
   </v-app>
@@ -86,7 +88,8 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: pkg.title
+      title: pkg.title,
+      version: pkg.version
     }
   },
   computed: {
