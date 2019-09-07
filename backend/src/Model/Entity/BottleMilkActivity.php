@@ -32,8 +32,8 @@ class BottleMilkActivity extends Entity
         'duration' => true,
         'breast_volume' => true,
         'fomular_volume' => true,
-        'created' => true,
-        'modified' => true,
+        'created' => false,
+        'modified' => false,
         'activity' => true
     ];
 
