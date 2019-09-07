@@ -40,10 +40,8 @@
     </v-content>
     <v-footer :fixed="fixed" app>
       <span class="ml-3">
-        {{ title }} &copy; {{ $moment().format('YYYY') }}
+        {{ title }} &copy; {{ $moment().format('YYYY') }} - v.{{ version }}
       </span>
-      <v-spacer />
-      <span class="mr-3">v.{{ version }}</span>
     </v-footer>
     <flash />
   </v-app>
