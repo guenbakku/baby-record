@@ -66,7 +66,6 @@ export default {
         .dispatch('babies/viewBaby', { babyId: this.babyId })
         .then(res => {
           this.baby = res.data.data
-          window.console.log(this.baby)
         })
         .catch(err => {
           if (err.response && err.response.status === 404) {
