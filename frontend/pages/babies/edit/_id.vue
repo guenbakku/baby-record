@@ -2,34 +2,28 @@
   <v-layout row nowrap>
     <v-flex xs12>
       <v-card>
-        <v-form @submit.prevent="editActivity">
+        <v-form @submit.prevent="editBaby">
           <v-card-actions>
-            <v-btn icon :to="getRouteToActivitiesPage()" active-class="dummy">
+            <v-btn icon :to="listRoute" active-class="dummy">
               <v-icon>keyboard_backspace</v-icon>
             </v-btn>
-            <span class="subheading">Sửa {{ title.toLowerCase() }}</span>
+            <span class="subheading">Sửa em bé</span>
           </v-card-actions>
           <v-divider />
           <v-card-text>
-            <component
-              :is="component"
-              v-if="activity"
-              ref="form"
-              :data="activity"
-              :errors="errors"
-            />
+            <baby-form v-if="baby" ref="form" :errors="errors" :data="baby" />
             <v-progress-circular v-else indeterminate color="success" />
           </v-card-text>
           <v-divider />
-          <v-card-actions v-if="activity">
+          <v-card-actions v-if="baby">
             <v-btn type="submit" color="success" :loading="loading">
               Sửa
             </v-btn>
             <v-spacer />
             <confirm-button
-              :message="'Bạn có chắc chắn muốn xóa ghi chép này?'"
+              :message="'Bạn có chắc chắn muốn xóa thông tin này?'"
               :loading="loading"
-              @confirmed="deleteActivity()"
+              @confirmed="deleteBaby()"
             >
               <template v-slot:activator="{ on }">
                 <v-btn color="error" :loading="loading" v-on="on">Xóa</v-btn>
@@ -43,75 +37,58 @@
 </template>
 
 <script>
-import { loadComponents, getMaps } from '~/components/activity-forms/maps'
 import ConfirmButton from '~/components/ConfirmButton'
+import BabyForm from '~/components/babies/BabyForm'
 
 export default {
-  components: {
-    ...loadComponents(),
-    ConfirmButton
-  },
+  components: { ConfirmButton, BabyForm },
   data: () => ({
-    activity: undefined,
+    baby: undefined,
     errors: {},
     loading: false
   }),
   computed: {
-    date: function() {
-      return this.$store.state.activities.date
-    },
-    type: function() {
-      return this.activity ? this.activity.activity_type.code : undefined
-    },
-    component: function() {
-      return this.type ? getMaps()[this.type].component : undefined
-    },
-    title: function() {
-      return this.type ? getMaps()[this.type].title : ''
-    },
-    activityId: function() {
+    babyId: function() {
       return this.$route.params.id
+    },
+    listRoute: function() {
+      return {
+        name: 'babies'
+      }
     }
   },
-  mounted: function() {
-    this.getActivity()
+  mounted() {
+    this.getBaby()
   },
   methods: {
-    test: function() {
-      alert('OK')
-    },
-    getRouteToActivitiesPage: function(date = undefined) {
-      date = date || this.date
-      return { name: 'activities-date', params: { date } }
-    },
-    getActivity: function() {
+    getBaby: function() {
       this.$store
-        .dispatch('activities/viewActivity', { activityId: this.activityId })
+        .dispatch('babies/viewBaby', { babyId: this.babyId })
         .then(res => {
-          this.activity = res.data.data
+          this.baby = res.data.data
         })
         .catch(err => {
           if (err.response && err.response.status === 404) {
             this.$store.commit('flash/error', {
-              text: 'Không tìm thấy ghi chép'
+              text: 'Không tìm thấy thông tin'
             })
           }
         })
     },
-    editActivity: function() {
+    editBaby: function() {
       this.loading = true
       this.errors = {}
-      const activity = this.$refs.form.getData()
+      const baby = this.$refs.form.getData()
       this.$store
-        .dispatch('activities/editActivity', {
-          activityId: this.activityId,
-          activity
+        .dispatch('babies/editBaby', {
+          babyId: this.babyId,
+          baby
         })
         .then(res => {
           this.$store.commit('flash/success', {
-            text: 'Sửa ghi chép thành công'
+            text: 'Sửa thông tin em bé thành công'
           })
-          this.$router.push(this.getRouteToActivitiesPage())
+          this.$router.push(this.listRoute)
         })
         .catch(err => {
           if (err.response && err.response.status === 422) {
@@ -125,20 +102,20 @@ export default {
           this.loading = false
         })
     },
-    deleteActivity: function() {
+    deleteBaby: function() {
       this.loading = true
       this.$store
-        .dispatch('activities/deleteActivity', { activityId: this.activityId })
+        .dispatch('babies/deleteBaby', { babyId: this.babyId })
         .then(res => {
           this.$store.commit('flash/success', {
-            text: 'Xóa ghi chép thành công'
+            text: 'Xóa thông tin em bé thành công'
           })
-          this.$router.push(this.getRouteToActivitiesPage())
+          this.$router.push(this.listRoute)
         })
         .catch(err => {
           if (err.response && err.response.status === 404) {
             this.$store.commit('flash/error', {
-              text: 'Không tìm thấy ghi chép'
+              text: 'Không tìm thấy thông tin'
             })
           }
         })

@@ -4,7 +4,7 @@
       {{ activity.started | moment('HH:mm') }}
     </div>
     <div class="type text-truncate" :style="typeStyle">
-      Tự do
+      Vắt sữa
     </div>
     <div class="content">
       <span>{{ content }}</span>
@@ -36,11 +36,14 @@ export default {
   },
   computed: {
     content: function() {
-      const content = this.activity.custom_activity
-      return content.title
+      const content = this.activity.pump_milk_activity
+      const seconds = content.duration
+      const minutes = this.$moment.duration(seconds, 'seconds').asMinutes()
+      const volume = content.volume
+      return `${minutes} phút / ${volume} ml`
     }
   }
 }
 </script>
 
-<style scoped src="./style.css"></style>
+<style scoped lang="stylus" src="./style.styl"></style>

@@ -17,9 +17,10 @@
             <span class="header">Bú bình</span>
             <!-- eslint-disable prettier/prettier -->
             {{ summaryResult.bottle_milk_activity.times }} lần /
-            {{ summaryResult.bottle_milk_activity.total_volume }} ml <br />
+            {{ summaryResult.bottle_milk_activity.total_volume }} ml
+            <br />
             (SM: {{ summaryResult.bottle_milk_activity.breast_volume }} ml,
-              CT: {{ summaryResult.bottle_milk_activity.fomular_volume }} ml)
+            CT: {{ summaryResult.bottle_milk_activity.fomular_volume }} ml)
             <!--eslint-enable-->
           </v-flex>
         </v-layout>
@@ -29,7 +30,7 @@
             <!-- eslint-disable prettier/prettier -->
             {{ summaryResult.diaper_activity.times }} lần
             (tè: {{ summaryResult.diaper_activity.pee_times }} lần,
-              ị: {{ summaryResult.diaper_activity.shit_times }} lần)
+            ị: {{ summaryResult.diaper_activity.shit_times }} lần)
             <!-- eslint-enable -->
           </v-flex>
           <v-flex xs6 class="cell">
@@ -42,21 +43,11 @@
         </v-layout>
       </v-card>
     </v-flex>
-    <v-flex xs12 class="mt-3">
+    <v-flex xs12 class="mt-2">
       <v-card>
-        <v-card-text v-if="!completed">
-          <v-progress-circular indeterminate color="success" />
-        </v-card-text>
-        <v-card-text v-else-if="isNoData">
-          <v-icon>room_service</v-icon>
-          Chưa có ghi chép nào cả
-        </v-card-text>
-        <activity
-          v-for="activity in activities"
-          v-else
-          :key="activity.id"
-          :activity="activity"
-        />
+        <loading v-if="!completed" />
+        <no-data v-else-if="isNoData" />
+        <activity v-for="activity in activities" v-else :key="activity.id" :activity="activity" />
       </v-card>
     </v-flex>
     <speed-dial />
@@ -64,14 +55,18 @@
 </template>
 
 <script>
-import Activity from '~/components/activity/Activity'
-import DatePicker from '~/components/activity/DatePicker'
+import Activity from '~/components/activities/Activity'
+import DatePicker from '~/components/activities/DatePicker'
+import Loading from '~/components/Loading'
+import NoData from '~/components/NoData'
 import SpeedDial from '~/components/SpeedDial'
 
 export default {
   components: {
     Activity,
     DatePicker,
+    Loading,
+    NoData,
     SpeedDial
   },
   validate({ params }) {

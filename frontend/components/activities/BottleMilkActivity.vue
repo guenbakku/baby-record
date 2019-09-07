@@ -4,7 +4,7 @@
       {{ activity.started | moment('HH:mm') }}
     </div>
     <div class="type text-truncate" :style="typeStyle">
-      Nhiệt độ
+      Bú bình
     </div>
     <div class="content">
       <span>{{ content }}</span>
@@ -36,12 +36,16 @@ export default {
   },
   computed: {
     content: function() {
-      const content = this.activity.temperature_activity
-      const temperature = content.temperature
-      return `${temperature}°C`
+      const content = this.activity.bottle_milk_activity
+      const seconds = content.duration
+      const minutes = this.$moment.duration(seconds, 'seconds').asMinutes()
+      const breastVolume = content.breast_volume
+      const fomularVolume = content.fomular_volume
+      const totalVolume = breastVolume + fomularVolume
+      return `${minutes} phút / ${totalVolume} ml (SM: ${breastVolume} ml, CT: ${fomularVolume} ml)`
     }
   }
 }
 </script>
 
-<style scoped src="./style.css"></style>
+<style scoped lang="stylus" src="./style.styl"></style>

@@ -29,7 +29,7 @@
       color="primary"
     >
       <v-toolbar-side-icon @click="drawer = !drawer" />
-      <v-toolbar-title v-text="title" />
+      <v-toolbar-title v-text="headerTitle" />
       <v-spacer />
       <baby-switch />
     </v-toolbar>
@@ -39,7 +39,9 @@
       </v-container>
     </v-content>
     <v-footer :fixed="fixed" app>
-      <span class="ml-3">guenbakku &copy; {{ $moment().format('YYYY') }}</span>
+      <span class="ml-3">
+        {{ title }} &copy; {{ $moment().format('YYYY') }}
+      </span>
     </v-footer>
     <flash />
   </v-app>
@@ -49,7 +51,7 @@
 import LoginUser from '~/components/LoginUser'
 import BabySwitch from '~/components/BabySwitch'
 import Flash from '~/components/Flash'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import pkg from '~/package'
 
 export default {
@@ -88,7 +90,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters('auth', ['isAuthenticated'])
+    ...mapGetters('auth', ['isAuthenticated']),
+    ...mapState('config', ['headerTitle'])
   }
 }
 </script>

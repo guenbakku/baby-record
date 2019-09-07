@@ -4,7 +4,7 @@
       {{ activity.started | moment('HH:mm') }}
     </div>
     <div class="type text-truncate" :style="typeStyle">
-      Bú mẹ
+      Nhiệt độ
     </div>
     <div class="content">
       <span>{{ content }}</span>
@@ -36,13 +36,12 @@ export default {
   },
   computed: {
     content: function() {
-      const content = this.activity.breast_milk_activity
-      const seconds = content.duration
-      const minutes = this.$moment.duration(seconds, 'seconds').asMinutes()
-      return `${minutes} phút`
+      const content = this.activity.temperature_activity
+      const temperature = content.temperature
+      return `${temperature}°C`
     }
   }
 }
 </script>
 
-<style scoped src="./style.css"></style>
+<style scoped lang="stylus" src="./style.styl"></style>
