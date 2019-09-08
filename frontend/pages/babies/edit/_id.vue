@@ -20,15 +20,22 @@
               Sửa
             </v-btn>
             <v-spacer />
-            <confirm-button
-              :message="'Bạn có chắc chắn muốn xóa thông tin này?'"
+            <double-confirm-dialog
               :loading="loading"
+              :check-value="baby.name"
               @confirmed="deleteBaby()"
             >
               <template v-slot:activator="{ on }">
                 <v-btn color="error" :loading="loading" v-on="on">Xóa</v-btn>
               </template>
-            </confirm-button>
+              <template v-slot:message>
+                <div>
+                  Bạn có chắc chắn muốn xóa thông tin em bé này? Tất cả ghi chép
+                  của em bé đều sẽ bị xóa. Hãy nhập tên em bé
+                  <b>"{{ baby.name }}"</b> vào ô bên dưới để xác nhận.
+                </div>
+              </template>
+            </double-confirm-dialog>
           </v-card-actions>
         </v-form>
       </v-card>
@@ -37,11 +44,11 @@
 </template>
 
 <script>
-import ConfirmButton from '~/components/ConfirmButton'
+import DoubleConfirmDialog from '~/components/core/DoubleConfirmDialog'
 import BabyForm from '~/components/babies/BabyForm'
 
 export default {
-  components: { ConfirmButton, BabyForm },
+  components: { DoubleConfirmDialog, BabyForm },
   data: () => ({
     baby: undefined,
     errors: {},

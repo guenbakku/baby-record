@@ -48,9 +48,9 @@
 </template>
 
 <script>
-import LoginUser from '~/components/LoginUser'
-import BabySwitch from '~/components/BabySwitch'
-import Flash from '~/components/Flash'
+import LoginUser from '~/components/core/LoginUser'
+import BabySwitch from '~/components/core/BabySwitch'
+import Flash from '~/components/core/Flash'
 import { mapGetters, mapState } from 'vuex'
 import pkg from '~/package'
 

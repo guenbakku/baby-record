@@ -57,10 +57,6 @@ export default {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.1);
-  }
-
   &:active {
     background: rgba(255, 255, 255, 0.3);
   }

@@ -1,12 +1,18 @@
 <template>
-  <v-dialog v-model="dialog">
+  <v-dialog v-model="dialog" max-width="600px">
     <template v-slot:activator="{ on }">
       <slot name="activator" :on="on"></slot>
     </template>
     <v-card>
-      <v-card-title class="title">Xác nhận</v-card-title>
+      <v-card-title class="title">
+        <slot name="title">
+          <v-icon color="warning" class="mr-1">warning</v-icon> Xác nhận
+        </slot>
+      </v-card-title>
       <v-divider />
-      <v-card-text>{{ message }}</v-card-text>
+      <v-card-text>
+        <slot name="message">Bạn có chắc chắn thực hiện thao tác này?</slot>
+      </v-card-text>
       <v-divider />
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -29,10 +35,6 @@
 <script>
 export default {
   props: {
-    message: {
-      type: String,
-      default: 'Bạn có chắc chắn muốn thực hiện?'
-    },
     loading: {
       type: Boolean,
       default: false
