@@ -15,8 +15,8 @@
 
 <script>
 import BabyList from '~/components/babies/BabyList'
-import Loading from '~/components/Loading'
-import NoData from '~/components/NoData'
+import Loading from '~/components/core/Loading'
+import NoData from '~/components/core/NoData'
 
 export default {
   components: { BabyList, Loading, NoData },

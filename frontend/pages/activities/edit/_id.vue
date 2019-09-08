@@ -44,7 +44,7 @@
 
 <script>
 import { loadComponents, getMaps } from '~/components/activity-forms/maps'
-import ConfirmButton from '~/components/ConfirmButton'
+import ConfirmButton from '~/components/core/ConfirmButton'
 
 export default {
   components: {

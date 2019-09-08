@@ -57,9 +57,9 @@
 <script>
 import Activity from '~/components/activities/Activity'
 import DatePicker from '~/components/activities/DatePicker'
-import Loading from '~/components/Loading'
-import NoData from '~/components/NoData'
-import SpeedDial from '~/components/SpeedDial'
+import Loading from '~/components/core/Loading'
+import NoData from '~/components/core/NoData'
+import SpeedDial from '~/components/core/SpeedDial'
 
 export default {
   components: {

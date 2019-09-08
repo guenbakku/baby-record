@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import ConfirmButton from '~/components/ConfirmButton'
+import ConfirmButton from '~/components/core/ConfirmButton'
 import BabyForm from '~/components/babies/BabyForm'
 
 export default {
