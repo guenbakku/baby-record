@@ -3,7 +3,10 @@
     <v-flex xs12>
       <v-card>
         <loading v-if="!completed" />
-        <no-data v-else-if="isNoData" />
+        <no-data v-else-if="isNoData">
+          Chưa có thông tin em bé nào cả. <br />
+          Hãy thêm thông tin em bé để bắt đầu sử dụng.
+        </no-data>
         <baby-list v-else :babies="babies" />
       </v-card>
     </v-flex>

@@ -1,7 +1,7 @@
 /**
  * Baby middleware
  */
-export default function({ store }) {
+export default function({ store, redirect, route }) {
   const isAuthenticated = store.getters['auth/isAuthenticated']
   if (!isAuthenticated) {
     return
@@ -11,6 +11,10 @@ export default function({ store }) {
 
   const babies = store.state.babies.babies
   if (Object.values(babies).length === 0) {
-    store.dispatch('babies/getBabies')
+    store.dispatch('babies/getBabies').then(res => {
+      if (res.data.data.length === 0 && route.name !== 'babies-add') {
+        redirect(302, { name: 'babies' })
+      }
+    })
   }
 }
