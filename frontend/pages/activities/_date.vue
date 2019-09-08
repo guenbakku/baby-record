@@ -140,7 +140,7 @@ export default {
     babyAndDate: {
       immediate: true,
       handler: function(vals) {
-        const shouldCall = vals.filter(vals => !!vals).length === vals.length
+        const shouldCall = vals.filter(val => !!val).length === vals.length
         if (shouldCall) {
           this.getActivities()
         }
