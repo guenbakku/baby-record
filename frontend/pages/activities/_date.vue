@@ -50,7 +50,7 @@
         <activity v-for="activity in activities" v-else :key="activity.id" :activity="activity" />
       </v-card>
     </v-flex>
-    <speed-dial />
+    <speed-dial :items="speedDialItems"/>
   </v-layout>
 </template>
 
@@ -60,6 +60,7 @@ import DatePicker from '~/components/activities/DatePicker'
 import Loading from '~/components/core/Loading'
 import NoData from '~/components/core/NoData'
 import SpeedDial from '~/components/core/SpeedDial'
+import { getMaps } from '~/components/activity-forms/maps'
 
 export default {
   components: {
@@ -117,6 +118,22 @@ export default {
     },
     isNoData: function() {
       return this.completed && this.activities.length === 0
+    },
+    speedDialItems: function() {
+      const map = getMaps()
+      const items = []
+      for (const key in map) {
+        const item = {
+          key: key,
+          title: map[key].title,
+          to: {
+            name: 'activities-add-type',
+            params: { type: key }
+          }
+        }
+        items.push(item)
+      }
+      return items
     }
   },
   watch: {
