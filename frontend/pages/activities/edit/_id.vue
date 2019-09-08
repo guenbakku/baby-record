@@ -46,6 +46,7 @@ import { loadComponents, getMaps } from '~/components/activity-forms/maps'
 import ConfirmDialog from '~/components/core/ConfirmDialog'
 
 export default {
+  useBabySwitch: true,
   components: {
     ...loadComponents(),
     ConfirmDialog

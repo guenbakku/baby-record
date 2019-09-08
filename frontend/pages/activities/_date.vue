@@ -63,6 +63,7 @@ import SpeedDial from '~/components/core/SpeedDial'
 import { getMaps } from '~/components/activity-forms/maps'
 
 export default {
+  useBabySwitch: true,
   components: {
     Activity,
     DatePicker,

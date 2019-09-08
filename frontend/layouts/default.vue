@@ -31,7 +31,7 @@
       <v-toolbar-side-icon @click="drawer = !drawer" />
       <v-toolbar-title v-text="headerTitle" />
       <v-spacer />
-      <baby-switch />
+      <baby-switch v-if="useBabySwitch" />
     </v-toolbar>
     <v-content>
       <v-container>
@@ -92,7 +92,7 @@ export default {
   },
   computed: {
     ...mapGetters('auth', ['isAuthenticated']),
-    ...mapState('config', ['headerTitle'])
+    ...mapState('config', ['headerTitle', 'useBabySwitch'])
   }
 }
 </script>

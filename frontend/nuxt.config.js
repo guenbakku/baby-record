@@ -41,7 +41,7 @@ export default {
   router: {
     mode: 'hash',
     base: '/frontend/',
-    middleware: ['auth', 'baby', 'header-title']
+    middleware: ['auth', 'baby', 'header-title', 'baby-switch']
   },
 
   generate: {
