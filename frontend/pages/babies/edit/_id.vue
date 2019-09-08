@@ -20,15 +20,14 @@
               Sửa
             </v-btn>
             <v-spacer />
-            <confirm-button
-              :message="'Bạn có chắc chắn muốn xóa thông tin này?'"
-              :loading="loading"
-              @confirmed="deleteBaby()"
-            >
+            <confirm-dialog :loading="loading" @confirmed="deleteBaby()">
               <template v-slot:activator="{ on }">
                 <v-btn color="error" :loading="loading" v-on="on">Xóa</v-btn>
               </template>
-            </confirm-button>
+              <template v-slot:message>
+                Bạn có chắc chắn muốn xóa thông tin này?
+              </template>
+            </confirm-dialog>
           </v-card-actions>
         </v-form>
       </v-card>
@@ -37,11 +36,11 @@
 </template>
 
 <script>
-import ConfirmButton from '~/components/core/ConfirmButton'
+import ConfirmDialog from '~/components/core/ConfirmDialog'
 import BabyForm from '~/components/babies/BabyForm'
 
 export default {
-  components: { ConfirmButton, BabyForm },
+  components: { ConfirmDialog, BabyForm },
   data: () => ({
     baby: undefined,
     errors: {},

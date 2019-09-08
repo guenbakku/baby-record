@@ -26,15 +26,14 @@
               Sửa
             </v-btn>
             <v-spacer />
-            <confirm-button
-              :message="'Bạn có chắc chắn muốn xóa ghi chép này?'"
-              :loading="loading"
-              @confirmed="deleteActivity()"
-            >
+            <confirm-dialog :loading="loading" @confirmed="deleteActivity()">
               <template v-slot:activator="{ on }">
                 <v-btn color="error" :loading="loading" v-on="on">Xóa</v-btn>
               </template>
-            </confirm-button>
+              <template v-slot:message>
+                Bạn có chắc chắn muốn xóa ghi chép này?
+              </template>
+            </confirm-dialog>
           </v-card-actions>
         </v-form>
       </v-card>
@@ -44,12 +43,12 @@
 
 <script>
 import { loadComponents, getMaps } from '~/components/activity-forms/maps'
-import ConfirmButton from '~/components/core/ConfirmButton'
+import ConfirmDialog from '~/components/core/ConfirmDialog'
 
 export default {
   components: {
     ...loadComponents(),
-    ConfirmButton
+    ConfirmDialog
   },
   data: () => ({
     activity: undefined,
