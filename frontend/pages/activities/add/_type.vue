@@ -29,6 +29,7 @@
 import { loadComponents, getMaps } from '~/components/activity-forms/maps'
 
 export default {
+  useBabySwitch: true,
   components: {
     ...loadComponents()
   },
