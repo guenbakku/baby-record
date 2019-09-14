@@ -12,7 +12,7 @@ class BabiesController extends AppController
 {
     public function index() {
         $this->Crud->on('beforePaginate', function (Event $event) {
-            $userId = $this->Auth->user('id');
+            $userId = $this->Authentication->getIdentity()->getIdentifier();
             $query = $event->getSubject()->query;
             $query->where(['user_id' => $userId]);
         });
@@ -24,7 +24,7 @@ class BabiesController extends AppController
         $this->Crud->on('beforeSave', function (Event $event) {
             $entity = $event->getSubject()->entity;
             if (empty($entity->getErrors())) {
-                $entity->user_id = $this->Auth->user('id');
+                $entity->user_id = $this->Authentication->getIdentity()->getIdentifier();
             }
         });
 
@@ -35,7 +35,7 @@ class BabiesController extends AppController
         $this->Crud->on('beforeSave', function (Event $event) {
             $entity = $event->getSubject()->entity;
             if (empty($entity->getErrors())) {
-                $entity->user_id = $this->Auth->user('id');
+                $entity->user_id = $this->Authentication->getIdentity()->getIdentifier();
             }
         });
 
