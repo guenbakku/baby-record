@@ -30,7 +30,7 @@ const parseValidatedErrors = function(
   return parsed
 }
 
-export default function({ $axios, store }) {
+export default function({ $axios, store, redirect }) {
   /**
    * Because environment variables parsed by dotenv-webpack
    * only be used after webpack bundling, so we must set them
@@ -63,8 +63,9 @@ export default function({ $axios, store }) {
       })
     } else if (error.response.status === 401) {
       store.commit('flash/error', {
-        text: '401 Unauthorized. Please logout and login again'
+        text: '401 Unauthorized. Please login again'
       })
+      redirect('/logout')
     } else if (error.response.status === 422) {
       error.response.data.data.parsedErrors = parseValidatedErrors(
         error.response.data.data.errors
