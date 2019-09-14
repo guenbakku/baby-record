@@ -1,3 +1,5 @@
+import qs from 'querystring'
+
 const STORAGE_TOKEN_KEY = 'token'
 
 export const state = () => ({
@@ -32,16 +34,20 @@ export const mutations = {
 
 export const actions = {
   authenticate({ commit }, { email, password }) {
-    return this.$axios
-      .post('users/token', {
-        email,
-        password
-      })
-      .then(res => {
-        commit('setToken', { token: res.data.data.token })
-        commit('loadFromLocalStorage')
-        return res
-      })
+    const data = qs.stringify({
+      email,
+      password
+    })
+    const options = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }
+    return this.$axios.post('users/token', data, options).then(res => {
+      commit('setToken', { token: res.data.data.token })
+      commit('loadFromLocalStorage')
+      return res
+    })
   },
   getProfile({ commit }) {
     return this.$axios.get('users/me').then(res => {
