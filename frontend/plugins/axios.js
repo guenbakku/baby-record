@@ -59,7 +59,11 @@ export default function({ $axios, store, redirect }) {
       })
     } else if (error.response.status >= 500) {
       store.commit('flash/error', {
-        text: 'There is intenal error in api server'
+        text: '500 Internal error. There is intenal error in api server'
+      })
+    } else if (error.response.status === 403) {
+      store.commit('flash/error', {
+        text: "403 Forbidden. You don't have permission to execute this action"
       })
     } else if (error.response.status === 401) {
       store.commit('flash/error', {
