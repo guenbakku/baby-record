@@ -1,6 +1,6 @@
 <?php
 
-use Authentication\Authenticator\UnauthenticatedException;
+use Cake\Http\Exception\UnauthorizedException;
 use Cake\Utility\Hash;
 use Cake\ORM\TableRegistry;
 use CakeDC\Auth\Rbac\Rules\Owner;
@@ -14,7 +14,7 @@ return [
             'prefix' => 'Api',
             'controller' => 'Users',
             'action' => ['token'],
-            'allowed' => true
+            'bypassAuth' => true
         ],
         [
             'role' => 'user',
@@ -81,7 +81,7 @@ return [
             'controller' => '*',
             'action' => '*',
             'allowed' => function (array $user, $role, \Cake\Http\ServerRequest $request) {
-                throw new UnauthenticatedException();
+                throw new UnauthorizedException('Authentication is required to continue');
             }
         ],
     ]
