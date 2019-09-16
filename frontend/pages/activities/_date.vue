@@ -165,6 +165,8 @@ export default {
         })
         .then(res => {
           this.summary()
+        })
+        .finally(() => {
           this.completed = true
         })
     },

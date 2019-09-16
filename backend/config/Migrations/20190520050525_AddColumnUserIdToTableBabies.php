@@ -15,7 +15,7 @@ class AddColumnUserIdToTableBabies extends AbstractMigration
         $table = $this->table('babies');
         $table->addColumn('user_id', 'uuid', [
             'after' => 'id',
-            'null' => false,
+            'null' => true,
         ])
         ->update();
 

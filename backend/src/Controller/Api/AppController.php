@@ -54,6 +54,8 @@ class AppController extends Controller
 
         $this->loadComponent('HttpStatus');
 
+        $this->loadComponent('Authentication.Authentication');
+
         $this->loadComponent('Crud.Crud', [
             'actions' => [
                 'Crud.Index',
@@ -80,34 +82,6 @@ class AppController extends Controller
                 ],
                 Configure::read('debug') ? ['Crud.ApiQueryLog'] : []
             )
-        ]);
-
-        $this->loadComponent('Auth', [
-            'storage' => 'Memory',
-            'authenticate' => [
-                'all' => [
-                    ['userModel' => 'Users']
-                ],
-                'Form' => [
-                    'fields' => [
-                        'username' => 'email',
-                        'password' => 'password',
-                    ]
-                ],
-                'ADmad/JwtAuth.Jwt' => [
-                    'fields' => [
-                        'username' => 'id'
-                    ],
-                    'parameter' => 'token',
-                    'queryDatasource' => true,
-                    'key' => Configure::read('Security.jwtSalt'),
-                ]
-            ],
-            'unauthorizedRedirect' => false,
-            'checkAuthIn' => 'Controller.initialize',
-            // If you don't have a login action in your application set
-            // 'loginAction' to false to prevent getting a MissingRouteException.
-            'loginAction' => false
         ]);
     }
 

@@ -10,22 +10,35 @@ use Cake\Event\Event;
  */
 class BabiesController extends AppController
 {
-    public function add() {
+    public function index()
+    {
+        $this->Crud->on('beforePaginate', function (Event $event) {
+            $userId = $this->Authentication->getIdentity()->getIdentifier();
+            $query = $event->getSubject()->query;
+            $query->where(['user_id' => $userId]);
+        });
+
+        return $this->Crud->execute();
+    }
+
+    public function add()
+    {
         $this->Crud->on('beforeSave', function (Event $event) {
             $entity = $event->getSubject()->entity;
             if (empty($entity->getErrors())) {
-                $entity->user_id = $this->Auth->user('id');
+                $entity->user_id = $this->Authentication->getIdentity()->getIdentifier();
             }
         });
 
         return $this->Crud->execute();
     }
 
-    public function edit() {
+    public function edit()
+    {
         $this->Crud->on('beforeSave', function (Event $event) {
             $entity = $event->getSubject()->entity;
             if (empty($entity->getErrors())) {
-                $entity->user_id = $this->Auth->user('id');
+                $entity->user_id = $this->Authentication->getIdentity()->getIdentifier();
             }
         });
 

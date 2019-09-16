@@ -105,7 +105,7 @@ export default {
             this.errors = err.response.data.data.parsedErrors
           }
         })
-        .then(() => {
+        .finally(() => {
           this.loading = false
         })
     },

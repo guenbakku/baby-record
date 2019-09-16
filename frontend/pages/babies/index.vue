@@ -47,7 +47,7 @@ export default {
   methods: {
     getBabies() {
       this.completed = false
-      this.$store.dispatch('babies/getBabies').then(res => {
+      this.$store.dispatch('babies/getBabies').finally(() => {
         this.completed = true
       })
     }

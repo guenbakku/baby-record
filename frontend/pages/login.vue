@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="brand">BABY RECORD</div>
+    <div class="brand">{{ brand }}</div>
     <v-card flat>
       <v-card-text>
         <v-form @submit.prevent="authenticate">
@@ -30,19 +30,9 @@
   </div>
 </template>
 
-<style lang="stylus" scoped>
-.brand {
-  text-align: center;
-  font-size: 3rem;
-  font-weight: 700;
-  margin: 3rem 0;
-  color: #888;
-  text-shadow: -1px -1px 1px rgba(0, 0, 0, .7),
-               1px 1px 1px rgba(255, 255, 255, .7);
-}
-</style>
-
 <script>
+import pkg from '~/package'
+
 export default {
   data() {
     return {
@@ -50,7 +40,8 @@ export default {
         email: null,
         password: null
       },
-      loading: false
+      loading: false,
+      brand: pkg.title.toUpperCase()
     }
   },
   fetch({ redirect, store }) {
@@ -73,10 +64,22 @@ export default {
             })
           }
         })
-        .then(() => {
+        .finally(() => {
           this.loading = false
         })
     }
   }
 }
 </script>
+
+<style lang="stylus" scoped>
+.brand {
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 3rem 0;
+  color: #888;
+  text-shadow: -1px -1px 1px rgba(0, 0, 0, .7),
+               1px 1px 1px rgba(255, 255, 255, .7);
+}
+</style>
