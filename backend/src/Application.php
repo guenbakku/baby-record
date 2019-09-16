@@ -17,12 +17,22 @@ namespace App;
 use Authentication\AuthenticationService;
 use Authentication\AuthenticationServiceProviderInterface;
 use Authentication\Middleware\AuthenticationMiddleware;
+use Authorization\AuthorizationService;
+use Authorization\AuthorizationServiceProviderInterface;
+use Authorization\Middleware\AuthorizationMiddleware;
+use Authorization\Middleware\RequestAuthorizationMiddleware;
+use Authorization\Policy\MapResolver;
+use Authorization\Policy\OrmResolver;
+use Authorization\Policy\ResolverCollection;
 use Cake\Core\Configure;
 use Cake\Core\Exception\MissingPluginException;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
+use Cake\Http\ServerRequest;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use CakeDC\Auth\Policy\CollectionPolicy;
+use CakeDC\Auth\Policy\RbacPolicy;
 use Guenbakku\Middleware\Http\ClientTimezoneMiddleware;
 use Guenbakku\Middleware\Http\CorsMiddleware;
 use Psr\Http\Message\ResponseInterface;
@@ -34,7 +44,9 @@ use Psr\Http\Message\ServerRequestInterface;
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
  */
-class Application extends BaseApplication implements AuthenticationServiceProviderInterface
+class Application extends BaseApplication implements
+    AuthenticationServiceProviderInterface,
+    AuthorizationServiceProviderInterface
 {
     /**
      * {@inheritDoc}
@@ -42,7 +54,7 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
     public function bootstrap()
     {
         $this->addPlugin('Authentication');
-
+        $this->addPlugin('Authorization');
         $this->addPlugin('Crud');
 
         // Call parent to load bootstrap from files.
@@ -99,6 +111,10 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
             // Add the authentication middleware.
             ->add(new AuthenticationMiddleware($this))
 
+            // Add the authorization middleware.
+            ->add(new AuthorizationMiddleware($this))
+            ->add(new RequestAuthorizationMiddleware())
+
             // Determine client timezone.
             ->add(ClientTimezoneMiddleware::class);
 
@@ -135,5 +151,36 @@ class Application extends BaseApplication implements AuthenticationServiceProvid
         ]);
 
         return $service;
+    }
+
+    /**
+     * Returns a service provider instance.
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request Request
+     * @param \Psr\Http\Message\ResponseInterface $response Response
+     * @return \Authorization\AuthorizationServiceInterface
+     */
+    public function getAuthorizationService(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        $map = new MapResolver();
+        $map->map(
+            ServerRequest::class,
+            new CollectionPolicy([
+                new RbacPolicy([ //Only check with rbac if user is not super user
+                    'adapter' => [
+                        'default_role' => '*'
+                    ]
+                ]),
+            ])
+        );
+
+        $orm = new OrmResolver();
+
+        $resolver = new ResolverCollection([
+            $map,
+            $orm
+        ]);
+
+        return new AuthorizationService($resolver);
     }
 }

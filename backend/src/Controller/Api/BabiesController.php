@@ -10,7 +10,8 @@ use Cake\Event\Event;
  */
 class BabiesController extends AppController
 {
-    public function index() {
+    public function index()
+    {
         $this->Crud->on('beforePaginate', function (Event $event) {
             $userId = $this->Authentication->getIdentity()->getIdentifier();
             $query = $event->getSubject()->query;
@@ -20,7 +21,8 @@ class BabiesController extends AppController
         return $this->Crud->execute();
     }
 
-    public function add() {
+    public function add()
+    {
         $this->Crud->on('beforeSave', function (Event $event) {
             $entity = $event->getSubject()->entity;
             if (empty($entity->getErrors())) {
@@ -31,7 +33,8 @@ class BabiesController extends AppController
         return $this->Crud->execute();
     }
 
-    public function edit() {
+    public function edit()
+    {
         $this->Crud->on('beforeSave', function (Event $event) {
             $entity = $event->getSubject()->entity;
             if (empty($entity->getErrors())) {
