@@ -26,6 +26,9 @@ export const mutations = {
     window.localStorage.setItem(STORAGE_CURRENT_BABY_ID, id)
     state.currentId = id
   },
+  removeCurrentId(state) {
+    window.localStorage.removeItem(STORAGE_CURRENT_BABY_ID)
+  },
   setBabies(state, { babies }) {
     const data = {}
     for (const baby of babies) {
@@ -36,6 +39,7 @@ export const mutations = {
     state.babies = data
   },
   clearAll(state) {
+    state.currentId = undefined
     state.babies = {}
   },
   loadFromLocalStorage(state) {

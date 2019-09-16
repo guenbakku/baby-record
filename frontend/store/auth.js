@@ -17,7 +17,7 @@ export const mutations = {
   setToken(state, { token }) {
     window.localStorage.setItem(STORAGE_TOKEN_KEY, token)
   },
-  logout(state) {
+  removeToken(state) {
     window.localStorage.removeItem(STORAGE_TOKEN_KEY)
   },
   setProfile(state, { profile }) {

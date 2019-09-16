@@ -5,8 +5,9 @@
 <script>
 export default {
   mounted() {
-    this.$store.commit('auth/logout')
+    this.$store.commit('auth/removeToken')
     this.$store.commit('auth/clearAll')
+    this.$store.commit('babies/removeCurrentId')
     this.$store.commit('babies/clearAll')
     this.$router.push({ name: 'login' })
   }
