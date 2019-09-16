@@ -64,12 +64,14 @@ return [
                 $activityId = Hash::get($request->getAttribute('params'), 'pass.0');
                 $table = TableRegistry::getTableLocator()->get('Activities');
                 $query = $table->find()
-                    ->select(['Activities.id'])
+                    ->select(['exist' => 1])
                     ->where(['Activities.id' => $activityId])
                     ->matching('Babies', function ($q) use ($userId) {
                         return $q->where(['Babies.user_id' => $userId]);
-                    });
-                return $table->exists($query);
+                    })
+                    ->limit(1);
+
+                return (bool) count($query->enableHydration(false)->toArray());
             }
         ],
         // Fallback rule to raise UnauthenticatedException for the case
