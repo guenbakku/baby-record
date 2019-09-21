@@ -3,7 +3,7 @@
   "title": "Baby Record",
   "version": "0.3.0",
   "description": "Easy record your baby activities",
-  "author": "Nguyen Van Bach",
+  "author": "guenbakku",
   "private": true,
   "scripts": {
     "dev": "nuxt",

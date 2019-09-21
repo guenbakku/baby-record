@@ -1,6 +1,8 @@
 import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
 import pkg from './package'
 
+const BASE_PATH = '/frontend'
+
 export default {
   mode: 'spa',
 
@@ -20,6 +22,9 @@ export default {
     title: pkg.title,
     meta: [
       { charset: 'utf-8' },
+      { name: 'robots', content: 'noindex' },
+      { name: 'copyright', content: 'guenbakku' },
+      { name: 'keywords', content: 'baby record, baby, record' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: pkg.description },
       {
@@ -29,7 +34,21 @@ export default {
       }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: `${BASE_PATH}/favicon.ico`
+      },
+      {
+        rel: 'shortcut icon',
+        type: 'image/png',
+        href: `${BASE_PATH}/shortcut-icon.png`
+      },
+      {
+        rel: 'apple-touch-icon',
+        type: 'image/png',
+        href: `${BASE_PATH}/shortcut-icon.png`
+      },
       {
         rel: 'stylesheet',
         href:
@@ -40,7 +59,7 @@ export default {
 
   router: {
     mode: 'hash',
-    base: '/frontend/',
+    base: BASE_PATH,
     middleware: ['auth', 'baby', 'header-title', 'baby-switch']
   },
 
