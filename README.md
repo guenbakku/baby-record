@@ -2,18 +2,19 @@
 
 ### Architecture
 
-* Backend: CakePHP3.7
-* Frontend: Nuxt2
+* Backend: CakePHP 3.7
+* Frontend: Nuxt 2
 
 ### Main branches
 
-| #   | Branch | Description |
-| --- | --- | --- |
-| 1   | master | Contain source code to be pushed to production server |
-| 2   | dev | Contain merged source code of below `dev-backend` and `dev-frontend` branches to be pushed to test server |
-| 3   | dev-backend | Contain development source code of backend module |
-| 4   | dev-frontend | Contain development source code of frontend module |
-| 5   | deploy | Contain deployment script |
+1. `master`     
+    Contains source code which is ready to release
+1. `dev`
+    Contains developing source code
+1. `deploy`
+    Contains deployment script
+1. `doc`
+    Contains documentation
 
 ### Installation
 
@@ -39,3 +40,6 @@
     $ npm install
     ~~~
 
+### Deployment
+
+Refer `README.md` in branch `deploy`.
