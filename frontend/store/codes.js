@@ -5,6 +5,8 @@ export const actions = {
    * @param {Object} param1
    */
   viewCode({ commit }, { model }) {
-    return this.$axios.get(`/codes/${model}`).then(res => res)
+    return this.$axios
+      .get(`/codes/${model}`, { useCache: true })
+      .then(res => res)
   }
 }

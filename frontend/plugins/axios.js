@@ -1,4 +1,5 @@
 import moment from 'moment-timezone'
+import { throttleAdapterEnhancer, cacheAdapterEnhancer } from 'axios-extensions'
 
 /**
  * Convert validated errors into the format that can be displayed in form
@@ -32,11 +33,25 @@ const parseValidatedErrors = function(
 
 export default function({ $axios, store, redirect }) {
   /**
+   * Change default adapter to axios-extension's one
+   */
+  const cacheAdapter = cacheAdapterEnhancer($axios.defaults.adapter, {
+    enabledByDefault: false,
+    cacheFlag: 'useCache'
+  })
+  const throttleAdapter = throttleAdapterEnhancer(cacheAdapter)
+  $axios.defaults.adapter = throttleAdapter
+
+  /**
    * Because environment variables parsed by dotenv-webpack
    * only be used after webpack bundling, so we must set them
    * in this plugin file instead of file `nuxt.config.js`
    */
   $axios.defaults.baseURL = process.env.API_BASE_URL
+
+  /**
+   * Add some headers.
+   */
   $axios.setHeader('Accept', 'application/json')
   $axios.setHeader('Content-Type', 'application/json')
   $axios.setHeader('X-Timezone', moment.tz.guess())
