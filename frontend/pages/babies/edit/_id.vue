@@ -10,7 +10,7 @@
             <span class="subheading">Sửa em bé</span>
           </v-card-actions>
           <v-divider />
-          <v-card-text v-if="!isInitializationError">
+          <v-card-text v-show="isInitializationSuccess">
             <baby-form
               ref="form"
               :errors="errors"
@@ -19,15 +19,14 @@
             />
           </v-card-text>
           <error v-if="isInitializationError" />
-          <v-divider />
           <loading v-if="isInitializing || !formInitialized" />
+          <v-divider />
           <v-card-actions v-if="isInitializationSuccess && formInitialized">
             <v-btn type="submit" color="success" :loading="loading">
               Sửa
             </v-btn>
             <v-spacer />
             <double-confirm-dialog
-              :v-if="isInitializationSuccess"
               :loading="loading"
               :check-value="baby.name"
               @confirmed="deleteBaby()"
