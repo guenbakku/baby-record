@@ -1,4 +1,5 @@
 import moment from 'moment-timezone'
+import { isCancel } from 'axios'
 import { throttleAdapterEnhancer, cacheAdapterEnhancer } from 'axios-extensions'
 
 /**
@@ -68,7 +69,9 @@ export default function({ $axios, store, redirect }) {
    * Configure interceptor on error
    */
   $axios.onError(error => {
-    if (!error.response) {
+    if (isCancel(error)) {
+      // Do nothing
+    } else if (!error.response) {
       store.commit('flash/error', {
         text: 'Could not send request to api server'
       })

@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import qs from 'qs'
+import { CancelToken } from 'axios'
 
 export const state = () => ({
   date: undefined,
-  activities: []
+  activities: [],
+  cancelTokenSources: {}
 })
 
 export const mutations = {
@@ -12,6 +14,12 @@ export const mutations = {
   },
   setActivities(state, { activities }) {
     state.activities = activities
+  },
+  setCancelTokenSource(state, { key, cancelTokenSource }) {
+    state.cancelTokenSources = {
+      ...state.cancelTokenSources,
+      [key]: cancelTokenSource
+    }
   }
 }
 
@@ -22,6 +30,12 @@ export const actions = {
    * @param {Object} param1
    */
   getActivities({ commit }, { babyId, date }) {
+    const cancelTokenSource = CancelToken.source()
+    commit('setCancelTokenSource', {
+      key: 'getActivities',
+      cancelTokenSource
+    })
+
     const showDate = Vue.moment(date)
     const from = showDate.toISOString()
     const to = showDate
@@ -41,7 +55,8 @@ export const actions = {
         },
         paramsSerializer: function(params) {
           return qs.stringify(params, { arrayFormat: 'brackets' })
-        }
+        },
+        cancelToken: cancelTokenSource.token
       })
       .then(function(res) {
         commit('setActivities', { activities: res.data.data })
