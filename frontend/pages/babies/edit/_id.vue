@@ -10,17 +10,24 @@
             <span class="subheading">Sửa em bé</span>
           </v-card-actions>
           <v-divider />
-          <v-card-text>
-            <baby-form v-if="baby" ref="form" :errors="errors" :data="baby" />
-            <v-progress-circular v-else indeterminate color="success" />
+          <v-card-text v-if="!isInitializationError">
+            <baby-form
+              ref="form"
+              :errors="errors"
+              :data="baby"
+              @initialized="formInitialized = true"
+            />
           </v-card-text>
+          <error v-if="isInitializationError" />
           <v-divider />
-          <v-card-actions v-if="baby">
+          <loading v-if="isInitializing || !formInitialized" />
+          <v-card-actions v-if="isInitializationSuccess && formInitialized">
             <v-btn type="submit" color="success" :loading="loading">
               Sửa
             </v-btn>
             <v-spacer />
             <double-confirm-dialog
+              :v-if="isInitializationSuccess"
               :loading="loading"
               :check-value="baby.name"
               @confirmed="deleteBaby()"
@@ -44,15 +51,20 @@
 </template>
 
 <script>
+import Loading from '~/components/core/card-text/Loading'
+import Error from '~/components/core/card-text/Error'
 import DoubleConfirmDialog from '~/components/core/DoubleConfirmDialog'
 import BabyForm from '~/components/babies/BabyForm'
+import InitializationStatusMixin from '~/mixins/initialization-status.mixin'
 
 export default {
-  components: { DoubleConfirmDialog, BabyForm },
+  components: { Loading, Error, DoubleConfirmDialog, BabyForm },
+  mixins: [InitializationStatusMixin],
   data: () => ({
     baby: undefined,
     errors: {},
-    loading: false
+    loading: false,
+    formInitialized: false
   }),
   computed: {
     babyId: function() {
@@ -65,14 +77,23 @@ export default {
     }
   },
   mounted() {
-    this.getBaby()
+    this.setInitializing()
+    Promise.all([this.getBaby()])
+      .then(res => {
+        this.setInitializationSuccess()
+      })
+      // eslint-disable-next-line handle-callback-err
+      .catch(err => {
+        this.setInitializationError()
+      })
   },
   methods: {
     getBaby: function() {
-      this.$store
+      return this.$store
         .dispatch('babies/viewBaby', { babyId: this.babyId })
         .then(res => {
           this.baby = res.data.data
+          return res
         })
         .catch(err => {
           if (err.response && err.response.status === 404) {
@@ -80,6 +101,7 @@ export default {
               text: 'Không tìm thấy thông tin'
             })
           }
+          throw err
         })
     },
     editBaby: function() {

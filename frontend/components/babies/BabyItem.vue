@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import DatetimeMixin from '~/mixins/datetime.mixin.js'
+import DatetimeMixin from '~/mixins/datetime.mixin'
 
 export default {
   mixins: [DatetimeMixin],

@@ -11,10 +11,15 @@
           </v-card-actions>
           <v-divider />
           <v-card-text>
-            <baby-form ref="form" :errors="errors" />
+            <baby-form
+              ref="form"
+              :errors="errors"
+              @initialized="formInitialized = true"
+            />
           </v-card-text>
           <v-divider />
-          <v-card-actions>
+          <loading v-if="!formInitialized" />
+          <v-card-actions v-else>
             <v-btn type="submit" color="success" :loading="loading">
               Thêm
             </v-btn>
@@ -26,14 +31,16 @@
 </template>
 
 <script>
+import Loading from '~/components/core/card-text/Loading'
 import BabyForm from '~/components/babies/BabyForm'
 
 export default {
-  components: { BabyForm },
+  components: { Loading, BabyForm },
   data() {
     return {
       errors: {},
-      loading: false
+      loading: false,
+      formInitialized: false
     }
   },
   computed: {
