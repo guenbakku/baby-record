@@ -13,6 +13,17 @@
           <v-card-text>
             <component :is="component" ref="form" :errors="errors" />
           </v-card-text>
+          <v-card-text class="pt-0 pb-0"><v-divider /></v-card-text>
+          <v-card-text>
+            <v-combobox
+              v-model="copyTargetBabies"
+              item-text="name"
+              :items="copyableBabies"
+              label="Copy ghi chép"
+              multiple
+              chips
+            ></v-combobox>
+          </v-card-text>
           <v-divider />
           <v-card-actions>
             <v-btn type="submit" color="success" :loading="loading">
@@ -38,7 +49,8 @@ export default {
   },
   data: () => ({
     errors: {},
-    loading: false
+    loading: false,
+    copyTargetBabies: []
   }),
   computed: {
     component: function() {
@@ -49,6 +61,19 @@ export default {
     },
     date: function() {
       return this.$store.state.activities.date
+    },
+    currentBabyId: function() {
+      return this.$store.state.babies.currentId
+    },
+    copyableBabies: function() {
+      return Object.values(this.$store.state.babies.babies).filter(b => {
+        return b.id !== this.$store.state.babies.currentId
+      })
+    }
+  },
+  watch: {
+    currentBabyId: function() {
+      this.copyTargetBabies = []
     }
   },
   methods: {
@@ -61,18 +86,48 @@ export default {
       this.errors = {}
       const babyId = this.$store.getters['babies/current'].id
       const activity = this.$refs.form.getData()
+
+      // Save record of main baby first in order to handle validation error efficiently,
+      // then copy same record to other copy target babies.
       this.$store
         .dispatch('activities/addActivity', {
           babyId,
           activity
         })
         .then(res => {
-          this.$store.commit('flash/success', {
-            text: 'Thêm ghi chép thành công'
+          const promises = this.copyTargetBabies.map(baby => {
+            return this.$store.dispatch('activities/addActivity', {
+              babyId: baby.id,
+              activity
+            })
           })
-          const date = this.$moment(activity.started).format('YYYY-MM-DD')
-          const route = this.getRouteToActivitiesPage(date)
-          this.$router.push(route)
+          Promise.allSettled(promises).then(results => {
+            const errorBabyNames = results
+              .filter(result => result.status === 'rejected')
+              .map(result => {
+                const err = result.reason
+                const babyId = err.config.params.baby_id
+                const babies = this.$store.state.babies.babies
+                return babies[babyId] ? babies[babyId].name : undefined
+              })
+              .filter(babyName => !babyName)
+
+            if (errorBabyNames.length === 0) {
+              this.$store.commit('flash/success', {
+                text: 'Thêm ghi chép thành công'
+              })
+            } else {
+              this.$store.commit('flash/error', {
+                text: `Không thể thêm ghi chép cho em bé: ${errorBabyNames.join(
+                  ', '
+                )}`
+              })
+            }
+
+            const date = this.$moment(activity.started).format('YYYY-MM-DD')
+            const route = this.getRouteToActivitiesPage(date)
+            this.$router.push(route)
+          })
         })
         .catch(err => {
           if (err.response && err.response.status === 422) {
