@@ -70,12 +70,13 @@ export default {
       return this.$store.state.activities.date
     },
     currentBabyId: function() {
-      return this.$store.state.babies.currentId
+      const currentBaby = this.$store.getters['babies/current']
+      return currentBaby ? currentBaby.id : undefined
     },
     copyableBabies: function() {
-      return Object.values(this.$store.state.babies.babies).filter(b => {
-        return b.id !== this.$store.state.babies.currentId
-      })
+      return Object.values(this.$store.state.babies.babies).filter(
+        b => b.id !== this.currentBabyId
+      )
     }
   },
   watch: {
@@ -91,7 +92,7 @@ export default {
     addActivity: function() {
       this.loading = true
       this.errors = {}
-      const babyId = this.$store.getters['babies/current'].id
+      const babyId = this.currentBabyId
       const activity = this.$refs.form.getData()
 
       // Save record of main baby first in order to handle validation error efficiently,
