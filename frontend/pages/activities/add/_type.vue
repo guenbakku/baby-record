@@ -13,26 +13,24 @@
           <v-card-text>
             <component :is="component" ref="form" :errors="errors" />
           </v-card-text>
-          <template v-if="numberOfBabies > 1">
-            <v-card-text class="pt-0 pb-0"><v-divider /></v-card-text>
-            <v-card-text>
-              <v-select
-                v-model="copyTargetBabieIds"
-                label="Copy ghi chép"
-                item-text="name"
-                item-value="id"
-                :items="copyableBabies"
-                deletable-chips
-                hide-selected
-                multiple
-                chips
-              >
-                <template v-slot:no-data>
-                  <v-list-tile><em>Không có dữ liệu</em></v-list-tile>
-                </template>
-              </v-select>
-            </v-card-text>
-          </template>
+          <v-card-text class="pt-0 pb-0"><v-divider /></v-card-text>
+          <v-card-text>
+            <v-select
+              v-model="copyTargetBabieIds"
+              label="Copy ghi chép"
+              item-text="name"
+              item-value="id"
+              :items="copyableBabies"
+              deletable-chips
+              hide-selected
+              multiple
+              chips
+            >
+              <template v-slot:no-data>
+                <v-list-tile><em>Không có dữ liệu</em></v-list-tile>
+              </template>
+            </v-select>
+          </v-card-text>
           <v-divider />
           <v-card-actions>
             <v-btn type="submit" color="success" :loading="loading">
@@ -78,9 +76,6 @@ export default {
       return Object.values(this.$store.state.babies.babies).filter(b => {
         return b.id !== this.$store.state.babies.currentId
       })
-    },
-    numberOfBabies: function() {
-      return Object.keys(this.$store.state.babies.babies).length
     }
   },
   watch: {
@@ -113,33 +108,37 @@ export default {
               activity
             })
           })
-          Promise.allSettled(promises).then(results => {
-            const errorBabyNames = results
-              .filter(result => result.status === 'rejected')
-              .map(result => {
-                const err = result.reason
-                const babyId = err.config.params.baby_id
-                const babies = this.$store.state.babies.babies
-                return babies[babyId] ? babies[babyId].name : undefined
-              })
-              .filter(babyName => !!babyName)
+          return Promise.allSettled(promises)
+            .then(results => {
+              const errorBabyNames = results
+                .filter(result => result.status === 'rejected')
+                .map(result => {
+                  const err = result.reason
+                  const babyId = err.config.params.baby_id
+                  const babies = this.$store.state.babies.babies
+                  return babies[babyId] ? babies[babyId].name : undefined
+                })
+                .filter(babyName => !!babyName)
 
-            if (errorBabyNames.length === 0) {
-              this.$store.commit('flash/success', {
-                text: 'Thêm ghi chép thành công'
-              })
-            } else {
-              this.$store.commit('flash/error', {
-                text: `Không thể thêm ghi chép cho em bé: ${errorBabyNames.join(
-                  ', '
-                )}`
-              })
-            }
+              return errorBabyNames
+            })
+            .then(errorBabyNames => {
+              if (errorBabyNames.length === 0) {
+                this.$store.commit('flash/success', {
+                  text: 'Thêm ghi chép thành công'
+                })
+              } else {
+                this.$store.commit('flash/error', {
+                  text: `Không thể copy ghi chép cho em bé: ${errorBabyNames.join(
+                    ', '
+                  )}`
+                })
+              }
 
-            const date = this.$moment(activity.started).format('YYYY-MM-DD')
-            const route = this.getRouteToActivitiesPage(date)
-            this.$router.push(route)
-          })
+              const date = this.$moment(activity.started).format('YYYY-MM-DD')
+              const route = this.getRouteToActivitiesPage(date)
+              this.$router.push(route)
+            })
         })
         .catch(err => {
           if (err.response && err.response.status === 422) {
