@@ -13,17 +13,26 @@
           <v-card-text>
             <component :is="component" ref="form" :errors="errors" />
           </v-card-text>
-          <v-card-text class="pt-0 pb-0"><v-divider /></v-card-text>
-          <v-card-text>
-            <v-combobox
-              v-model="copyTargetBabies"
-              item-text="name"
-              :items="copyableBabies"
-              label="Copy ghi chép"
-              multiple
-              chips
-            ></v-combobox>
-          </v-card-text>
+          <template v-if="numberOfBabies > 1">
+            <v-card-text class="pt-0 pb-0"><v-divider /></v-card-text>
+            <v-card-text>
+              <v-select
+                v-model="copyTargetBabieIds"
+                label="Copy ghi chép"
+                item-text="name"
+                item-value="id"
+                :items="copyableBabies"
+                deletable-chips
+                hide-selected
+                multiple
+                chips
+              >
+                <template v-slot:no-data>
+                  <v-list-tile><em>Không có dữ liệu</em></v-list-tile>
+                </template>
+              </v-select>
+            </v-card-text>
+          </template>
           <v-divider />
           <v-card-actions>
             <v-btn type="submit" color="success" :loading="loading">
@@ -50,7 +59,7 @@ export default {
   data: () => ({
     errors: {},
     loading: false,
-    copyTargetBabies: []
+    copyTargetBabieIds: []
   }),
   computed: {
     component: function() {
@@ -69,11 +78,14 @@ export default {
       return Object.values(this.$store.state.babies.babies).filter(b => {
         return b.id !== this.$store.state.babies.currentId
       })
+    },
+    numberOfBabies: function() {
+      return Object.keys(this.$store.state.babies.babies).length
     }
   },
   watch: {
-    currentBabyId: function() {
-      this.copyTargetBabies = []
+    currentBabyId: function(val) {
+      this.copyTargetBabieIds = this.copyTargetBabieIds.filter(id => id !== val)
     }
   },
   methods: {
@@ -95,9 +107,9 @@ export default {
           activity
         })
         .then(res => {
-          const promises = this.copyTargetBabies.map(baby => {
+          const promises = this.copyTargetBabieIds.map(babyId => {
             return this.$store.dispatch('activities/addActivity', {
-              babyId: baby.id,
+              babyId,
               activity
             })
           })
@@ -110,7 +122,7 @@ export default {
                 const babies = this.$store.state.babies.babies
                 return babies[babyId] ? babies[babyId].name : undefined
               })
-              .filter(babyName => !babyName)
+              .filter(babyName => !!babyName)
 
             if (errorBabyNames.length === 0) {
               this.$store.commit('flash/success', {
