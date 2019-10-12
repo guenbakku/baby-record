@@ -1,4 +1,5 @@
-import moment from 'moment-timezone'
+import { isCancel } from 'axios'
+import { throttleAdapterEnhancer, cacheAdapterEnhancer } from 'axios-extensions'
 
 /**
  * Convert validated errors into the format that can be displayed in form
@@ -30,16 +31,30 @@ const parseValidatedErrors = function(
   return parsed
 }
 
-export default function({ $axios, store, redirect }) {
+export default function({ $axios, store, redirect, app }) {
+  /**
+   * Change default adapter to axios-extension's one
+   */
+  const cacheAdapter = cacheAdapterEnhancer($axios.defaults.adapter, {
+    enabledByDefault: false,
+    cacheFlag: 'useCache'
+  })
+  const throttleAdapter = throttleAdapterEnhancer(cacheAdapter)
+  $axios.defaults.adapter = throttleAdapter
+
   /**
    * Because environment variables parsed by dotenv-webpack
    * only be used after webpack bundling, so we must set them
    * in this plugin file instead of file `nuxt.config.js`
    */
   $axios.defaults.baseURL = process.env.API_BASE_URL
+
+  /**
+   * Add some headers.
+   */
   $axios.setHeader('Accept', 'application/json')
   $axios.setHeader('Content-Type', 'application/json')
-  $axios.setHeader('X-Timezone', moment.tz.guess())
+  $axios.setHeader('X-Timezone', app.$moment.tz.guess())
 
   $axios.onRequest(config => {
     // Add access token to request
@@ -53,7 +68,9 @@ export default function({ $axios, store, redirect }) {
    * Configure interceptor on error
    */
   $axios.onError(error => {
-    if (!error.response) {
+    if (isCancel(error)) {
+      // Do nothing
+    } else if (!error.response) {
       store.commit('flash/error', {
         text: 'Could not send request to api server'
       })

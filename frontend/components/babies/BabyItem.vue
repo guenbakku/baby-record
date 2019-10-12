@@ -2,7 +2,7 @@
   <router-link :to="editRoute" tag="div" class="item">
     <v-list-tile>
       <v-list-tile-avatar>
-        <img :src="baby.avatar" />
+        <sex-icon color="grey" large :sex-id="baby.sex_id" />
       </v-list-tile-avatar>
 
       <v-list-tile-content>
@@ -20,9 +20,11 @@
 </template>
 
 <script>
-import DatetimeMixin from '~/mixins/datetime.mixin.js'
+import DatetimeMixin from '~/mixins/datetime.mixin'
+import SexIcon from '~/components/core/SexIcon'
 
 export default {
+  components: { SexIcon },
   mixins: [DatetimeMixin],
   props: {
     baby: {

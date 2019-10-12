@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import '~/assets/icomoon/style.css'
 import LoginUser from '~/components/core/LoginUser'
 import BabySwitch from '~/components/core/BabySwitch'
 import Flash from '~/components/core/Flash'
@@ -67,18 +68,18 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'apps',
+          icon: 'icon-record',
           title: 'Ghi chép',
           to: '/activities'
         },
         {
-          icon: 'bubble_chart',
+          icon: 'icon-baby',
           title: 'Em bé',
           to: '/babies'
         },
         {
           divider: true,
-          icon: 'power_off',
+          icon: 'icon-logout',
           title: 'Đăng xuất',
           to: '/logout'
         }

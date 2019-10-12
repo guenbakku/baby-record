@@ -2,7 +2,7 @@
   <v-layout row wrap class="pb-5">
     <v-flex xs12>
       <v-card class="table">
-        <v-card-actions style="justify-content: center">
+        <v-card-actions style="justify-content: center; min-height: 52px">
           <date-picker :date="date" @selected="changeDate" />
         </v-card-actions>
         <v-layout row nowrap>
@@ -55,10 +55,11 @@
 </template>
 
 <script>
+import { isCancel } from 'axios'
 import Activity from '~/components/activities/Activity'
 import DatePicker from '~/components/activities/DatePicker'
-import Loading from '~/components/core/Loading'
-import NoData from '~/components/core/NoData'
+import Loading from '~/components/core/card-text/Loading'
+import NoData from '~/components/core/card-text/NoData'
 import SpeedDial from '~/components/core/SpeedDial'
 import { getMaps } from '~/components/activity-forms/maps'
 
@@ -157,6 +158,12 @@ export default {
       this.$router.push({ name: 'activities-date', params: { date } })
     },
     getActivities: function() {
+      const cancelTokenSource = this.$store.state.activities.cancelTokenSources
+        .getActivities
+      if (cancelTokenSource) {
+        cancelTokenSource.cancel()
+      }
+
       this.completed = false
       this.$store
         .dispatch('activities/getActivities', {
@@ -165,6 +172,11 @@ export default {
         })
         .then(res => {
           this.summary()
+        })
+        .catch(function(err) {
+          if (!isCancel(err)) {
+            window.console.log(err)
+          }
         })
         .finally(() => {
           this.completed = true

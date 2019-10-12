@@ -1,4 +1,5 @@
-import Vue from 'vue'
 import changeCase from 'change-case'
 
-Vue.prototype.$changeCase = changeCase
+export default (_, inject) => {
+  inject('changeCase', changeCase)
+}

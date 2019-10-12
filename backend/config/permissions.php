@@ -74,6 +74,15 @@ return [
                 return (bool) count($query->enableHydration(false)->toArray());
             }
         ],
+        [
+            'role' => 'user',
+            'plugin' => false,
+            'prefix' => 'Api',
+            'controller' => 'Codes',
+            'action' => ['view'],
+            'bypassAuth' => true
+        ],
+
         // Fallback rule to raise UnauthenticatedException for the case
         // that there is not any matched rule (= user is not authenticated).
         [

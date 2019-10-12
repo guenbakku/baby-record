@@ -4,17 +4,18 @@ namespace App\Model\Entity;
 use Cake\ORM\Entity;
 
 /**
- * Baby Entity
+ * Sex Entity
  *
- * @property string $id
- * @property string $name
- * @property \Cake\I18n\FrozenDate $birthday
+ * @property int $id
+ * @property string $code
+ * @property string $label
+ * @property int $sort_no
  * @property \Cake\I18n\FrozenTime $created
  * @property \Cake\I18n\FrozenTime $modified
  *
- * @property \App\Model\Entity\Activities[] $activities
+ * @property \App\Model\Entity\Baby[] $babies
  */
-class Baby extends Entity
+class Sex extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -26,12 +27,11 @@ class Baby extends Entity
      * @var array
      */
     protected $_accessible = [
-        'user_id' => true,
-        'name' => true,
-        'birthday' => true,
-        'sex_id' => true,
+        'code' => true,
+        'label' => true,
+        'sort_no' => true,
         'created' => false,
         'modified' => false,
-        'activities' => true
+        'babies' => true
     ];
 }
