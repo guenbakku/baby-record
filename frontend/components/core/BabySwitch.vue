@@ -4,8 +4,8 @@
       <template v-slot:activator="{ on }">
         <div v-on="on">
           <span class="name">{{ currentBaby.name }}</span>
-          <v-avatar :tile="false" size="30px" color="grey lighten-4">
-            <img :src="currentBaby.avatar" alt="avatar" />
+          <v-avatar :tile="false" size="30px">
+            <sex-icon :sex-id="currentBaby.sex_id" />
           </v-avatar>
         </div>
       </template>
@@ -13,7 +13,7 @@
       <v-list>
         <v-list-tile avatar>
           <v-list-tile-avatar>
-            <img :src="currentBaby.avatar" alt="avatar" />
+            <sex-icon large :sex-id="currentBaby.sex_id" />
           </v-list-tile-avatar>
 
           <v-list-tile-content>
@@ -38,8 +38,10 @@
 
 <script>
 import DatetimeMixin from '~/mixins/datetime.mixin.js'
+import SexIcon from '~/components/core/SexIcon'
 
 export default {
+  components: { SexIcon },
   mixins: [DatetimeMixin],
   computed: {
     currentBaby() {

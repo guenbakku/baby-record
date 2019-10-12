@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import qs from 'qs'
 import { CancelToken } from 'axios'
 
@@ -36,7 +35,7 @@ export const actions = {
       cancelTokenSource
     })
 
-    const showDate = Vue.moment(date)
+    const showDate = this.$moment(date)
     const from = showDate.toISOString()
     const to = showDate
       .hour(23)

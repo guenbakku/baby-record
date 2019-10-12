@@ -9,3 +9,7 @@ moment.locale(userLang)
 Vue.use(VueMoment, {
   moment
 })
+
+export default (_, inject) => {
+  inject('moment', moment)
+}

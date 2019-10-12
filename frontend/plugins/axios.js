@@ -1,4 +1,3 @@
-import moment from 'moment-timezone'
 import { isCancel } from 'axios'
 import { throttleAdapterEnhancer, cacheAdapterEnhancer } from 'axios-extensions'
 
@@ -32,7 +31,7 @@ const parseValidatedErrors = function(
   return parsed
 }
 
-export default function({ $axios, store, redirect }) {
+export default function({ $axios, store, redirect, app }) {
   /**
    * Change default adapter to axios-extension's one
    */
@@ -55,7 +54,7 @@ export default function({ $axios, store, redirect }) {
    */
   $axios.setHeader('Accept', 'application/json')
   $axios.setHeader('Content-Type', 'application/json')
-  $axios.setHeader('X-Timezone', moment.tz.guess())
+  $axios.setHeader('X-Timezone', app.$moment.tz.guess())
 
   $axios.onRequest(config => {
     // Add access token to request
