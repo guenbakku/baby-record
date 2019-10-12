@@ -58,8 +58,8 @@
 import { isCancel } from 'axios'
 import Activity from '~/components/activities/Activity'
 import DatePicker from '~/components/activities/DatePicker'
-import Loading from '~/components/core/Loading'
-import NoData from '~/components/core/NoData'
+import Loading from '~/components/core/card-text/Loading'
+import NoData from '~/components/core/card-text/NoData'
 import SpeedDial from '~/components/core/SpeedDial'
 import { getMaps } from '~/components/activity-forms/maps'
 

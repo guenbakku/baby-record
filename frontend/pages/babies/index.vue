@@ -18,8 +18,8 @@
 
 <script>
 import BabyList from '~/components/babies/BabyList'
-import Loading from '~/components/core/Loading'
-import NoData from '~/components/core/NoData'
+import Loading from '~/components/core/card-text/Loading'
+import NoData from '~/components/core/card-text/NoData'
 
 export default {
   components: { BabyList, Loading, NoData },
