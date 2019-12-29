@@ -4,7 +4,7 @@
       <v-card>
         <v-form @submit.prevent="editActivity">
           <v-card-actions>
-            <v-btn icon :to="getRouteToActivitiesPage()" active-class="dummy">
+            <v-btn :to="getRouteToActivitiesPage()" icon active-class="dummy">
               <v-icon>keyboard_backspace</v-icon>
             </v-btn>
             <span class="subheading">Sửa {{ title.toLowerCase() }}</span>
@@ -22,13 +22,13 @@
           </v-card-text>
           <v-divider />
           <v-card-actions v-if="activity">
-            <v-btn type="submit" color="success" :loading="loading">
+            <v-btn :loading="loading" type="submit" color="success">
               Sửa
             </v-btn>
             <v-spacer />
             <confirm-dialog :loading="loading" @confirmed="deleteActivity()">
               <template v-slot:activator="{ on }">
-                <v-btn color="error" :loading="loading" v-on="on">Xóa</v-btn>
+                <v-btn :loading="loading" color="error" v-on="on">Xóa</v-btn>
               </template>
               <template v-slot:message>
                 Bạn có chắc chắn muốn xóa ghi chép này?

@@ -4,7 +4,7 @@
       <v-card>
         <v-form @submit.prevent="addActivity">
           <v-card-actions>
-            <v-btn icon :to="getRouteToActivitiesPage()" active-class="dummy">
+            <v-btn :to="getRouteToActivitiesPage()" icon active-class="dummy">
               <v-icon>keyboard_backspace</v-icon>
             </v-btn>
             <span class="subheading">Thêm {{ title.toLowerCase() }}</span>
@@ -17,10 +17,10 @@
           <v-card-text>
             <v-select
               v-model="copyTargetBabieIds"
+              :items="copyableBabies"
               label="Copy ghi chép"
               item-text="name"
               item-value="id"
-              :items="copyableBabies"
               deletable-chips
               hide-selected
               multiple
@@ -33,7 +33,7 @@
           </v-card-text>
           <v-divider />
           <v-card-actions>
-            <v-btn type="submit" color="success" :loading="loading">
+            <v-btn :loading="loading" type="submit" color="success">
               Thêm
             </v-btn>
           </v-card-actions>
