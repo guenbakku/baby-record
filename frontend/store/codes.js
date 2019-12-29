@@ -8,7 +8,7 @@ export const actions = {
     return this.$axios.get(`/codes/${model}`, { useCache: true }).then(res => {
       // Translate codes
       res.data.data.codes = res.data.data.codes.map(item => {
-        item.text = this.app.i18n.t(item.text)
+        item.text = this.$i18n.t(item.text)
         return item
       })
 

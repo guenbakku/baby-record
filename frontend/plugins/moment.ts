@@ -3,33 +3,17 @@ import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
 import { Plugin } from '@nuxt/types'
 
-export type Moment = (
-  inp?:
-    | string
-    | number
-    | void
-    | moment.Moment
-    | Date
-    | (string | number)[]
-    | moment.MomentInputObject
-    | undefined,
-  format?:
-    | string
-    | moment.MomentBuiltinFormat
-    | (string | moment.MomentBuiltinFormat)[]
-    | undefined,
-  strict?: boolean | undefined
-) => moment.Moment
+type Moment = typeof moment
 
 declare module '@nuxt/types' {
   interface NuxtAppOptions {
-    $moment: Moment
+    readonly $moment: Moment
   }
 }
 
 declare module 'vuex/types/index' {
   interface Store<S> {
-    $moment: Moment
+    readonly $moment: Moment
   }
 }
 

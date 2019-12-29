@@ -1,19 +1,21 @@
-import { isCancel } from 'axios'
+import axios from 'axios'
 import { throttleAdapterEnhancer, cacheAdapterEnhancer } from 'axios-extensions'
+import { Plugin } from '@nuxt/types'
 
 /**
  * Convert validated errors into the format that can be displayed in form
+ * TODO: declare type
  * @param {Object} errors
  * @param {Object} parsed
  * @param {String} parentKey
  */
 const parseValidatedErrors = function(
-  errors,
-  parsed = {},
-  parentKey = undefined
+  errors: any,
+  parsed: any = {},
+  parentKey: string | undefined = undefined
 ) {
   for (const key in errors) {
-    if (typeof errors[key] !== 'object') {
+    if (parentKey && typeof errors[key] !== 'object') {
       if (!parsed[parentKey]) {
         parsed[parentKey] = []
       }
@@ -31,7 +33,9 @@ const parseValidatedErrors = function(
   return parsed
 }
 
-export default function({ $axios, store, redirect, app }) {
+const axiosPlugin: Plugin = ({ $axios, store, redirect, app }) => {
+  if (!$axios.defaults.adapter) return
+
   /**
    * Change default adapter to axios-extension's one
    */
@@ -68,7 +72,7 @@ export default function({ $axios, store, redirect, app }) {
    * Configure interceptor on error
    */
   $axios.onError(error => {
-    if (isCancel(error)) {
+    if (axios.isCancel(error)) {
       // Do nothing
     } else if (!error.response) {
       store.commit('flash/error', {
@@ -94,3 +98,5 @@ export default function({ $axios, store, redirect, app }) {
     }
   })
 }
+
+export default axiosPlugin
