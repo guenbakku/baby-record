@@ -1,7 +1,9 @@
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
   fetch({ redirect }) {
-    redirect(301, { name: 'activities-date' })
+    redirect({ name: 'activities-date' })
   }
-}
+})
 </script>

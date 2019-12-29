@@ -30,11 +30,22 @@
   </div>
 </template>
 
-<script>
-import pkg from '~/package'
+<script lang="ts">
+import Vue from 'vue'
+import { AxiosError } from 'axios'
+import pkg from '~/package.json'
 
-export default {
-  data() {
+type Data = {
+  form: {
+    email: string | null
+    password: string | null
+  }
+  loading: boolean
+  brand: string
+}
+
+export default Vue.extend({
+  data(): Data {
     return {
       form: {
         email: null,
@@ -44,20 +55,20 @@ export default {
       brand: pkg.title.toUpperCase()
     }
   },
-  fetch({ redirect, store }) {
+  fetch({ redirect, store }): void {
     if (store.getters['auth/isAuthenticated']) {
-      redirect(302, { name: 'activities-date' })
+      redirect({ name: 'activities-date' })
     }
   },
   methods: {
-    authenticate() {
+    authenticate(): void {
       this.loading = true
       this.$store
         .dispatch('auth/authenticate', this.form)
         .then(_ => {
           this.$router.push({ name: 'activities-date' })
         })
-        .catch(err => {
+        .catch((err: AxiosError) => {
           if (err.response && err.response.status === 401) {
             this.$store.commit('flash/error', {
               text: 'Email hoặc mật khẩu không chính xác'
@@ -69,7 +80,7 @@ export default {
         })
     }
   }
-}
+})
 </script>
 
 <style lang="stylus" scoped>
