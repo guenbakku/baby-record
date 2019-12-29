@@ -28,7 +28,7 @@
             <v-spacer />
             <double-confirm-dialog
               :loading="loading"
-              :check-value="baby.name"
+              :check-value="baby ? baby.name : ''"
               @confirmed="deleteBaby()"
             >
               <template v-slot:activator="{ on }">
@@ -38,7 +38,8 @@
                 <div>
                   Bạn có chắc chắn muốn xóa thông tin em bé này? Tất cả ghi chép
                   của em bé đều sẽ bị xóa. Hãy nhập tên em bé
-                  <b>"{{ baby.name }}"</b> vào ô bên dưới để xác nhận.
+                  <b>"{{ baby ? baby.name : '' }}"</b> vào ô bên dưới để xác
+                  nhận.
                 </div>
               </template>
             </double-confirm-dialog>
@@ -49,41 +50,51 @@
   </v-layout>
 </template>
 
-<script>
-import Loading from '~/components/core/card-text/Loading'
-import Error from '~/components/core/card-text/Error'
-import DoubleConfirmDialog from '~/components/core/DoubleConfirmDialog'
-import BabyForm from '~/components/babies/BabyForm'
+<script lang="ts">
+import Vue from 'vue'
+import { Location } from 'vue-router'
+import Loading from '~/components/core/card-text/Loading.vue'
+import Error from '~/components/core/card-text/Error.vue'
+import DoubleConfirmDialog from '~/components/core/DoubleConfirmDialog.vue'
+import BabyForm from '~/components/babies/BabyForm.vue'
 import InitializationStatusMixin from '~/mixins/initialization-status.mixin'
+import { Baby } from '~/store/babies/models'
 
-export default {
+type Data = {
+  baby: Baby | undefined
+  errors: any // TODO: declare validation error type
+  loading: boolean
+  formInitialized: boolean
+}
+
+export default Vue.extend({
   components: { Loading, Error, DoubleConfirmDialog, BabyForm },
   mixins: [InitializationStatusMixin],
-  data: () => ({
+  data: (): Data => ({
     baby: undefined,
     errors: {},
     loading: false,
     formInitialized: false
   }),
   computed: {
-    babyId() {
+    babyId(): string {
       return this.$route.params.id
     },
-    listRoute() {
+    listRoute(): Location {
       return {
         name: 'babies'
       }
     }
   },
   mounted() {
-    this.setInitializing()
+    ;(this as any).setInitializing()
     Promise.all([this.getBaby()])
       .then(_ => {
-        this.setInitializationSuccess()
+        ;(this as any).setInitializationSuccess()
       })
       // eslint-disable-next-line handle-callback-err
       .catch(_ => {
-        this.setInitializationError()
+        ;(this as any).setInitializationError()
       })
   },
   methods: {
@@ -106,7 +117,7 @@ export default {
     editBaby() {
       this.loading = true
       this.errors = {}
-      const baby = this.$refs.form.getData()
+      const baby = (this.$refs.form as any).getData() // TODO: declare form type
       this.$store
         .dispatch('babies/editBaby', {
           babyId: this.babyId,
@@ -152,5 +163,5 @@ export default {
         })
     }
   }
-}
+})
 </script>

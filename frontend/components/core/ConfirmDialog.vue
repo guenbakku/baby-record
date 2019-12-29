@@ -32,16 +32,21 @@
   </v-dialog>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { createComponent, ref } from '@vue/composition-api'
+
+export default createComponent({
   props: {
     loading: {
       type: Boolean,
       default: false
     }
   },
-  data: () => ({
-    dialog: false
-  })
-}
+  setup() {
+    const dialog = ref(false)
+    return {
+      dialog
+    }
+  }
+})
 </script>

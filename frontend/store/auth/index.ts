@@ -8,7 +8,7 @@ const STORAGE_TOKEN_KEY = 'token'
 
 export const state = (): State => ({
   token: null,
-  profile: {}
+  profile: null
 })
 
 export const getters: GetterTree<State, RootState> = {
@@ -28,7 +28,7 @@ export const mutations: MutationTree<State> = {
     state.profile = profile
   },
   clearAll(state) {
-    state.profile = {}
+    state.profile = null
     state.token = null
   },
   loadFromLocalStorage(state) {

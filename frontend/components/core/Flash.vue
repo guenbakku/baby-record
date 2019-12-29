@@ -7,26 +7,33 @@
   </v-snackbar>
 </template>
 
-<script>
-export default {
-  data: () => ({
-    timeout: 6000
-  }),
-  computed: {
-    snackbar: {
+<script lang="ts">
+import { createComponent, ref, computed } from '@vue/composition-api'
+import { useStore } from '@u3u/vue-hooks'
+import { RootState } from '~/store/models'
+
+export default createComponent({
+  setup() {
+    const store = useStore<RootState>()
+
+    const timeout = ref(6000)
+    const snackbar = computed({
       get() {
-        return this.$store.state.flash.show
+        return store.value.state.flash.show
       },
-      set(_) {
-        this.$store.commit('flash/hide')
+      set() {
+        store.value.commit('flash/hide')
       }
-    },
-    text() {
-      return this.$store.state.flash.text
-    },
-    color() {
-      return this.$store.getters['flash/color']
+    })
+    const text = computed(() => store.value.state.flash.text)
+    const color = computed(() => store.value.getters['flash/color'])
+
+    return {
+      timeout,
+      snackbar,
+      text,
+      color
     }
   }
-}
+})
 </script>

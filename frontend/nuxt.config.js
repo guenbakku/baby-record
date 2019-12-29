@@ -81,6 +81,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '@/plugins/composition-api',
     '@/plugins/es-shim',
     '@/plugins/object-path',
     '@/plugins/moment',

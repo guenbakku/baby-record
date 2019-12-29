@@ -13,7 +13,7 @@ const authMiddleware: Middleware = ({ store, redirect, route }) => {
     }
   } else {
     const profile = store.state.auth.profile
-    if (Object.values(profile).length === 0) {
+    if (!profile) {
       store.dispatch('auth/getProfile')
     }
   }

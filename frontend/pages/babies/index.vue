@@ -16,41 +16,48 @@
   </v-layout>
 </template>
 
-<script>
-import BabyList from '~/components/babies/BabyList'
-import Loading from '~/components/core/card-text/Loading'
-import NoData from '~/components/core/card-text/NoData'
+<script lang="ts">
+import Vue from 'vue'
+import { Location } from 'vue-router'
+import BabyList from '~/components/babies/BabyList.vue'
+import Loading from '~/components/core/card-text/Loading.vue'
+import NoData from '~/components/core/card-text/NoData.vue'
+import { State } from '~/store/babies/models'
 
-export default {
+type Data = {
+  completed: boolean
+}
+
+export default Vue.extend({
   components: { BabyList, Loading, NoData },
-  data() {
+  data(): Data {
     return {
       completed: false
     }
   },
   computed: {
-    babies() {
+    babies(): State['babies'] {
       return this.$store.state.babies.babies
     },
-    isNoData() {
+    isNoData(): boolean {
       return this.completed && Object.keys(this.babies || {}).length === 0
     },
-    addRoute() {
+    addRoute(): Location {
       return {
         name: 'babies-add'
       }
     }
   },
-  mounted() {
+  mounted(): void {
     this.getBabies()
   },
   methods: {
-    getBabies() {
+    getBabies(): void {
       this.completed = false
       this.$store.dispatch('babies/getBabies').finally(() => {
         this.completed = true
       })
     }
   }
-}
+})
 </script>

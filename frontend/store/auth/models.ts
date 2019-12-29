@@ -12,7 +12,7 @@ export type MeResponse = ViewResponse<User>
 
 export type State = {
   token: string | null
-  profile: User | {}
+  profile: User | null
 }
 
 declare module '../models' {

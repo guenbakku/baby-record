@@ -4,3 +4,8 @@
     <slot>Không tải được dữ liệu</slot>
   </v-card-text>
 </template>
+
+<script lang="ts">
+import { createComponent } from '@vue/composition-api'
+export default createComponent({})
+</script>

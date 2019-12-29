@@ -14,9 +14,11 @@ module.exports = {
     'prettier/@typescript-eslint'
   ],
   plugins: [
+    'eslint-plugin-tsdoc',
     'prettier'
   ],
   // add your custom rules here
   rules: {
+    "tsdoc/syntax": "warn"
   }
 }
