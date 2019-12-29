@@ -1,15 +1,11 @@
 import qs from 'qs'
-import axios from 'axios'
+import axios, { AxiosResponse, CancelTokenSource } from 'axios'
 import { MutationTree, ActionTree } from 'vuex'
-
-export type State = {
-  date: string | undefined
-  activities: any[] // TODO: declare types
-  cancelTokenSources: any // TODO
-}
+import { RootState, AddResponse, EditResponse, DeleteResponse } from '../models'
+import { State, ActivityIndexResponse, ActivityViewResponse } from './models'
 
 export const state = (): State => ({
-  date: undefined,
+  date: null,
   activities: [],
   cancelTokenSources: {}
 })
@@ -26,7 +22,10 @@ export const mutations: MutationTree<State> = {
   },
   setCancelTokenSource(
     state: State,
-    { key, cancelTokenSource }: { key: string; cancelTokenSource: any }
+    {
+      key,
+      cancelTokenSource
+    }: { key: string; cancelTokenSource: CancelTokenSource }
   ) {
     state.cancelTokenSources = {
       ...state.cancelTokenSources,
@@ -35,7 +34,7 @@ export const mutations: MutationTree<State> = {
   }
 }
 
-export const actions: ActionTree<State, State> = {
+export const actions: ActionTree<State, RootState> = {
   /**
    * Get activities of provided babyId in provided date
    * @param {Object} param0
@@ -60,7 +59,7 @@ export const actions: ActionTree<State, State> = {
       .toISOString()
 
     return this.$axios
-      .get('/activities', {
+      .get<any, AxiosResponse<ActivityIndexResponse>>('/activities', {
         params: {
           baby_id: babyId,
           filter: { from, to },
@@ -84,13 +83,14 @@ export const actions: ActionTree<State, State> = {
    * @param {Object} param0
    * @param {Object} param1
    */
-  addActivity(
-    _,
-    { babyId, activity }: { babyId: string; activity: State['activities'] }
-  ) {
-    return this.$axios.post('activities', activity, {
-      params: { baby_id: babyId }
-    })
+  addActivity(_, { babyId, activity }: { babyId: string; activity: any }) {
+    return this.$axios.post<any, AxiosResponse<AddResponse>>(
+      'activities',
+      activity,
+      {
+        params: { baby_id: babyId }
+      }
+    )
   },
 
   /**
@@ -98,8 +98,10 @@ export const actions: ActionTree<State, State> = {
    * @param {Object} param0
    * @param {Object} param1
    */
-  viewActivity(_, { activityId }) {
-    return this.$axios.get(`activities/${activityId}`)
+  viewActivity(_, { activityId }: { activityId: string }) {
+    return this.$axios.get<any, AxiosResponse<ActivityViewResponse>>(
+      `activities/${activityId}`
+    )
   },
 
   /**
@@ -107,8 +109,14 @@ export const actions: ActionTree<State, State> = {
    * @param {Object} param0
    * @param {Object} param1
    */
-  editActivity(_, { activityId, activity }) {
-    return this.$axios.put(`activities/${activityId}`, activity)
+  editActivity(
+    _,
+    { activityId, activity }: { activityId: string; activity: any }
+  ) {
+    return this.$axios.put<any, AxiosResponse<EditResponse>>(
+      `activities/${activityId}`,
+      activity
+    )
   },
 
   /**
@@ -116,7 +124,9 @@ export const actions: ActionTree<State, State> = {
    * @param {Object} param0
    * @param {Object} param1
    */
-  deleteActivity(_, { activityId }) {
-    return this.$axios.delete(`activities/${activityId}`)
+  deleteActivity(_, { activityId }: { activityId: string }) {
+    return this.$axios.delete<any, AxiosResponse<DeleteResponse>>(
+      `activities/${activityId}`
+    )
   }
 }

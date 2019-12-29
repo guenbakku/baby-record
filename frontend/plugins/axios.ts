@@ -1,6 +1,12 @@
-import axios from 'axios'
+import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 import { throttleAdapterEnhancer, cacheAdapterEnhancer } from 'axios-extensions'
 import { Plugin } from '@nuxt/types'
+
+declare module 'axios' {
+  export interface AxiosRequestConfig {
+    useCache?: boolean
+  }
+}
 
 /**
  * Convert validated errors into the format that can be displayed in form
@@ -60,7 +66,7 @@ const axiosPlugin: Plugin = ({ $axios, store, redirect, app }) => {
   $axios.setHeader('Content-Type', 'application/json')
   $axios.setHeader('X-Timezone', app.$moment.tz.guess())
 
-  $axios.onRequest(config => {
+  $axios.onRequest((config: AxiosRequestConfig) => {
     // Add access token to request
     const token = store.state.auth.token
     if (token) {
@@ -71,7 +77,7 @@ const axiosPlugin: Plugin = ({ $axios, store, redirect, app }) => {
   /**
    * Configure interceptor on error
    */
-  $axios.onError(error => {
+  $axios.onError((error: AxiosError) => {
     if (axios.isCancel(error)) {
       // Do nothing
     } else if (!error.response) {
