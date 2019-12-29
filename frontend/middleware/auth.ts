@@ -1,7 +1,9 @@
+import { Middleware } from '@nuxt/types'
+
 /**
  * Auth middleware
  */
-export default function({ store, redirect, route }) {
+const authMiddleware: Middleware = ({ store, redirect, route }) => {
   store.commit('auth/loadFromLocalStorage')
 
   const isAuthenticated = store.getters['auth/isAuthenticated']
@@ -16,3 +18,5 @@ export default function({ store, redirect, route }) {
     }
   }
 }
+
+export default authMiddleware

@@ -1,7 +1,9 @@
+import { Middleware } from '@nuxt/types'
+
 /**
  * Baby middleware
  */
-export default function({ store, redirect, route }) {
+const babyMiddleware: Middleware = ({ store, redirect, route }) => {
   const isAuthenticated = store.getters['auth/isAuthenticated']
   if (!isAuthenticated) {
     return
@@ -13,8 +15,10 @@ export default function({ store, redirect, route }) {
   if (Object.values(babies).length === 0) {
     store.dispatch('babies/getBabies').then(res => {
       if (res.data.data.length === 0 && route.name !== 'babies-add') {
-        redirect(302, { name: 'babies' })
+        redirect({ name: 'babies' })
       }
     })
   }
 }
+
+export default babyMiddleware
