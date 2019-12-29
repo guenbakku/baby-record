@@ -6,11 +6,6 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  data() {
-    return {
-      message: 'test'
-    }
-  },
   mounted() {
     this.$store.commit('auth/removeToken')
     this.$store.commit('auth/clearAll')
