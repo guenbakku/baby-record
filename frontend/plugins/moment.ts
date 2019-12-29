@@ -17,15 +17,16 @@ declare module 'vuex/types/index' {
   }
 }
 
-const userLang = navigator.language
+const userLang = 'vi'
 moment.tz(moment.tz.guess())
 moment.locale(userLang)
 Vue.use(VueMoment, {
   moment
 })
 
-const momentPlugin: Plugin = (_, inject) => {
+const momentPlugin: Plugin = ({ store }, inject) => {
   inject('moment', moment)
+  store.commit('config/setLocale', { value: moment.locale() })
 }
 
 export default momentPlugin

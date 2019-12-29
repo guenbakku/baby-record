@@ -3,7 +3,8 @@ import { State } from './models'
 
 export const state = (): State => ({
   headerTitle: null,
-  useBabySwitch: false
+  useBabySwitch: false,
+  locale: null
 })
 
 export const mutations: MutationTree<State> = {
@@ -12,5 +13,8 @@ export const mutations: MutationTree<State> = {
   },
   setUseBabySwitch(state, { value }: { value: boolean }) {
     state.useBabySwitch = value
+  },
+  setLocale(state, { value }: { value: string }) {
+    state.locale = value
   }
 }

@@ -5,7 +5,7 @@
         <v-icon>keyboard_arrow_left</v-icon>
       </v-btn>
       <v-icon>event</v-icon>
-      <span class="subheading" v-on="on">{{ mDate }}</span>
+      <span class="subheading" v-on="on">{{ mDate | moment('L') }}</span>
       <v-btn icon class="ml-2" @click="addOneDay">
         <v-icon>keyboard_arrow_right</v-icon>
       </v-btn>
@@ -20,43 +20,61 @@
   </v-menu>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import {
+  createComponent,
+  computed,
+  ref,
+  SetupContext
+} from '@vue/composition-api'
+import { useStore } from '@u3u/vue-hooks'
+import { RootState } from '~/store/models'
+
+type Props = {
+  date: string | undefined
+}
+
+export default createComponent({
   props: {
     date: {
-      type: String,
-      default: null
+      type: String as () => Props['date'],
+      default: undefined
     }
   },
-  data() {
-    return {
-      menu: false
-    }
-  },
-  computed: {
-    mDate: {
+  setup(props: Props, ctx: SetupContext) {
+    const store = useStore<RootState>()
+    const menu = ref(false)
+    const mDate = computed<string>({
       get() {
-        return this.date || this.$moment().format('YYYY-MM-DD')
+        return ctx.root.$moment(props.date).format('YYYY-MM-DD')
       },
       set(date) {
-        this.$emit('selected', date)
+        ctx.emit('selected', date)
       }
-    },
-    locale() {
-      return this.$store.state.config.locale
-    }
-  },
-  methods: {
-    subOneDay() {
-      this.mDate = this.$moment(this.mDate)
+    })
+    const locale = computed(() => store.value.state.config.locale)
+
+    const subOneDay = () => {
+      mDate.value = ctx.root
+        .$moment(mDate.value)
         .subtract(1, 'days')
         .format('YYYY-MM-DD')
-    },
-    addOneDay() {
-      this.mDate = this.$moment(this.mDate)
+    }
+
+    const addOneDay = () => {
+      mDate.value = ctx.root
+        .$moment(mDate.value)
         .add(1, 'days')
         .format('YYYY-MM-DD')
     }
+
+    return {
+      menu,
+      mDate,
+      locale,
+      subOneDay,
+      addOneDay
+    }
   }
-}
+})
 </script>

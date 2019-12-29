@@ -1,7 +1,20 @@
+import { Component } from 'vue'
+
+type Maps = {
+  [k: string]: {
+    component: string
+    color: string
+  }
+}
+
+type ComponentCollection = {
+  [k: string]: Component
+}
+
 /**
  * Maps
  */
-const MAPS = {
+const MAPS: Maps = {
   bottle_milk_activity: {
     component: 'BottleMilkActivity',
     color: 'crimson'
@@ -30,15 +43,12 @@ const MAPS = {
 
 /**
  * Return list of component object.
- *
- * @param Void
- * @return {Object}
  */
 const loadComponents = function() {
-  const components = {}
+  const components: ComponentCollection = {}
   for (const key in MAPS) {
     const componentName = MAPS[key].component
-    const component = require(`./${componentName}`).default
+    const component = require(`./${componentName}`).default as Component
     components[componentName] = component
   }
   return components
@@ -46,9 +56,6 @@ const loadComponents = function() {
 
 /**
  * Return maps.
- *
- * @param Void
- * @return {Object}
  */
 const getMaps = function() {
   return MAPS

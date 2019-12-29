@@ -15,34 +15,51 @@
   </router-link>
 </template>
 
-<script>
-import ActivityMixin from './activity.mixin'
+<script lang="ts">
+import { createComponent, computed } from '@vue/composition-api'
+import { ActivityItem, initActivityItem } from './models'
+import { getTypeStyle, getEditRoute } from './utils'
 
-export default {
-  mixins: [ActivityMixin],
+/* eslint-disable camelcase */
+type DiaperActivity = {
+  diaper_activity: {
+    [k: string]: boolean
+  }
+}
+
+type Props = {
+  activity: ActivityItem<DiaperActivity>
+  color: string
+}
+/* eslint-enable camelcase */
+
+export default createComponent({
   props: {
     activity: {
-      type: Object,
-      default: () => ({
-        id: undefined,
-        started: undefined,
-        memo: undefined,
-        activity_type: {
-          code: undefined,
-          label: undefined
-        }
-      })
-    }
+      type: Object as () => Props['activity'],
+      default: () =>
+        initActivityItem<DiaperActivity>({
+          diaper_activity: {
+            is_pee: false,
+            is_shit: false
+          }
+        })
+    },
+    color: String
   },
-  computed: {
-    content() {
-      const content = this.activity.diaper_activity
-      const events = {
+  setup(props: Props) {
+    const typeStyle = computed(() => getTypeStyle(props.color))
+    const editRoute = computed(() => getEditRoute(props.activity.id))
+    const content = computed(() => {
+      const content = props.activity.diaper_activity
+      const events: {
+        [k: string]: string
+      } = {
         is_pee: 'Tè',
         is_shit: 'Ị'
       }
       for (const key in events) {
-        if (!content[key]) {
+        if (!(key in content) || content[key] === false) {
           delete events[key]
         }
       }
@@ -52,9 +69,15 @@ export default {
       } else {
         return 'Không có gì'
       }
+    })
+
+    return {
+      typeStyle,
+      editRoute,
+      content
     }
   }
-}
+})
 </script>
 
 <style scoped lang="stylus" src="./style.styl"></style>
