@@ -2,7 +2,7 @@ version: "3"
 services:
   nuxt:
     container_name: baby-record-frontend
-    build: ./docker/nuxt
+    build: ./.docker/nuxt
     image: node:nuxt
     working_dir: /home/node/app
     volumes:

@@ -5,7 +5,7 @@
 /tmp/*
 /vendor/*
 /config/Migrations/schema-dump-default.lock
-/docker/data/*
+/.docker/data/*
 
 # OS generated files #
 ######################

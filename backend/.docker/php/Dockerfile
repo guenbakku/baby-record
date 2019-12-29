@@ -9,7 +9,9 @@ RUN apt-get update && apt-get install -y \
         libpng-dev \
         libicu-dev \
     && docker-php-ext-install -j$(nproc) intl \
-    && docker-php-ext-install -j$(nproc) pdo_mysql
+    && docker-php-ext-install -j$(nproc) pdo_mysql \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug
 
 # Install zip & git (Required for composer install)
 RUN apt-get install -y git zip

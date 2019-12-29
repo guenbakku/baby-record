@@ -2,12 +2,12 @@ version: '3'
 
 services:
   php:
-    build: ./docker/php
+    build: ./.docker/php
     image: php:7.2-apache-cakephp3
     container_name: baby-record-backend_php
     volumes:
-      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
-      - ./docker/php/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+      - ./.docker/php/php.ini:/usr/local/etc/php/php.ini
+      - ./.docker/php/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
       - ./:/var/www/html
     depends_on:
       - mysql
@@ -19,7 +19,7 @@ services:
     image: mysql:5.6
     container_name: baby-record-backend_mysql
     volumes:
-      - ./docker/data/mysql:/var/lib/mysql
+      - ./.docker/data/mysql:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
     networks:
@@ -37,7 +37,7 @@ services:
     ports:
       - 4040:80
     volumes:
-      - ./docker/data/phpmyadmin/sessions:/sessions
+      - ./.docker/data/phpmyadmin/sessions:/sessions
     networks:
       - baby-record
 networks:
