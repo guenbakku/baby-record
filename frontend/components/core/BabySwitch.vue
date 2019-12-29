@@ -39,10 +39,10 @@
 <script lang="ts">
 import { createComponent, computed } from '@vue/composition-api'
 import { useStore } from '@u3u/vue-hooks'
-import useDateTime from '~/hooks/datetime'
-import SexIcon from '~/components/core/SexIcon.vue'
 import { RootState } from '~/store/models'
 import { Baby } from '~/store/babies/models'
+import useDateTime from '~/hooks/use-datetime'
+import SexIcon from '~/components/core/SexIcon.vue'
 
 export default createComponent({
   components: { SexIcon },

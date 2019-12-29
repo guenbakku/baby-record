@@ -3,15 +3,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { createComponent, SetupContext, onMounted } from '@vue/composition-api'
 
-export default Vue.extend({
-  mounted() {
-    this.$store.commit('auth/removeToken')
-    this.$store.commit('auth/clearAll')
-    this.$store.commit('babies/removeCurrentId')
-    this.$store.commit('babies/clearAll')
-    this.$router.push({ name: 'login' })
+export default createComponent({
+  setup(_, ctx: SetupContext) {
+    onMounted(() => {
+      ctx.root.$store.commit('auth/removeToken')
+      ctx.root.$store.commit('auth/clearAll')
+      ctx.root.$store.commit('babies/removeCurrentId')
+      ctx.root.$store.commit('babies/clearAll')
+      ctx.root.$router.push({ name: 'login' })
+    })
   }
 })
 </script>

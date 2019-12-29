@@ -1,9 +1,22 @@
+import { Component } from 'vue'
+
+type Maps = {
+  [k: string]: {
+    title: string
+    component: string
+  }
+}
+
+type ComponentCollection = {
+  [k: string]: Component
+}
+
 /**
  * Maps.
  * The order of items in this object is
  * the order of buttons in SpeedDial component.
  */
-const MAPS = {
+const MAPS: Maps = {
   breast_milk_activity: {
     title: 'Bú mẹ',
     component: 'BreastMilkForm'
@@ -32,15 +45,12 @@ const MAPS = {
 
 /**
  * Return list of component object.
- *
- * @param Void
- * @return {Object}
  */
 const loadComponents = function() {
-  const components = {}
+  const components: ComponentCollection = {}
   for (const key in MAPS) {
     const componentName = MAPS[key].component
-    const component = require(`./${componentName}`).default
+    const component = require(`./${componentName}`).default as Component
     components[componentName] = component
   }
   return components
@@ -48,9 +58,6 @@ const loadComponents = function() {
 
 /**
  * Return maps.
- *
- * @param Void
- * @return {Object}
  */
 const getMaps = function() {
   return MAPS
