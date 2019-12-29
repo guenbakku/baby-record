@@ -50,7 +50,7 @@ export default {
   watch: {
     data: {
       immediate: true,
-      handler: function(val) {
+      handler(val) {
         if (Object.keys(val || {}).length > 0) {
           this.form = JSON.parse(JSON.stringify(val))
         }
@@ -60,12 +60,12 @@ export default {
   mounted() {
     this.setInitializing()
     Promise.all([this.getSexCodes()])
-      .then(res => {
+      .then(_ => {
         this.setInitializationSuccess()
         this.$emit('initialized')
       })
       // eslint-disable-next-line handle-callback-err
-      .catch(err => {
+      .catch(_ => {
         this.setInitializationError()
       })
   },
@@ -73,7 +73,7 @@ export default {
     getData() {
       return JSON.parse(JSON.stringify(this.form))
     },
-    getSexCodes: function() {
+    getSexCodes() {
       return this.$store
         .dispatch('codes/viewCode', { model: 'sexes' })
         .then(res => {

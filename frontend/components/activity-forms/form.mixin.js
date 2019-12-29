@@ -5,26 +5,26 @@ export default {
   props: {
     data: {
       type: Object,
-      default: function() {
+      default() {
         return {}
       }
     },
     errors: {
       type: Object,
-      default: function() {
+      default() {
         return {}
       }
     }
   },
   computed: {
-    isPropDataSet: function() {
+    isPropDataSet() {
       return this.$options.propsData.data !== undefined
     }
   },
   watch: {
     data: {
       immediate: true,
-      handler: function(val) {
+      handler(val) {
         if (this.isPropDataSet) {
           let form
           if (this.transformPropToData) {

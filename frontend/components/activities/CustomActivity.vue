@@ -35,7 +35,7 @@ export default {
     }
   },
   computed: {
-    content: function() {
+    content() {
       const content = this.activity.custom_activity
       return content.title
     }

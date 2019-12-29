@@ -44,20 +44,20 @@ export default {
     }
   },
   computed: {
-    listRoute: function() {
+    listRoute() {
       return {
         name: 'babies'
       }
     }
   },
   methods: {
-    addBaby: function() {
+    addBaby() {
       this.loading = true
       this.errors = {}
       const baby = this.$refs.form.getData()
       this.$store
         .dispatch('babies/addBaby', { baby })
-        .then(res => {
+        .then(_ => {
           this.$store.commit('flash/success', {
             text: 'Thêm thông tin em bé thành công'
           })

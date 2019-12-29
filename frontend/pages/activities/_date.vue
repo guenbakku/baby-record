@@ -102,31 +102,31 @@ export default {
     }
   },
   computed: {
-    activities: function() {
+    activities() {
       return this.$store.state.activities.activities
     },
-    baby: function() {
+    baby() {
       return this.$store.getters['babies/current']
     },
-    date: function() {
+    date() {
       return (
         this.$route.params.date ||
         this.$store.state.activities.date ||
         this.$moment().format('YYYY-MM-DD')
       )
     },
-    babyAndDate: function() {
+    babyAndDate() {
       return [this.baby, this.date]
     },
-    isNoData: function() {
+    isNoData() {
       return this.completed && this.activities.length === 0
     },
-    speedDialItems: function() {
+    speedDialItems() {
       const map = getMaps()
       const items = []
       for (const key in map) {
         const item = {
-          key: key,
+          key,
           title: map[key].title,
           to: {
             name: 'activities-add-type',
@@ -141,7 +141,7 @@ export default {
   watch: {
     babyAndDate: {
       immediate: true,
-      handler: function(vals) {
+      handler(vals) {
         const shouldCall = vals.filter(val => !!val).length === vals.length
         if (shouldCall) {
           this.getActivities()
@@ -149,15 +149,15 @@ export default {
       }
     }
   },
-  mounted: function() {
+  mounted() {
     this.$store.commit('activities/setActivities', { activities: {} })
     this.$store.commit('activities/setDate', { date: this.date })
   },
   methods: {
-    changeDate: function(date) {
+    changeDate(date) {
       this.$router.push({ name: 'activities-date', params: { date } })
     },
-    getActivities: function() {
+    getActivities() {
       const cancelTokenSource = this.$store.state.activities.cancelTokenSources
         .getActivities
       if (cancelTokenSource) {
@@ -170,7 +170,7 @@ export default {
           babyId: this.baby.id,
           date: this.date
         })
-        .then(res => {
+        .then(_ => {
           this.summary()
         })
         .catch(function(err) {
@@ -182,14 +182,14 @@ export default {
           this.completed = true
         })
     },
-    summary: function() {
+    summary() {
       const methods = {
         breast_milk_activity: {
           result: {
             times: 0,
             duration: 0
           },
-          invoke: function(subActivity) {
+          invoke(subActivity) {
             this.result.times++
             this.result.duration += subActivity.duration
           }
@@ -201,7 +201,7 @@ export default {
             fomular_volume: 0,
             total_volume: 0
           },
-          invoke: function(subActivity) {
+          invoke(subActivity) {
             this.result.times++
             this.result.breast_volume += subActivity.breast_volume
             this.result.fomular_volume += subActivity.fomular_volume
@@ -215,7 +215,7 @@ export default {
             pee_times: 0,
             shit_times: 0
           },
-          invoke: function(subActivity) {
+          invoke(subActivity) {
             this.result.times++
             if (subActivity.is_pee) {
               this.result.pee_times++
@@ -230,7 +230,7 @@ export default {
             times: 0,
             volume: 0
           },
-          invoke: function(subActivity) {
+          invoke(subActivity) {
             this.result.times++
             this.result.volume += subActivity.volume
           }

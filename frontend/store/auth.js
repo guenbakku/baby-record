@@ -14,10 +14,10 @@ export const getters = {
 }
 
 export const mutations = {
-  setToken(state, { token }) {
+  setToken(_, { token }) {
     window.localStorage.setItem(STORAGE_TOKEN_KEY, token)
   },
-  removeToken(state) {
+  removeToken(_) {
     window.localStorage.removeItem(STORAGE_TOKEN_KEY)
   },
   setProfile(state, { profile }) {

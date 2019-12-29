@@ -66,10 +66,10 @@ export default {
     formInitialized: false
   }),
   computed: {
-    babyId: function() {
+    babyId() {
       return this.$route.params.id
     },
-    listRoute: function() {
+    listRoute() {
       return {
         name: 'babies'
       }
@@ -78,16 +78,16 @@ export default {
   mounted() {
     this.setInitializing()
     Promise.all([this.getBaby()])
-      .then(res => {
+      .then(_ => {
         this.setInitializationSuccess()
       })
       // eslint-disable-next-line handle-callback-err
-      .catch(err => {
+      .catch(_ => {
         this.setInitializationError()
       })
   },
   methods: {
-    getBaby: function() {
+    getBaby() {
       return this.$store
         .dispatch('babies/viewBaby', { babyId: this.babyId })
         .then(res => {
@@ -103,7 +103,7 @@ export default {
           throw err
         })
     },
-    editBaby: function() {
+    editBaby() {
       this.loading = true
       this.errors = {}
       const baby = this.$refs.form.getData()
@@ -112,7 +112,7 @@ export default {
           babyId: this.babyId,
           baby
         })
-        .then(res => {
+        .then(_ => {
           this.$store.commit('flash/success', {
             text: 'Sửa thông tin em bé thành công'
           })
@@ -130,11 +130,11 @@ export default {
           this.loading = false
         })
     },
-    deleteBaby: function() {
+    deleteBaby() {
       this.loading = true
       this.$store
         .dispatch('babies/deleteBaby', { babyId: this.babyId })
-        .then(res => {
+        .then(_ => {
           this.$store.commit('flash/success', {
             text: 'Xóa thông tin em bé thành công'
           })

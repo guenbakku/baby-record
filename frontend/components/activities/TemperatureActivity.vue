@@ -35,7 +35,7 @@ export default {
     }
   },
   computed: {
-    content: function() {
+    content() {
       const content = this.activity.temperature_activity
       const temperature = content.temperature
       return `${temperature}°C`

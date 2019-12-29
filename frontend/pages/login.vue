@@ -54,7 +54,7 @@ export default {
       this.loading = true
       this.$store
         .dispatch('auth/authenticate', this.form)
-        .then(res => {
+        .then(_ => {
           this.$router.push({ name: 'activities-date' })
         })
         .catch(err => {

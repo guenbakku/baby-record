@@ -14,10 +14,10 @@ export default {
   }),
   computed: {
     snackbar: {
-      get: function() {
+      get() {
         return this.$store.state.flash.show
       },
-      set: function(val) {
+      set(_) {
         this.$store.commit('flash/hide')
       }
     },

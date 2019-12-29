@@ -16,10 +16,10 @@ export default {
     }
   },
   computed: {
-    component: function() {
+    component() {
       return getMaps()[this.activity.activity_type.code].component
     },
-    color: function() {
+    color() {
       return getMaps()[this.activity.activity_type.code].color
     }
   }

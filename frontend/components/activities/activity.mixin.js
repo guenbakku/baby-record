@@ -3,7 +3,7 @@ export default {
     color: String
   },
   computed: {
-    editRoute: function() {
+    editRoute() {
       return {
         name: 'activities-edit-id',
         params: {
@@ -11,7 +11,7 @@ export default {
         }
       }
     },
-    typeStyle: function() {
+    typeStyle() {
       return {
         backgroundColor: this.color
       }

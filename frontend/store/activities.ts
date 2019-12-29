@@ -1,20 +1,33 @@
 import qs from 'qs'
-import { CancelToken } from 'axios'
+import axios from 'axios'
+import { MutationTree, ActionTree } from 'vuex'
 
-export const state = () => ({
+export type State = {
+  date: string | undefined
+  activities: any[] // TODO: declare types
+  cancelTokenSources: any // TODO
+}
+
+export const state = (): State => ({
   date: undefined,
   activities: [],
   cancelTokenSources: {}
 })
 
-export const mutations = {
-  setDate(state, { date }) {
+export const mutations: MutationTree<State> = {
+  setDate(state: State, { date }: { date: string }) {
     state.date = date
   },
-  setActivities(state, { activities }) {
+  setActivities(
+    state: State,
+    { activities }: { activities: State['activities'] }
+  ) {
     state.activities = activities
   },
-  setCancelTokenSource(state, { key, cancelTokenSource }) {
+  setCancelTokenSource(
+    state: State,
+    { key, cancelTokenSource }: { key: string; cancelTokenSource: any }
+  ) {
     state.cancelTokenSources = {
       ...state.cancelTokenSources,
       [key]: cancelTokenSource
@@ -22,14 +35,17 @@ export const mutations = {
   }
 }
 
-export const actions = {
+export const actions: ActionTree<State, State> = {
   /**
    * Get activities of provided babyId in provided date
    * @param {Object} param0
    * @param {Object} param1
    */
-  getActivities({ commit }, { babyId, date }) {
-    const cancelTokenSource = CancelToken.source()
+  getActivities(
+    { commit },
+    { babyId, date }: { babyId: string; date: string }
+  ) {
+    const cancelTokenSource = axios.CancelToken.source()
     commit('setCancelTokenSource', {
       key: 'getActivities',
       cancelTokenSource
@@ -52,7 +68,7 @@ export const actions = {
           sort: 'started',
           direction: 'desc'
         },
-        paramsSerializer: function(params) {
+        paramsSerializer(params) {
           return qs.stringify(params, { arrayFormat: 'brackets' })
         },
         cancelToken: cancelTokenSource.token
@@ -68,7 +84,10 @@ export const actions = {
    * @param {Object} param0
    * @param {Object} param1
    */
-  addActivity({ commit }, { babyId, activity }) {
+  addActivity(
+    _,
+    { babyId, activity }: { babyId: string; activity: State['activities'] }
+  ) {
     return this.$axios.post('activities', activity, {
       params: { baby_id: babyId }
     })
@@ -79,7 +98,7 @@ export const actions = {
    * @param {Object} param0
    * @param {Object} param1
    */
-  viewActivity({ commit }, { activityId }) {
+  viewActivity(_, { activityId }) {
     return this.$axios.get(`activities/${activityId}`)
   },
 
@@ -88,7 +107,7 @@ export const actions = {
    * @param {Object} param0
    * @param {Object} param1
    */
-  editActivity({ commit }, { activityId, activity }) {
+  editActivity(_, { activityId, activity }) {
     return this.$axios.put(`activities/${activityId}`, activity)
   },
 
@@ -97,7 +116,7 @@ export const actions = {
    * @param {Object} param0
    * @param {Object} param1
    */
-  deleteActivity({ commit }, { activityId }) {
+  deleteActivity(_, { activityId }) {
     return this.$axios.delete(`activities/${activityId}`)
   }
 }

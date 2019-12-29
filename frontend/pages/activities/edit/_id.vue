@@ -57,34 +57,34 @@ export default {
     loading: false
   }),
   computed: {
-    date: function() {
+    date() {
       return this.$store.state.activities.date
     },
-    type: function() {
+    type() {
       return this.activity ? this.activity.activity_type.code : undefined
     },
-    component: function() {
+    component() {
       return this.type ? getMaps()[this.type].component : undefined
     },
-    title: function() {
+    title() {
       return this.type ? getMaps()[this.type].title : ''
     },
-    activityId: function() {
+    activityId() {
       return this.$route.params.id
     }
   },
-  mounted: function() {
+  mounted() {
     this.getActivity()
   },
   methods: {
-    test: function() {
+    test() {
       alert('OK')
     },
-    getRouteToActivitiesPage: function(date = undefined) {
+    getRouteToActivitiesPage(date = undefined) {
       date = date || this.date
       return { name: 'activities-date', params: { date } }
     },
-    getActivity: function() {
+    getActivity() {
       this.$store
         .dispatch('activities/viewActivity', { activityId: this.activityId })
         .then(res => {
@@ -98,7 +98,7 @@ export default {
           }
         })
     },
-    editActivity: function() {
+    editActivity() {
       this.loading = true
       this.errors = {}
       const activity = this.$refs.form.getData()
@@ -107,7 +107,7 @@ export default {
           activityId: this.activityId,
           activity
         })
-        .then(res => {
+        .then(_ => {
           this.$store.commit('flash/success', {
             text: 'Sửa ghi chép thành công'
           })
@@ -125,11 +125,11 @@ export default {
           this.loading = false
         })
     },
-    deleteActivity: function() {
+    deleteActivity() {
       this.loading = true
       this.$store
         .dispatch('activities/deleteActivity', { activityId: this.activityId })
-        .then(res => {
+        .then(_ => {
           this.$store.commit('flash/success', {
             text: 'Xóa ghi chép thành công'
           })

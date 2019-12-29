@@ -35,10 +35,10 @@ export default {
   },
   computed: {
     mDate: {
-      get: function() {
+      get() {
         return this.date || this.$moment().format('YYYY-MM-DD')
       },
-      set: function(date) {
+      set(date) {
         this.$emit('selected', date)
       }
     },

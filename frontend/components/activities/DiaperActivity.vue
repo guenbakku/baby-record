@@ -35,7 +35,7 @@ export default {
     }
   },
   computed: {
-    content: function() {
+    content() {
       const content = this.activity.diaper_activity
       const events = {
         is_pee: 'Tè',

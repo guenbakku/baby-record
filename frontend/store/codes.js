@@ -4,7 +4,7 @@ export const actions = {
    * @param {Object} param0
    * @param {Object} param1
    */
-  viewCode({ commit }, { model }) {
+  viewCode(_, { model }) {
     return this.$axios.get(`/codes/${model}`, { useCache: true }).then(res => {
       // Translate codes
       res.data.data.codes = res.data.data.codes.map(item => {

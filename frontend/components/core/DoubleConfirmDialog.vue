@@ -53,7 +53,7 @@ export default {
     inputValue: ''
   }),
   computed: {
-    isMatched: function() {
+    isMatched() {
       return this.inputValue === this.checkValue
     }
   }

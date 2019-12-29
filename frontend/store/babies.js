@@ -26,7 +26,7 @@ export const mutations = {
     window.localStorage.setItem(STORAGE_CURRENT_BABY_ID, id)
     state.currentId = id
   },
-  removeCurrentId(state) {
+  removeCurrentId(_) {
     window.localStorage.removeItem(STORAGE_CURRENT_BABY_ID)
   },
   setBabies(state, { babies }) {
@@ -72,7 +72,7 @@ export const actions = {
    * @param {Object} param0
    * @param {Object} param1
    */
-  addBaby({ commit }, { baby }) {
+  addBaby(_, { baby }) {
     return this.$axios.post('babies', baby)
   },
 
@@ -81,7 +81,7 @@ export const actions = {
    * @param {Object} param0
    * @param {Object} param1
    */
-  viewBaby({ commit }, { babyId }) {
+  viewBaby(_, { babyId }) {
     return this.$axios.get(`babies/${babyId}`)
   },
 
@@ -90,7 +90,7 @@ export const actions = {
    * @param {Object} param0
    * @param {Object} param1
    */
-  editBaby({ commit }, { babyId, baby }) {
+  editBaby(_, { babyId, baby }) {
     return this.$axios.put(`babies/${babyId}`, baby)
   },
 
@@ -99,7 +99,7 @@ export const actions = {
    * @param {Object} param0
    * @param {Object} param1
    */
-  deleteBaby({ commit }, { babyId }) {
+  deleteBaby(_, { babyId }) {
     return this.$axios.delete(`babies/${babyId}`)
   }
 }

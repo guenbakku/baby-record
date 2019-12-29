@@ -35,7 +35,7 @@ export default {
     }
   },
   computed: {
-    content: function() {
+    content() {
       const content = this.activity.pump_milk_activity
       const seconds = content.duration
       const minutes = this.$moment.duration(seconds, 'seconds').asMinutes()

@@ -60,36 +60,36 @@ export default {
     copyTargetBabieIds: []
   }),
   computed: {
-    component: function() {
+    component() {
       return getMaps()[this.$route.params.type].component
     },
-    title: function() {
+    title() {
       return getMaps()[this.$route.params.type].title
     },
-    date: function() {
+    date() {
       return this.$store.state.activities.date
     },
-    currentBabyId: function() {
+    currentBabyId() {
       const currentBaby = this.$store.getters['babies/current']
       return currentBaby ? currentBaby.id : undefined
     },
-    copyableBabies: function() {
+    copyableBabies() {
       return Object.values(this.$store.state.babies.babies).filter(
         b => b.id !== this.currentBabyId
       )
     }
   },
   watch: {
-    currentBabyId: function(val) {
+    currentBabyId(val) {
       this.copyTargetBabieIds = this.copyTargetBabieIds.filter(id => id !== val)
     }
   },
   methods: {
-    getRouteToActivitiesPage: function(date = undefined) {
+    getRouteToActivitiesPage(date = undefined) {
       date = date || this.date
       return { name: 'activities-date', params: { date } }
     },
-    addActivity: function() {
+    addActivity() {
       this.loading = true
       this.errors = {}
       const babyId = this.currentBabyId
@@ -102,7 +102,7 @@ export default {
           babyId,
           activity
         })
-        .then(res => {
+        .then(_ => {
           const promises = this.copyTargetBabieIds.map(babyId => {
             return this.$store.dispatch('activities/addActivity', {
               babyId,
