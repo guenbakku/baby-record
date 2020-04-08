@@ -103,40 +103,5 @@ export default createComponent({
       objectPath: ctx.root.$objectPath
     }
   }
-  // data() {
-  //   return {
-  //     form: {
-  //       started: this.$moment().format('YYYY-MM-DD[T]HH:mm'),
-  //       memo: null,
-  //       diaper_activity: {
-  //         is_pee: false,
-  //         is_shit: false
-  //       }
-  //     }
-  //   }
-  // },
-  // methods: {
-  //   transformPropToData(prop) {
-  //     return {
-  //       started: this.$moment(prop.started).format('YYYY-MM-DD[T]HH:mm'),
-  //       memo: prop.memo,
-  //       diaper_activity: {
-  //         is_pee: prop.diaper_activity.is_pee,
-  //         is_shit: prop.diaper_activity.is_shit
-  //       }
-  //     }
-  //   },
-  //   transformDataToProp(form) {
-  //     return {
-  //       started: this.$moment(form.started).toISOString(),
-  //       memo: form.memo,
-  //       activity_type_id: 4,
-  //       diaper_activity: {
-  //         is_pee: form.diaper_activity.is_pee,
-  //         is_shit: form.diaper_activity.is_shit
-  //       }
-  //     }
-  //   }
-  // }
 })
 </script>
