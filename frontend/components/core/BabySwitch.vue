@@ -37,16 +37,16 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed } from '@vue/composition-api'
+import { createComponent, computed, SetupContext } from '@vue/composition-api'
 import { useStore } from '@u3u/vue-hooks'
 import { RootState } from '~/store/models'
 import { Baby } from '~/store/babies/models'
-import useDateTime from '~/hooks/use-datetime'
+import useDateTime from '~/hooks/use-date-time'
 import SexIcon from '~/components/core/SexIcon.vue'
 
 export default createComponent({
   components: { SexIcon },
-  setup() {
+  setup(_, ctx: SetupContext) {
     const store = useStore<RootState>()
 
     // $moment inside $store is a hack to bypass type checking
@@ -59,7 +59,8 @@ export default createComponent({
     const babies = computed(() => store.value.state.babies.babies)
 
     const age = computed(() => {
-      const age = calcAge(currentBaby.value.birthday)
+      const today = ctx.root.$moment().toJSON()
+      const age = calcAge(currentBaby.value.birthday, today)
       return age[0] > 0
         ? `${age[0]} tuổi ${age[1]} tháng`
         : `${age[1]} tháng ${age[2]} ngày`
