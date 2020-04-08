@@ -16,9 +16,6 @@ const useDateTime = (moment: Moment) => {
     }
 
     const diffTime = moment(reference).diff(birthday)
-    if (diffTime < 0) {
-      throw new Error('reference day can no be less than birthday')
-    }
 
     const duration = moment.duration(diffTime)
     const age = [duration.years(), duration.months(), duration.days()]
