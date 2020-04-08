@@ -31,53 +31,49 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { createComponent, SetupContext, ref } from '@vue/composition-api'
+import { Context } from '@nuxt/types/app'
 import { AxiosError } from 'axios'
 import pkg from '~/package.json'
 
-type Data = {
-  form: {
-    email: string | null
-    password: string | null
-  }
-  loading: boolean
-  brand: string
+type Form = {
+  email: string | null
+  password: string | null
 }
 
-export default Vue.extend({
-  data(): Data {
-    return {
-      form: {
-        email: null,
-        password: null
-      },
-      loading: false,
-      brand: pkg.title.toUpperCase()
-    }
-  },
-  fetch({ redirect, store }): void {
-    if (store.getters['auth/isAuthenticated']) {
-      redirect({ name: 'activities-date' })
-    }
-  },
-  methods: {
-    authenticate(): void {
-      this.loading = true
-      this.$store
-        .dispatch('auth/authenticate', this.form)
+export default createComponent({
+  setup(_, ctx: SetupContext) {
+    const loading = ref<boolean>(false)
+    const brand = pkg.title.toUpperCase()
+    const form = ref<Form>({
+      email: null,
+      password: null
+    })
+
+    const authenticate = () => {
+      loading.value = true
+      ctx.root.$store
+        .dispatch('auth/authenticate', form.value)
         .then(_ => {
-          this.$router.push({ name: 'activities-date' })
+          ctx.root.$router.push({ name: 'activities-date' })
         })
         .catch((err: AxiosError) => {
           if (err.response && err.response.status === 401) {
-            this.$store.commit('flash/error', {
+            ctx.root.$store.commit('flash/error', {
               text: 'Email hoặc mật khẩu không chính xác'
             })
           }
         })
         .finally(() => {
-          this.loading = false
+          loading.value = false
         })
+    }
+
+    return { form, loading, brand, authenticate }
+  },
+  fetch({ redirect, store }: Context): void {
+    if (store.getters['auth/isAuthenticated']) {
+      redirect({ name: 'activities-date' })
     }
   }
 })
