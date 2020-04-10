@@ -2,18 +2,12 @@ import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 import { throttleAdapterEnhancer, cacheAdapterEnhancer } from 'axios-extensions'
 import { Plugin } from '@nuxt/types'
 
-declare module 'axios' {
-  export interface AxiosRequestConfig {
-    useCache?: boolean
-  }
-}
-
 /**
  * Convert validated errors into the format that can be displayed in form
  * TODO: declare type
- * @param {Object} errors
- * @param {Object} parsed
- * @param {String} parentKey
+ * @param errors - errors
+ * @param parsed - parsed
+ * @param parentKey - parentKey
  */
 const parseValidatedErrors = function(
   errors: any,
@@ -40,24 +34,23 @@ const parseValidatedErrors = function(
 }
 
 const axiosPlugin: Plugin = ({ $axios, store, redirect, app }) => {
-  if (!$axios.defaults.adapter) return
-
-  /**
-   * Change default adapter to axios-extension's one
-   */
-  const cacheAdapter = cacheAdapterEnhancer($axios.defaults.adapter, {
-    enabledByDefault: false,
-    cacheFlag: 'useCache'
-  })
-  const throttleAdapter = throttleAdapterEnhancer(cacheAdapter)
-  $axios.defaults.adapter = throttleAdapter
+  if ($axios.defaults.adapter) {
+    /**
+     * Change default adapter to axios-extension's one
+     */
+    const cacheAdapter = cacheAdapterEnhancer($axios.defaults.adapter, {
+      enabledByDefault: false
+    })
+    const throttleAdapter = throttleAdapterEnhancer(cacheAdapter)
+    $axios.defaults.adapter = throttleAdapter
+  }
 
   /**
    * Because environment variables parsed by dotenv-webpack
    * only be used after webpack bundling, so we must set them
    * in this plugin file instead of file `nuxt.config.js`
    */
-  $axios.defaults.baseURL = process.env.API_BASE_URL
+  $axios.setBaseURL(process.env.API_BASE_URL || '')
 
   /**
    * Add some headers.
