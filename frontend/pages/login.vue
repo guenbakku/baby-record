@@ -42,6 +42,11 @@ type Form = {
 }
 
 export default defineComponent({
+  fetch({ redirect, store }: Context) {
+    if (store.getters['auth/isAuthenticated']) {
+      redirect({ name: 'activities-date' })
+    }
+  },
   setup(_, ctx: SetupContext) {
     const loading = ref<boolean>(false)
     const brand = pkg.title.toUpperCase()
@@ -70,11 +75,6 @@ export default defineComponent({
     }
 
     return { form, loading, brand, authenticate }
-  },
-  fetch({ redirect, store }: Context): void {
-    if (store.getters['auth/isAuthenticated']) {
-      redirect({ name: 'activities-date' })
-    }
   }
 })
 </script>
