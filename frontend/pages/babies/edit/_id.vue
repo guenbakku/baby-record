@@ -12,7 +12,7 @@
           <v-divider />
           <v-card-text v-show="isInitializationSuccess">
             <baby-form
-              ref="form"
+              ref="formRef"
               :errors="errors"
               :data="baby"
               @initialized="formInitialized = true"
@@ -51,116 +51,140 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import {
+  createComponent,
+  ref,
+  computed,
+  SetupContext,
+  onMounted
+} from '@vue/composition-api'
 import { Location } from 'vue-router'
+import useInitializationStatus from '~/hooks/use-initialization-status'
 import Loading from '~/components/core/card-text/Loading.vue'
 import Error from '~/components/core/card-text/Error.vue'
 import DoubleConfirmDialog from '~/components/core/DoubleConfirmDialog.vue'
 import BabyForm from '~/components/babies/BabyForm.vue'
-import InitializationStatusMixin from '~/mixins/initialization-status.mixin'
+import { BabyError } from '~/components/babies/models'
 import { Baby } from '~/store/babies/models'
 
-type Data = {
-  baby: Baby | undefined
-  errors: any // TODO: declare validation error type
-  loading: boolean
-  formInitialized: boolean
-}
-
-export default Vue.extend({
+export default createComponent({
   components: { Loading, Error, DoubleConfirmDialog, BabyForm },
-  mixins: [InitializationStatusMixin],
-  data: (): Data => ({
-    baby: undefined,
-    errors: {},
-    loading: false,
-    formInitialized: false
-  }),
-  computed: {
-    babyId(): string {
-      return this.$route.params.id
-    },
-    listRoute(): Location {
-      return {
-        name: 'babies'
-      }
-    }
-  },
-  mounted() {
-    ;(this as any).setInitializing()
-    Promise.all([this.getBaby()])
-      .then(_ => {
-        ;(this as any).setInitializationSuccess()
-      })
-      // eslint-disable-next-line handle-callback-err
-      .catch(_ => {
-        ;(this as any).setInitializationError()
-      })
-  },
-  methods: {
-    getBaby() {
-      return this.$store
-        .dispatch('babies/viewBaby', { babyId: this.babyId })
+  setup(_, ctx: SetupContext) {
+    const {
+      isInitializing,
+      isInitializationSuccess,
+      isInitializationError,
+      setInitializing,
+      setInitializationSuccess,
+      setInitializationError
+    } = useInitializationStatus()
+
+    const formRef = ref<any>(undefined)
+    const baby = ref<Baby | undefined>(undefined)
+    const errors = ref<BabyError>({})
+    const loading = ref<boolean>(false)
+    const formInitialized = ref<boolean>(false)
+
+    const babyId = computed(() => ctx.root.$route.params.id)
+    const listRoute = computed<Location>(() => ({
+      name: 'babies'
+    }))
+
+    const getBaby = () => {
+      return ctx.root.$store
+        .dispatch('babies/viewBaby', { babyId: babyId.value })
         .then(res => {
-          this.baby = res.data.data
+          baby.value = res.data.data
           return res
         })
         .catch(err => {
           if (err.response && err.response.status === 404) {
-            this.$store.commit('flash/error', {
+            ctx.root.$store.commit('flash/error', {
               text: 'Không tìm thấy thông tin'
             })
           }
           throw err
         })
-    },
-    editBaby() {
-      this.loading = true
-      this.errors = {}
-      const baby = (this.$refs.form as any).getData() // TODO: declare form type
-      this.$store
+    }
+
+    const editBaby = () => {
+      loading.value = true
+      errors.value = {}
+      const baby = formRef.value.getData() // TODO: declare form type
+      ctx.root.$store
         .dispatch('babies/editBaby', {
-          babyId: this.babyId,
+          babyId: babyId.value,
           baby
         })
         .then(_ => {
-          this.$store.commit('flash/success', {
+          ctx.root.$store.commit('flash/success', {
             text: 'Sửa thông tin em bé thành công'
           })
-          this.$router.push(this.listRoute)
+          ctx.root.$router.push(listRoute.value)
         })
         .catch(err => {
           if (err.response && err.response.status === 422) {
-            this.$store.commit('flash/error', {
+            ctx.root.$store.commit('flash/error', {
               text: 'Vui lòng kiểm tra lại dữ liệu nhập vào'
             })
-            this.errors = err.response.data.data.parsedErrors
+            errors.value = err.response.data.data.parsedErrors
           }
         })
         .finally(() => {
-          this.loading = false
+          loading.value = false
         })
-    },
-    deleteBaby() {
-      this.loading = true
-      this.$store
-        .dispatch('babies/deleteBaby', { babyId: this.babyId })
+    }
+
+    const deleteBaby = () => {
+      loading.value = true
+      ctx.root.$store
+        .dispatch('babies/deleteBaby', { babyId: babyId.value })
         .then(_ => {
-          this.$store.commit('flash/success', {
+          ctx.root.$store.commit('flash/success', {
             text: 'Xóa thông tin em bé thành công'
           })
-          this.$router.push(this.listRoute)
+          ctx.root.$router.push(listRoute.value)
         })
         .catch(err => {
           if (err.response && err.response.status === 404) {
-            this.$store.commit('flash/error', {
+            ctx.root.$store.commit('flash/error', {
               text: 'Không tìm thấy thông tin'
             })
           }
         })
         .then(() => {
-          this.loading = false
+          loading.value = false
         })
+    }
+
+    onMounted(() => {
+      setInitializing()
+      Promise.all([getBaby()])
+        .then(_ => {
+          setInitializationSuccess()
+        })
+        .catch(_ => {
+          setInitializationError()
+        })
+    })
+
+    return {
+      isInitializing,
+      isInitializationSuccess,
+      isInitializationError,
+      setInitializing,
+      setInitializationSuccess,
+      setInitializationError,
+      formRef,
+      baby,
+      errors,
+      loading,
+      formInitialized,
+      babyId,
+      listRoute,
+      getBaby,
+      editBaby,
+      deleteBaby
     }
   }
 })
