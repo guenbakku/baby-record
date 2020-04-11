@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed } from '@vue/composition-api'
+import { defineComponent, computed } from '@vue/composition-api'
 import { SexId } from '~/store/babies/models'
 
 type Maps = {
@@ -21,7 +21,7 @@ const MAPS: Maps = {
   2: 'icon-girl'
 }
 
-export default createComponent({
+export default defineComponent({
   props: {
     sexId: {
       type: Number as () => SexId,

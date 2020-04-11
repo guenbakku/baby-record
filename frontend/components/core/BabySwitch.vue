@@ -37,14 +37,14 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed, SetupContext } from '@vue/composition-api'
+import { defineComponent, computed, SetupContext } from '@vue/composition-api'
 import { useStore } from '@u3u/vue-hooks'
 import { RootState } from '~/store/models'
 import { Baby } from '~/store/babies/models'
 import useDateTime from '~/hooks/use-date-time'
 import SexIcon from '~/components/core/SexIcon.vue'
 
-export default createComponent({
+export default defineComponent({
   components: { SexIcon },
   setup(_, ctx: SetupContext) {
     const store = useStore<RootState>()

@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, ref, computed, onMounted } from '@vue/composition-api'
+import { defineComponent, ref, computed, onMounted } from '@vue/composition-api'
 import { useStore } from '@u3u/vue-hooks'
 import { Location } from 'vue-router'
 import BabyList from '~/components/babies/BabyList.vue'
@@ -25,7 +25,7 @@ import Loading from '~/components/core/card-text/Loading.vue'
 import NoData from '~/components/core/card-text/NoData.vue'
 import { RootState } from '~/store/models'
 
-export default createComponent({
+export default defineComponent({
   components: { BabyList, Loading, NoData },
   setup() {
     const store = useStore<RootState>()

@@ -8,11 +8,11 @@
 </template>
 
 <script lang="ts">
-import { createComponent, ref, computed } from '@vue/composition-api'
+import { defineComponent, ref, computed } from '@vue/composition-api'
 import { useStore } from '@u3u/vue-hooks'
 import { RootState } from '~/store/models'
 
-export default createComponent({
+export default defineComponent({
   setup() {
     const store = useStore<RootState>()
 

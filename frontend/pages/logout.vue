@@ -3,9 +3,9 @@
 </template>
 
 <script lang="ts">
-import { createComponent, SetupContext, onMounted } from '@vue/composition-api'
+import { defineComponent, SetupContext, onMounted } from '@vue/composition-api'
 
-export default createComponent({
+export default defineComponent({
   setup(_, ctx: SetupContext) {
     onMounted(() => {
       ctx.root.$store.commit('auth/removeToken')

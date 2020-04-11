@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed } from '@vue/composition-api'
+import { defineComponent, computed } from '@vue/composition-api'
 import { loadComponents, getMaps } from './maps'
 import { ActivityItem } from './models'
 
@@ -11,7 +11,7 @@ type Props = {
   activity: ActivityItem<object>
 }
 
-export default createComponent({
+export default defineComponent({
   components: {
     ...loadComponents()
   },

@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
 import { Baby, initBaby } from './models'
 import BabyItem from '~/components/babies/BabyItem.vue'
 
@@ -15,7 +15,7 @@ type Props = {
   }
 }
 
-export default createComponent({
+export default defineComponent({
   components: { BabyItem },
   props: {
     babies: {

@@ -16,11 +16,11 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed } from '@vue/composition-api'
+import { defineComponent, computed } from '@vue/composition-api'
 import { useStore } from '@u3u/vue-hooks'
 import { RootState } from '~/store/models'
 
-export default createComponent({
+export default defineComponent({
   setup() {
     const store = useStore<RootState>()
     const profile = computed(() => store.value.state.auth.profile)

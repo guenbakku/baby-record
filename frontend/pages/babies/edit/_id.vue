@@ -52,7 +52,7 @@
 
 <script lang="ts">
 import {
-  createComponent,
+  defineComponent,
   ref,
   computed,
   SetupContext,
@@ -67,7 +67,7 @@ import BabyForm from '~/components/babies/BabyForm.vue'
 import { BabyError } from '~/components/babies/models'
 import { Baby } from '~/store/babies/models'
 
-export default createComponent({
+export default defineComponent({
   components: { Loading, Error, DoubleConfirmDialog, BabyForm },
   setup(_, ctx: SetupContext) {
     const {

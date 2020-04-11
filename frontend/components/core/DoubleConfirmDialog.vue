@@ -37,14 +37,14 @@
 </template>
 
 <script lang="ts">
-import { createComponent, ref, computed } from '@vue/composition-api'
+import { defineComponent, ref, computed } from '@vue/composition-api'
 
 type Props = {
   loading: boolean
   checkValue: string | undefined
 }
 
-export default createComponent({
+export default defineComponent({
   props: {
     loading: {
       type: Boolean,

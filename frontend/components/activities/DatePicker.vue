@@ -22,7 +22,7 @@
 
 <script lang="ts">
 import {
-  createComponent,
+  defineComponent,
   computed,
   ref,
   SetupContext
@@ -34,7 +34,7 @@ type Props = {
   date: string | undefined
 }
 
-export default createComponent({
+export default defineComponent({
   props: {
     date: {
       type: String as () => Props['date'],

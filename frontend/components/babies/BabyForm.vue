@@ -24,7 +24,7 @@
 
 <script lang="ts">
 import {
-  createComponent,
+  defineComponent,
   onMounted,
   ref,
   watch,
@@ -43,7 +43,7 @@ type Props = {
   errors: BabyError
 }
 
-export default createComponent({
+export default defineComponent({
   props: {
     data: {
       type: Object as () => Props['data'],

@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, SetupContext } from '@vue/composition-api'
+import { defineComponent, SetupContext } from '@vue/composition-api'
 import { ActivityForm, ActivityError, declareProps } from './models'
 import useForm from './use-form'
 
@@ -57,7 +57,7 @@ type Props = {
 }
 /* eslint-enable camelcase */
 
-export default createComponent({
+export default defineComponent({
   props: declareProps<Props['data'], Props['errors']>(),
   setup(props: Props, ctx: SetupContext) {
     const initForm: Form = {

@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import {
-  createComponent,
+  defineComponent,
   ref,
   computed,
   SetupContext
@@ -42,7 +42,7 @@ import Loading from '~/components/core/card-text/Loading.vue'
 import BabyForm from '~/components/babies/BabyForm.vue'
 import { BabyError } from '~/components/babies/models'
 
-export default createComponent({
+export default defineComponent({
   components: { Loading, BabyForm },
   setup(_, ctx: SetupContext) {
     const formRef = ref<any>(undefined)

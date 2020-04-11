@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed, SetupContext } from '@vue/composition-api'
+import { defineComponent, computed, SetupContext } from '@vue/composition-api'
 import { ActivityItem, initActivityItem } from './models'
 import { getTypeStyle, getEditRoute } from './utils'
 
@@ -33,7 +33,7 @@ type Props = {
 }
 /* eslint-enable camelcase */
 
-export default createComponent({
+export default defineComponent({
   props: {
     activity: {
       type: Object as () => Props['activity'],

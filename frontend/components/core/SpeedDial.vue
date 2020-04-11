@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, ref } from '@vue/composition-api'
+import { defineComponent, ref } from '@vue/composition-api'
 import { Location } from 'vue-router'
 
 export type SpeedDialItem = {
@@ -39,7 +39,7 @@ export type SpeedDialItem = {
   title: string
 }
 
-export default createComponent({
+export default defineComponent({
   name: 'SpeedDial',
   props: {
     items: {

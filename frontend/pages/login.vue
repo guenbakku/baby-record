@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, SetupContext, ref } from '@vue/composition-api'
+import { defineComponent, SetupContext, ref } from '@vue/composition-api'
 import { Context } from '@nuxt/types/app'
 import { AxiosError } from 'axios'
 import pkg from '~/package.json'
@@ -41,7 +41,7 @@ type Form = {
   password: string | null
 }
 
-export default createComponent({
+export default defineComponent({
   setup(_, ctx: SetupContext) {
     const loading = ref<boolean>(false)
     const brand = pkg.title.toUpperCase()

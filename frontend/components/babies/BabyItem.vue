@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { createComponent, computed, SetupContext } from '@vue/composition-api'
+import { defineComponent, computed, SetupContext } from '@vue/composition-api'
 import { useStore } from '@u3u/vue-hooks'
 import { Baby, initBaby } from './models'
 import { RootState } from '~/store/models'
@@ -31,7 +31,7 @@ type Props = {
   baby: Baby
 }
 
-export default createComponent({
+export default defineComponent({
   components: { SexIcon },
   props: {
     baby: {
