@@ -54,16 +54,27 @@
   </v-layout>
 </template>
 
-<script>
-import { isCancel } from 'axios'
-import Activity from '~/components/activities/Activity'
-import DatePicker from '~/components/activities/DatePicker'
-import Loading from '~/components/core/card-text/Loading'
-import NoData from '~/components/core/card-text/NoData'
-import SpeedDial from '~/components/core/SpeedDial'
+<script lang="ts">
+import {
+  defineComponent,
+  ref,
+  computed,
+  watch,
+  onMounted,
+  SetupContext
+} from '@vue/composition-api'
+import Axios from 'axios'
+import { Context } from '@nuxt/types/app'
+import { useStore } from '@u3u/vue-hooks'
+import Activity from '~/components/activities/Activity.vue'
+import DatePicker from '~/components/activities/DatePicker.vue'
+import Loading from '~/components/core/card-text/Loading.vue'
+import NoData from '~/components/core/card-text/NoData.vue'
+import SpeedDial from '~/components/core/SpeedDial.vue'
 import { getMaps } from '~/components/activity-forms/maps'
+import { RootState } from '~/store/models'
 
-export default {
+export default defineComponent({
   useBabySwitch: true,
   components: {
     Activity,
@@ -72,56 +83,47 @@ export default {
     NoData,
     SpeedDial
   },
-  validate({ params }) {
+  validate({ params }: Context) {
     return !params.date || /^\d{4}-\d{2}-\d{2}$/.test(params.date)
   },
-  data() {
-    return {
-      completed: false,
-      summaryResult: {
-        breast_milk_activity: {
-          times: 0,
-          duration: 0
-        },
-        bottle_milk_activity: {
-          times: 0,
-          breast_volume: 0,
-          fomular_volume: 0,
-          total_volume: 0
-        },
-        diaper_activity: {
-          times: 0,
-          pee_times: 0,
-          shit_times: 0
-        },
-        pump_milk_activity: {
-          times: 0,
-          volume: 0
-        }
+  setup(_, ctx: SetupContext) {
+    const store = useStore<RootState>()
+
+    const completed = ref<boolean>(false)
+    const summaryResult = ref<any>({
+      breast_milk_activity: {
+        times: 0,
+        duration: 0
+      },
+      bottle_milk_activity: {
+        times: 0,
+        breast_volume: 0,
+        fomular_volume: 0,
+        total_volume: 0
+      },
+      diaper_activity: {
+        times: 0,
+        pee_times: 0,
+        shit_times: 0
+      },
+      pump_milk_activity: {
+        times: 0,
+        volume: 0
       }
-    }
-  },
-  computed: {
-    activities() {
-      return this.$store.state.activities.activities
-    },
-    baby() {
-      return this.$store.getters['babies/current']
-    },
-    date() {
-      return (
-        this.$route.params.date ||
-        this.$store.state.activities.date ||
-        this.$moment().format('YYYY-MM-DD')
-      )
-    },
-    babyAndDate() {
-      return [this.baby, this.date]
-    },
-    isNoData() {
-      return this.completed && this.activities.length === 0
-    },
-    speedDialItems() {
+    })
+
+    const activities = computed(() => store.value.state.activities.activities)
+    const baby = computed(() => store.value.getters['babies/current'])
+    const date = computed<string>(
+      () =>
+        ctx.root.$route.params.date ||
+        store.value.state.activities.date ||
+        ctx.root.$moment().format('YYYY-MM-DD')
+    )
+    const isNoData = computed(
+      () => completed.value && activities.value.length === 0
+    )
+    const speedDialItems = computed(() => {
       const map = getMaps()
       const items = []
       for (const key in map) {
@@ -136,60 +138,22 @@ export default {
         items.push(item)
       }
       return items
-    }
-  },
-  watch: {
-    babyAndDate: {
-      immediate: true,
-      handler(vals) {
-        const shouldCall = vals.filter(val => !!val).length === vals.length
-        if (shouldCall) {
-          this.getActivities()
-        }
-      }
-    }
-  },
-  mounted() {
-    this.$store.commit('activities/setActivities', { activities: {} })
-    this.$store.commit('activities/setDate', { date: this.date })
-  },
-  methods: {
-    changeDate(date) {
-      this.$router.push({ name: 'activities-date', params: { date } })
-    },
-    getActivities() {
-      const cancelTokenSource = this.$store.state.activities.cancelTokenSources
-        .getActivities
-      if (cancelTokenSource) {
-        cancelTokenSource.cancel()
-      }
+    })
 
-      this.completed = false
-      this.$store
-        .dispatch('activities/getActivities', {
-          babyId: this.baby.id,
-          date: this.date
-        })
-        .then(_ => {
-          this.summary()
-        })
-        .catch(function(err) {
-          if (!isCancel(err)) {
-            window.console.log(err)
-          }
-        })
-        .finally(() => {
-          this.completed = true
-        })
-    },
-    summary() {
-      const methods = {
+    const changeDate = (date: string) => {
+      ctx.root.$router.push({ name: 'activities-date', params: { date } })
+    }
+
+    const summary = () => {
+      const methods: {
+        [k: string]: any
+      } = {
         breast_milk_activity: {
           result: {
             times: 0,
             duration: 0
           },
-          invoke(subActivity) {
+          invoke(subActivity: any) {
             this.result.times++
             this.result.duration += subActivity.duration
           }
@@ -201,7 +165,7 @@ export default {
             fomular_volume: 0,
             total_volume: 0
           },
-          invoke(subActivity) {
+          invoke(subActivity: any) {
             this.result.times++
             this.result.breast_volume += subActivity.breast_volume
             this.result.fomular_volume += subActivity.fomular_volume
@@ -215,7 +179,7 @@ export default {
             pee_times: 0,
             shit_times: 0
           },
-          invoke(subActivity) {
+          invoke(subActivity: any) {
             this.result.times++
             if (subActivity.is_pee) {
               this.result.pee_times++
@@ -230,7 +194,7 @@ export default {
             times: 0,
             volume: 0
           },
-          invoke(subActivity) {
+          invoke(subActivity: any) {
             this.result.times++
             this.result.volume += subActivity.volume
           }
@@ -238,20 +202,71 @@ export default {
       }
 
       // Summary depending on methods
-      for (const activity of this.activities) {
+      for (const activity of activities.value) {
         const type = activity.activity_type.code
         if (methods[type]) {
-          methods[type].invoke(activity[type])
+          methods[type].invoke((activity as any)[type])
         }
       }
 
       // Set summarized result
       for (const type in methods) {
-        this.$set(this.summaryResult, type, methods[type].result)
+        ;(summaryResult.value as any)[type] = methods[type].result
       }
     }
+
+    const getActivities = () => {
+      const cancelTokenSource =
+        store.value.state.activities.cancelTokenSources.getActivities
+
+      if (cancelTokenSource) {
+        cancelTokenSource.cancel()
+      }
+
+      completed.value = false
+      store.value
+        .dispatch('activities/getActivities', {
+          babyId: baby.value.id,
+          date: date.value
+        })
+        .then(_ => {
+          summary()
+        })
+        .catch(function(err) {
+          if (!Axios.isCancel(err)) {
+            window.console.log(err)
+          }
+        })
+        .finally(() => {
+          completed.value = true
+        })
+    }
+
+    watch([baby, date], vals => {
+      const shouldCall = vals.filter(val => !!val).length === vals.length
+      if (shouldCall) {
+        getActivities()
+      }
+    })
+
+    onMounted(() => {
+      store.value.commit('activities/setActivities', { activities: {} })
+      store.value.commit('activities/setDate', { date: date.value })
+    })
+
+    return {
+      completed,
+      summaryResult,
+      activities,
+      baby,
+      date,
+      isNoData,
+      speedDialItems,
+      changeDate,
+      getActivities
+    }
   }
-}
+})
 </script>
 
 <style>

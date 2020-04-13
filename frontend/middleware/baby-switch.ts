@@ -1,4 +1,12 @@
+import Vue, { ComponentOptions } from 'vue'
 import { Middleware } from '@nuxt/types'
+
+// Extend Vue ComponentOptions
+declare module 'vue/types/options' {
+  interface ComponentOptions<V extends Vue> {
+    useBabySwitch?: boolean
+  }
+}
 
 type Component = {
   name: string

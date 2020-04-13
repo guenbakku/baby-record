@@ -11,7 +11,7 @@
           </v-card-actions>
           <v-divider />
           <v-card-text>
-            <component :is="component" ref="form" :errors="errors" />
+            <component :is="component" ref="formRef" :errors="errors" />
           </v-card-text>
           <v-card-text class="pt-0 pb-0"><v-divider /></v-card-text>
           <v-card-text>
@@ -43,116 +43,148 @@
   </v-layout>
 </template>
 
-<script>
+<script lang="ts">
+import {
+  defineComponent,
+  ref,
+  computed,
+  watch,
+  SetupContext
+} from '@vue/composition-api'
+import { Location } from 'vue-router'
+import { Context } from '@nuxt/types/app'
+import { useStore } from '@u3u/vue-hooks'
+import { RootState } from '~/store/models'
 import { loadComponents, getMaps } from '~/components/activity-forms/maps'
 
-export default {
+export default defineComponent({
   useBabySwitch: true,
   components: {
     ...loadComponents()
   },
-  validate({ params }) {
-    return params.type && getMaps()[params.type]
+  validate({ params }: Context) {
+    return params.type !== undefined && getMaps()[params.type] !== undefined
   },
-  data: () => ({
-    errors: {},
-    loading: false,
-    copyTargetBabieIds: []
-  }),
-  computed: {
-    component() {
-      return getMaps()[this.$route.params.type].component
-    },
-    title() {
-      return getMaps()[this.$route.params.type].title
-    },
-    date() {
-      return this.$store.state.activities.date
-    },
-    currentBabyId() {
-      const currentBaby = this.$store.getters['babies/current']
+  setup(_, ctx: SetupContext) {
+    const store = useStore<RootState>()
+
+    const formRef = ref<any>(null)
+    const loading = ref<boolean>(false)
+    const errors = ref<any>({}) // TODO: declare type
+    const copyTargetBabieIds = ref<string[]>([])
+
+    const component = computed(
+      () => getMaps()[ctx.root.$route.params.type].component
+    )
+    const title = computed(() => getMaps()[ctx.root.$route.params.type].title)
+    const date = computed(() => store.value.state.activities.date)
+    const currentBabyId = computed<string | undefined>(() => {
+      const currentBaby = store.value.getters['babies/current']
       return currentBaby ? currentBaby.id : undefined
-    },
-    copyableBabies() {
-      return Object.values(this.$store.state.babies.babies).filter(
-        b => b.id !== this.currentBabyId
+    })
+    const copyableBabies = computed(() => {
+      return Object.values(store.value.state.babies.babies).filter(
+        b => b.id !== currentBabyId.value
       )
+    })
+
+    watch(currentBabyId, val => {
+      copyTargetBabieIds.value = copyTargetBabieIds.value.filter(
+        id => id !== val
+      )
+    })
+
+    const getRouteToActivitiesPage = (inputDate?: string): Location => {
+      const paramDate = inputDate || date.value || ''
+      return { name: 'activities-date', params: { date: paramDate } }
     }
-  },
-  watch: {
-    currentBabyId(val) {
-      this.copyTargetBabieIds = this.copyTargetBabieIds.filter(id => id !== val)
-    }
-  },
-  methods: {
-    getRouteToActivitiesPage(date = undefined) {
-      date = date || this.date
-      return { name: 'activities-date', params: { date } }
-    },
-    addActivity() {
-      this.loading = true
-      this.errors = {}
-      const babyId = this.currentBabyId
-      const activity = this.$refs.form.getData()
+
+    const addActivity = () => {
+      loading.value = true
+      errors.value = {}
+      const babyId = currentBabyId.value
+      const activity = formRef.value.getData()
 
       // Save record of main baby first in order to handle validation error efficiently,
       // then copy same record to other copy target babies.
-      this.$store
+      store.value
         .dispatch('activities/addActivity', {
           babyId,
           activity
         })
         .then(_ => {
-          const promises = this.copyTargetBabieIds.map(babyId => {
-            return this.$store.dispatch('activities/addActivity', {
+          const promises = copyTargetBabieIds.value.map(babyId => {
+            return store.value.dispatch('activities/addActivity', {
               babyId,
               activity
             })
           })
-          return Promise.allSettled(promises)
-            .then(results => {
+
+          // TODO:
+          //  1. remove the hacking of casting Promise to `any` to use `allSettled` here.
+          //  2. remove any-casting bellow if possible.
+          return (Promise as any)
+            .allSettled(promises)
+            .then((results: any) => {
               const errorBabyNames = results
-                .filter(result => result.status === 'rejected')
-                .map(result => {
+                .filter((result: any) => result.status === 'rejected')
+                .map((result: any) => {
                   const err = result.reason
                   const babyId = err.config.params.baby_id
-                  const babies = this.$store.state.babies.babies
+                  const babies = store.value.state.babies.babies
                   return babies[babyId] ? babies[babyId].name : undefined
                 })
-                .filter(babyName => !!babyName)
+                .filter((babyName: string) => !!babyName)
 
               return errorBabyNames
             })
-            .then(errorBabyNames => {
+            .then((errorBabyNames: any) => {
               if (errorBabyNames.length === 0) {
-                this.$store.commit('flash/success', {
+                store.value.commit('flash/success', {
                   text: 'Thêm ghi chép thành công'
                 })
               } else {
-                this.$store.commit('flash/error', {
+                store.value.commit('flash/error', {
                   text: `Không thể copy ghi chép cho em bé: ${errorBabyNames.join(
                     ', '
                   )}`
                 })
               }
 
-              const date = this.$moment(activity.started).format('YYYY-MM-DD')
-              const route = this.getRouteToActivitiesPage(date)
-              this.$router.push(route)
+              // $moment() in ctx.root has an interface that returning void,
+              // so we must use the another one from `store` to apply chain-calling here.
+              const date = store.value
+                .$moment(activity.started)
+                .format('YYYY-MM-DD')
+              const route = getRouteToActivitiesPage(date)
+              ctx.root.$router.push(route)
             })
         })
         .catch(err => {
           if (err.response && err.response.status === 422) {
-            this.$store.commit('flash/error', {
+            store.value.commit('flash/error', {
               text: 'Vui lòng kiểm tra lại dữ liệu nhập vào'
             })
-            this.errors = err.response.data.data.parsedErrors
+            errors.value = err.response.data.data.parsedErrors
           }
         })
         .finally(() => {
-          this.loading = false
+          loading.value = false
         })
     }
+
+    return {
+      formRef,
+      loading,
+      errors,
+      copyTargetBabieIds,
+      component,
+      title,
+      date,
+      copyableBabies,
+      getRouteToActivitiesPage,
+      addActivity
+    }
   }
-}
+})
 </script>
