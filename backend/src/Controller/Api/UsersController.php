@@ -2,7 +2,6 @@
 namespace App\Controller\Api;
 
 use App\Controller\Api\AppController;
-use Cake\Core\Configure;
 use Cake\Event\Event;
 use Cake\Http\Exception\UnauthorizedException;
 use Cake\Http\Exception\NotFoundException;
@@ -22,7 +21,7 @@ class UsersController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['token']);
+        $this->Authentication->allowUnauthenticated(['token']);
     }
 
     /**
@@ -32,16 +31,18 @@ class UsersController extends AppController
      */
     public function token()
     {
-        $user = $this->Auth->identify();
-        if (!$user) {
+        $result = $this->Authentication->getResult();
+
+        if (!$result->isValid()) {
             throw new UnauthorizedException(__('Invalid email or password'));
         }
 
+        $userId = $this->Authentication->getIdentity()->getIdentifier();
         $this->HttpStatus->set('created');
         $this->set([
             'success' => true,
             'data' => [
-                'token' => $this->genToken($user['id']),
+                'token' => $this->genToken($userId),
             ],
             '_serialize' => ['success', 'data'],
         ]);
@@ -54,7 +55,7 @@ class UsersController extends AppController
      */
     public function me()
     {
-        $userId = $this->Auth->user('id');
+        $userId = $this->Authentication->getIdentity()->getIdentifier();
         return $this->Crud->execute('View', ['id' => $userId]);
     }
 
@@ -65,10 +66,18 @@ class UsersController extends AppController
      * @return  string: token
      */
     protected function genToken($userId) {
-        $salt = Configure::read('Security.jwtSalt');
-        return JWT::encode([
-            'sub' => $userId,
-            'exp' =>  time() + self::TOKEN_TIMEOUT,
-        ], $salt);
+        $service = $this->request->getAttribute('authentication');
+        $jwtAuthenticator = $service->authenticators()->get('Jwt');
+        $salt = $jwtAuthenticator->getConfig('secretKey');
+        $algorithm = $jwtAuthenticator->getConfig('algorithms')[0];
+
+        return JWT::encode(
+            [
+                'sub' => $userId,
+                'exp' =>  time() + self::TOKEN_TIMEOUT,
+            ],
+            $salt,
+            $algorithm
+        );
     }
 }

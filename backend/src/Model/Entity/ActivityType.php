@@ -30,8 +30,8 @@ class ActivityType extends Entity
         'code' => true,
         'label' => true,
         'sort_no' => true,
-        'created' => true,
-        'modified' => true,
+        'created' => false,
+        'modified' => false,
         'activities' => true
     ];
 }

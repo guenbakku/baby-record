@@ -69,7 +69,6 @@ return [
      */
     'Security' => [
         'salt' => env('SECURITY_SALT', 'd2f67889931a6a74e62c4131f8df88d67de4fa9983fa0fc43b66a1398fea1600'),
-        'jwtSalt' => env('JWT_SALT', '4cMnyzeH9szszJGLjjym7TLpXEWbkd3aSzksCb35aYhaEN5WwVfsddS9VGugYCmT')
     ],
 
     /**
@@ -249,7 +248,7 @@ return [
             'className' => 'Cake\Database\Connection',
             'driver' => 'Cake\Database\Driver\Mysql',
             'persistent' => false,
-            'host' => 'localhost',
+            'host' => 'mysql',
             /*
              * CakePHP will use the default DB port based on the driver selected
              * MySQL on MAMP uses port 8889, MAMP users will want to uncomment

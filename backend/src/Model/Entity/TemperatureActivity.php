@@ -28,8 +28,8 @@ class TemperatureActivity extends Entity
     protected $_accessible = [
         'activity_id' => true,
         'temperature' => true,
-        'created' => true,
-        'modified' => true,
+        'created' => false,
+        'modified' => false,
         'activity' => true
     ];
 }

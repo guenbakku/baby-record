@@ -1,8 +1,19 @@
 import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
-import pkg from './package'
+import pkg from './package.json'
+
+const BASE_PATH = '/frontend'
 
 export default {
   mode: 'spa',
+
+  /**
+   * Fix hot reloading issue when develop by using docker for windows
+   */
+  watchers: {
+    webpack: {
+      poll: true
+    }
+  },
 
   /*
    ** Headers of the page
@@ -11,6 +22,9 @@ export default {
     title: pkg.title,
     meta: [
       { charset: 'utf-8' },
+      { name: 'robots', content: 'noindex' },
+      { name: 'copyright', content: 'guenbakku' },
+      { name: 'keywords', content: 'baby record, baby, record' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: pkg.description },
       {
@@ -20,7 +34,21 @@ export default {
       }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: `${BASE_PATH}/favicon.ico`
+      },
+      {
+        rel: 'shortcut icon',
+        type: 'image/png',
+        href: `${BASE_PATH}/shortcut-icon.png`
+      },
+      {
+        rel: 'apple-touch-icon',
+        type: 'image/png',
+        href: `${BASE_PATH}/shortcut-icon.png`
+      },
       {
         rel: 'stylesheet',
         href:
@@ -31,8 +59,8 @@ export default {
 
   router: {
     mode: 'hash',
-    base: '/frontend/',
-    middleware: ['auth', 'baby']
+    base: BASE_PATH,
+    middleware: ['auth', 'baby', 'header-title', 'baby-switch']
   },
 
   generate: {
@@ -53,6 +81,8 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '@/plugins/composition-api',
+    '@/plugins/es-shim',
     '@/plugins/object-path',
     '@/plugins/moment',
     '@/plugins/vue-i18n',
@@ -77,6 +107,16 @@ export default {
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
   },
+
+  buildModules: [
+    [
+      '@nuxt/typescript-build',
+      {
+        typeCheck: true,
+        ignoreNotFoundWarnings: true
+      }
+    ]
+  ],
 
   /*
    ** Build configuration

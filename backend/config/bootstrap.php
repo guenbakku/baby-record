@@ -209,5 +209,5 @@ Type::build('timestamp')
  */
 \Cake\I18n\Time::setJsonEncodeFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 \Cake\I18n\FrozenTime::setJsonEncodeFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-\Cake\I18n\Date::setJsonEncodeFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-\Cake\I18n\FrozenDate::setJsonEncodeFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+\Cake\I18n\Date::setJsonEncodeFormat("yyyy-MM-dd");
+\Cake\I18n\FrozenDate::setJsonEncodeFormat("yyyy-MM-dd");

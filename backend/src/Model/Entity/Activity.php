@@ -2,8 +2,8 @@
 namespace App\Model\Entity;
 
 use Cake\Core\Configure;
-use Cake\ORM\Entity;
 use Cake\I18n\Time;
+use Cake\ORM\Entity;
 use Guenbakku\Middleware\Http\ClientTimezoneMiddleware;
 
 /**
@@ -42,8 +42,8 @@ class Activity extends Entity
         'baby_id' => true,
         'started' => true,
         'memo' => true,
-        'created' => true,
-        'modified' => true,
+        'created' => false,
+        'modified' => false,
         'activity_type' => true,
         'baby' => true,
         'bottle_milk_activity' => true,

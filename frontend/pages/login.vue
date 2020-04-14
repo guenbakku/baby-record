@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="brand">BABY RECORD</div>
+    <div class="brand">{{ brand }}</div>
     <v-card flat>
       <v-card-text>
         <v-form @submit.prevent="authenticate">
@@ -30,6 +30,55 @@
   </div>
 </template>
 
+<script lang="ts">
+import { defineComponent, SetupContext, ref } from '@vue/composition-api'
+import { Context } from '@nuxt/types/app'
+import { AxiosError } from 'axios'
+import pkg from '~/package.json'
+
+type Form = {
+  email: string | null
+  password: string | null
+}
+
+export default defineComponent({
+  fetch({ redirect, store }: Context) {
+    if (store.getters['auth/isAuthenticated']) {
+      redirect({ name: 'activities-date' })
+    }
+  },
+  setup(_, ctx: SetupContext) {
+    const loading = ref<boolean>(false)
+    const brand = pkg.title.toUpperCase()
+    const form = ref<Form>({
+      email: null,
+      password: null
+    })
+
+    const authenticate = () => {
+      loading.value = true
+      ctx.root.$store
+        .dispatch('auth/authenticate', form.value)
+        .then(_ => {
+          ctx.root.$router.push({ name: 'activities-date' })
+        })
+        .catch((err: AxiosError) => {
+          if (err.response && err.response.status === 401) {
+            ctx.root.$store.commit('flash/error', {
+              text: 'Email hoặc mật khẩu không chính xác'
+            })
+          }
+        })
+        .finally(() => {
+          loading.value = false
+        })
+    }
+
+    return { form, loading, brand, authenticate }
+  }
+})
+</script>
+
 <style lang="stylus" scoped>
 .brand {
   text-align: center;
@@ -41,42 +90,3 @@
                1px 1px 1px rgba(255, 255, 255, .7);
 }
 </style>
-
-<script>
-export default {
-  data() {
-    return {
-      form: {
-        email: null,
-        password: null
-      },
-      loading: false
-    }
-  },
-  fetch({ redirect, store }) {
-    if (store.getters['auth/isAuthenticated']) {
-      redirect(302, { name: 'activities-date' })
-    }
-  },
-  methods: {
-    authenticate() {
-      this.loading = true
-      this.$store
-        .dispatch('auth/authenticate', this.form)
-        .then(res => {
-          this.$router.push({ name: 'activities-date' })
-        })
-        .catch(err => {
-          if (err.response && err.response.status === 401) {
-            this.$store.commit('flash/error', {
-              text: 'Email hoặc mật khẩu không chính xác'
-            })
-          }
-        })
-        .then(() => {
-          this.loading = false
-        })
-    }
-  }
-}
-</script>

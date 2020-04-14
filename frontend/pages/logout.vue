@@ -2,13 +2,18 @@
   <div></div>
 </template>
 
-<script>
-export default {
-  mounted() {
-    this.$store.commit('auth/logout')
-    this.$store.commit('auth/clearAll')
-    this.$store.commit('babies/clearAll')
-    this.$router.push({ name: 'login' })
+<script lang="ts">
+import { defineComponent, SetupContext, onMounted } from '@vue/composition-api'
+
+export default defineComponent({
+  setup(_, ctx: SetupContext) {
+    onMounted(() => {
+      ctx.root.$store.commit('auth/removeToken')
+      ctx.root.$store.commit('auth/clearAll')
+      ctx.root.$store.commit('babies/removeCurrentId')
+      ctx.root.$store.commit('babies/clearAll')
+      ctx.root.$router.push({ name: 'login' })
+    })
   }
-}
+})
 </script>

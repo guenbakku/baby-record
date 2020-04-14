@@ -4,20 +4,21 @@ module.exports = {
     browser: true,
     node: true
   },
-  parserOptions: {
-    parser: 'babel-eslint'
-  },
   extends: [
     '@nuxtjs',
+    '@nuxtjs/eslint-config-typescript',
     'plugin:nuxt/recommended',
     'plugin:prettier/recommended',
     'prettier',
-    'prettier/vue'
+    'prettier/vue',
+    'prettier/@typescript-eslint'
   ],
   plugins: [
+    'eslint-plugin-tsdoc',
     'prettier'
   ],
   // add your custom rules here
   rules: {
+    "tsdoc/syntax": "warn"
   }
 }

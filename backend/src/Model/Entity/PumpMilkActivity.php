@@ -30,8 +30,8 @@ class PumpMilkActivity extends Entity
         'activity_id' => true,
         'duration' => true,
         'volume' => true,
-        'created' => true,
-        'modified' => true,
+        'created' => false,
+        'modified' => false,
         'activity' => true
     ];
 }

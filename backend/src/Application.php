@@ -14,14 +14,29 @@
  */
 namespace App;
 
+use Authentication\AuthenticationService;
+use Authentication\AuthenticationServiceProviderInterface;
+use Authentication\Middleware\AuthenticationMiddleware;
+use Authorization\AuthorizationService;
+use Authorization\AuthorizationServiceProviderInterface;
+use Authorization\Middleware\AuthorizationMiddleware;
+use Authorization\Middleware\RequestAuthorizationMiddleware;
+use Authorization\Policy\MapResolver;
+use Authorization\Policy\OrmResolver;
+use Authorization\Policy\ResolverCollection;
 use Cake\Core\Configure;
 use Cake\Core\Exception\MissingPluginException;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
+use Cake\Http\ServerRequest;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use CakeDC\Auth\Policy\CollectionPolicy;
+use CakeDC\Auth\Policy\RbacPolicy;
 use Guenbakku\Middleware\Http\ClientTimezoneMiddleware;
 use Guenbakku\Middleware\Http\CorsMiddleware;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Application setup class.
@@ -29,16 +44,18 @@ use Guenbakku\Middleware\Http\CorsMiddleware;
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
  */
-class Application extends BaseApplication
+class Application extends BaseApplication implements
+    AuthenticationServiceProviderInterface,
+    AuthorizationServiceProviderInterface
 {
     /**
      * {@inheritDoc}
      */
     public function bootstrap()
     {
+        $this->addPlugin('Authentication');
+        $this->addPlugin('Authorization');
         $this->addPlugin('Crud');
-
-        $this->addPlugin('ADmad/JwtAuth');
 
         // Call parent to load bootstrap from files.
         parent::bootstrap();
@@ -91,9 +108,79 @@ class Application extends BaseApplication
             // you might want to disable this cache in case your routing is extremely simple
             ->add(new RoutingMiddleware($this, '_cake_routes_'))
 
-            // Determine client timezone
+            // Add the authentication middleware.
+            ->add(new AuthenticationMiddleware($this))
+
+            // Add the authorization middleware.
+            ->add(new AuthorizationMiddleware($this))
+            ->add(new RequestAuthorizationMiddleware())
+
+            // Determine client timezone.
             ->add(ClientTimezoneMiddleware::class);
 
         return $middlewareQueue;
+    }
+
+    /**
+     * Returns a service provider instance.
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request Request
+     * @param \Psr\Http\Message\ResponseInterface $response Response
+     * @return \Authentication\AuthenticationServiceInterface
+     */
+    public function getAuthenticationService(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        $service = new AuthenticationService();
+
+        $fields = [
+            'username' => 'email',
+            'password' => 'password'
+        ];
+
+        // Load identifiers
+        $service->loadIdentifier('Authentication.JwtSubject');
+        $service->loadIdentifier('Authentication.Password', compact('fields'));
+
+        // Load the authenticators
+        $service->loadAuthenticator('Authentication.Jwt', [
+            'returnPayload' => false
+        ]);
+        $service->loadAuthenticator('Authentication.Form', [
+            'fields' => $fields,
+            'loginUrl' => '/api/users/token'
+        ]);
+
+        return $service;
+    }
+
+    /**
+     * Returns a service provider instance.
+     *
+     * @param \Psr\Http\Message\ServerRequestInterface $request Request
+     * @param \Psr\Http\Message\ResponseInterface $response Response
+     * @return \Authorization\AuthorizationServiceInterface
+     */
+    public function getAuthorizationService(ServerRequestInterface $request, ResponseInterface $response)
+    {
+        $map = new MapResolver();
+        $map->map(
+            ServerRequest::class,
+            new CollectionPolicy([
+                new RbacPolicy([ //Only check with rbac if user is not super user
+                    'adapter' => [
+                        'default_role' => '*'
+                    ]
+                ]),
+            ])
+        );
+
+        $orm = new OrmResolver();
+
+        $resolver = new ResolverCollection([
+            $map,
+            $orm
+        ]);
+
+        return new AuthorizationService($resolver);
     }
 }

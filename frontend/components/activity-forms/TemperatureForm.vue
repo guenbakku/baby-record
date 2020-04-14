@@ -2,7 +2,7 @@
   <div>
     <v-text-field
       v-model="form.started"
-      :error-messages="errors.started"
+      :error-messages="objectPath.get(errors, 'started')"
       label="Bắt đầu"
       required
       type="datetime-local"
@@ -10,7 +10,7 @@
     <v-text-field
       v-model.number="form.temperature_activity.temperature"
       :error-messages="
-        $objectPath.get(errors, 'temperature_activity.temperature', null)
+        objectPath.get(errors, 'temperature_activity.temperature')
       "
       label="Nhiệt độ"
       suffix="°C"
@@ -20,48 +20,76 @@
     />
     <v-text-field
       v-model="form.memo"
-      :error-messages="errors.memo"
+      :error-messages="objectPath.get(errors, 'memo')"
       label="Ghi chú"
     />
   </div>
 </template>
 
-<script>
-import FormMixin from './form.mixin.js'
+<script lang="ts">
+import { defineComponent, SetupContext } from '@vue/composition-api'
+import { ActivityForm, ActivityError, declareProps } from './models'
+import useForm from './use-form'
 
-export default {
-  mixins: [FormMixin],
-  data() {
-    return {
-      form: {
-        started: this.$moment().format('YYYY-MM-DD[T]HH:mm'),
-        memo: null,
-        temperature_activity: {
-          temperature: 0
-        }
+/* eslint-disable camelcase */
+type Form = ActivityForm<{
+  temperature_activity: {
+    temperature: number
+  }
+}>
+
+type Props = {
+  data: Form & {
+    activity_type_id: number
+  }
+  errors: ActivityError<{
+    temperature_activity?: {
+      temperature?: string
+    }
+  }>
+}
+/* eslint-enable camelcase */
+
+export default defineComponent({
+  props: declareProps<Props['data'], Props['errors']>(),
+  setup(props: Props, ctx: SetupContext) {
+    const initForm: Form = {
+      started: ctx.root.$moment().format('YYYY-MM-DD[T]HH:mm'),
+      memo: '',
+      temperature_activity: {
+        temperature: 0
       }
     }
-  },
-  methods: {
-    transformPropToData(prop) {
-      return {
-        started: this.$moment(prop.started).format('YYYY-MM-DD[T]HH:mm'),
-        memo: prop.memo,
-        temperature_activity: {
-          temperature: prop.temperature_activity.temperature
-        }
+
+    const propsToForm = (props: Props['data']) => ({
+      started: ctx.root.$moment(props.started).format('YYYY-MM-DD[T]HH:mm'),
+      memo: props.memo,
+      temperature_activity: {
+        temperature: props.temperature_activity.temperature
       }
-    },
-    transformDataToProp(form) {
-      return {
-        started: this.$moment(form.started).toISOString(),
-        memo: form.memo,
-        activity_type_id: 5,
-        temperature_activity: {
-          temperature: form.temperature_activity.temperature
-        }
+    })
+
+    const formToProps = (form: Form) => ({
+      started: ctx.root.$moment(form.started).toISOString(),
+      memo: form.memo,
+      activity_type_id: 5,
+      temperature_activity: {
+        temperature: form.temperature_activity.temperature
       }
+    })
+
+    const { form, getData } = useForm<Props['data'], Form>(
+      initForm,
+      props.data,
+      propsToForm,
+      formToProps
+    )
+
+    return {
+      form,
+      getData,
+      objectPath: ctx.root.$objectPath
     }
   }
-}
+})
 </script>

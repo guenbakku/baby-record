@@ -50,6 +50,10 @@ class BabiesTable extends Table
             'dependent' => true,
             'cascadeCallbacks' => true, // TODO: Customize delete api to improve performance.
         ]);
+        $this->belongsTo('Sexes', [
+            'foreignKey' => 'sex_id',
+            'joinType' => 'INNER'
+        ]);
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
@@ -64,6 +68,8 @@ class BabiesTable extends Table
      */
     public function validationDefault(Validator $validator)
     {
+        $validator->setProvider('datetime', '\App\Model\Validation\DateTimeValidation');
+
         $validator
             ->uuid('id')
             ->allowEmptyString('id', 'create');
@@ -75,9 +81,15 @@ class BabiesTable extends Table
             ->allowEmptyString('name', false);
 
         $validator
-            ->date('birthday')
             ->requirePresence('birthday', 'create')
-            ->allowEmptyDate('birthday', false);
+            ->allowEmptyDateTime('birthday', false)
+            ->add('started', [
+                'format' => [
+                    'rule' => 'isISO8601',
+                    'message' => __('The provided value must be in ISO-8601 format'),
+                    'provider' => 'datetime',
+                ]
+            ]);;
 
         return $validator;
     }
@@ -91,7 +103,8 @@ class BabiesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['user_id'], 'users'));
+        $rules->add($rules->existsIn(['sex_id'], 'Sexes'));
+        $rules->add($rules->existsIn(['user_id'], 'Users'));
         $rules->add($rules->isUnique(['name']));
         return $rules;
     }

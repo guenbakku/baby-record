@@ -104,6 +104,17 @@ Router::prefix('api', function (RouteBuilder $routes) {
     $routes->resources('Babies', [
         'inflect' => 'dasherize'
     ]);
+    $routes->resources('Codes', [
+        'inflect' => 'dasherize',
+        'only' => ['view'],
+        'map' => [
+            'view' => ['action' => 'view', 'method' => 'GET', 'path' => ':model']
+        ],
+        'connectOptions' => [
+            'model' => '[a-zA-Z0-9\-]+',
+            'pass' => ['model']
+        ]
+    ]);
     $routes->resources('Users', [
         'inflect' => 'dasherize',
         'map' => [

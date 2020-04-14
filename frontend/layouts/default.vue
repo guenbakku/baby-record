@@ -29,9 +29,9 @@
       color="primary"
     >
       <v-toolbar-side-icon @click="drawer = !drawer" />
-      <v-toolbar-title v-text="title" />
+      <v-toolbar-title v-text="headerTitle" />
       <v-spacer />
-      <baby-switch />
+      <baby-switch v-if="useBabySwitch" />
     </v-toolbar>
     <v-content>
       <v-container>
@@ -39,17 +39,20 @@
       </v-container>
     </v-content>
     <v-footer :fixed="fixed" app>
-      <span class="ml-3">guenbakku &copy; {{ $moment().format('YYYY') }}</span>
+      <span class="ml-3">
+        {{ title }} &copy; {{ $moment().format('YYYY') }} - v.{{ version }}
+      </span>
     </v-footer>
     <flash />
   </v-app>
 </template>
 
 <script>
-import LoginUser from '~/components/LoginUser'
-import BabySwitch from '~/components/BabySwitch'
-import Flash from '~/components/Flash'
-import { mapGetters } from 'vuex'
+import '~/assets/icomoon/style.css'
+import { mapGetters, mapState } from 'vuex'
+import LoginUser from '~/components/core/LoginUser'
+import BabySwitch from '~/components/core/BabySwitch'
+import Flash from '~/components/core/Flash'
 import pkg from '~/package'
 
 export default {
@@ -65,18 +68,18 @@ export default {
       fixed: false,
       items: [
         {
-          icon: 'apps',
+          icon: 'icon-record',
           title: 'Ghi chép',
           to: '/activities'
         },
         {
-          icon: 'bubble_chart',
+          icon: 'icon-baby',
           title: 'Em bé',
           to: '/babies'
         },
         {
           divider: true,
-          icon: 'power_off',
+          icon: 'icon-logout',
           title: 'Đăng xuất',
           to: '/logout'
         }
@@ -84,11 +87,13 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: pkg.title
+      title: pkg.title,
+      version: pkg.version
     }
   },
   computed: {
-    ...mapGetters('auth', ['isAuthenticated'])
+    ...mapGetters('auth', ['isAuthenticated']),
+    ...mapState('config', ['headerTitle', 'useBabySwitch'])
   }
 }
 </script>
