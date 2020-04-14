@@ -16,41 +16,44 @@
   </v-layout>
 </template>
 
-<script>
-import BabyList from '~/components/babies/BabyList'
-import Loading from '~/components/core/card-text/Loading'
-import NoData from '~/components/core/card-text/NoData'
+<script lang="ts">
+import { defineComponent, ref, computed, onMounted } from '@vue/composition-api'
+import { useStore } from '@u3u/vue-hooks'
+import { Location } from 'vue-router'
+import BabyList from '~/components/babies/BabyList.vue'
+import Loading from '~/components/core/card-text/Loading.vue'
+import NoData from '~/components/core/card-text/NoData.vue'
+import { RootState } from '~/store/models'
 
-export default {
+export default defineComponent({
   components: { BabyList, Loading, NoData },
-  data() {
-    return {
-      completed: false
-    }
-  },
-  computed: {
-    babies() {
-      return this.$store.state.babies.babies
-    },
-    isNoData() {
-      return this.completed && Object.keys(this.babies || {}).length === 0
-    },
-    addRoute() {
-      return {
-        name: 'babies-add'
-      }
-    }
-  },
-  mounted() {
-    this.getBabies()
-  },
-  methods: {
-    getBabies() {
-      this.completed = false
-      this.$store.dispatch('babies/getBabies').finally(() => {
-        this.completed = true
+  setup() {
+    const store = useStore<RootState>()
+
+    const completed = ref<boolean>(false)
+    const babies = computed(() => {
+      return store.value.state.babies.babies
+    })
+    const isNoData = computed(() => {
+      return completed.value && Object.keys(babies.value || {}).length === 0
+    })
+    const addRoute = computed((): Location => ({ name: 'babies-add' }))
+
+    const getBabies = () => {
+      completed.value = false
+      store.value.dispatch('babies/getBabies').finally(() => {
+        completed.value = true
       })
     }
+
+    onMounted(getBabies)
+
+    return {
+      completed,
+      babies,
+      isNoData,
+      addRoute
+    }
   }
-}
+})
 </script>

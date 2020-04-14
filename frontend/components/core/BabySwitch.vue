@@ -36,35 +36,48 @@
   </div>
 </template>
 
-<script>
-import DatetimeMixin from '~/mixins/datetime.mixin.js'
-import SexIcon from '~/components/core/SexIcon'
+<script lang="ts">
+import { defineComponent, computed, SetupContext } from '@vue/composition-api'
+import { useStore } from '@u3u/vue-hooks'
+import { RootState } from '~/store/models'
+import { Baby } from '~/store/babies/models'
+import useDateTime from '~/hooks/use-date-time'
+import SexIcon from '~/components/core/SexIcon.vue'
 
-export default {
+export default defineComponent({
   components: { SexIcon },
-  mixins: [DatetimeMixin],
-  computed: {
-    currentBaby() {
-      return this.$store.getters['babies/current']
-    },
-    babies() {
-      return this.$store.state.babies.babies
-    },
-    age() {
-      const age = this.calcAge(this.currentBaby.birthday)
-      if (age[0] > 0) {
-        return `${age[0]} tuổi ${age[1]} tháng`
-      } else {
-        return `${age[1]} tháng ${age[2]} ngày`
-      }
+  setup(_, ctx: SetupContext) {
+    const store = useStore<RootState>()
+
+    // $moment inside $store is a hack to bypass type checking
+    const { calcAge } = useDateTime(store.value.$moment)
+
+    const currentBaby = computed(
+      () => store.value.getters['babies/current'] as Baby
+    )
+
+    const babies = computed(() => store.value.state.babies.babies)
+
+    const age = computed(() => {
+      const today = ctx.root.$moment().toJSON()
+      const age = calcAge(currentBaby.value.birthday, today)
+      return age[0] > 0
+        ? `${age[0]} tuổi ${age[1]} tháng`
+        : `${age[1]} tháng ${age[2]} ngày`
+    })
+
+    const changeBaby = (id: string) => {
+      store.value.commit('babies/setCurrentId', { id })
     }
-  },
-  methods: {
-    changeBaby(id) {
-      this.$store.commit('babies/setCurrentId', { id })
+
+    return {
+      currentBaby,
+      babies,
+      age,
+      changeBaby
     }
   }
-}
+})
 </script>
 
 <style>

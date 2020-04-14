@@ -49,10 +49,10 @@
 
 <script>
 import '~/assets/icomoon/style.css'
+import { mapGetters, mapState } from 'vuex'
 import LoginUser from '~/components/core/LoginUser'
 import BabySwitch from '~/components/core/BabySwitch'
 import Flash from '~/components/core/Flash'
-import { mapGetters, mapState } from 'vuex'
 import pkg from '~/package'
 
 export default {

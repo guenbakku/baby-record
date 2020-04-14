@@ -19,38 +19,53 @@
   </router-link>
 </template>
 
-<script>
-import DatetimeMixin from '~/mixins/datetime.mixin'
-import SexIcon from '~/components/core/SexIcon'
+<script lang="ts">
+import { defineComponent, computed, SetupContext } from '@vue/composition-api'
+import { useStore } from '@u3u/vue-hooks'
+import { Baby, initBaby } from './models'
+import { RootState } from '~/store/models'
+import useDateTime from '~/hooks/use-date-time'
+import SexIcon from '~/components/core/SexIcon.vue'
 
-export default {
+type Props = {
+  baby: Baby
+}
+
+export default defineComponent({
   components: { SexIcon },
-  mixins: [DatetimeMixin],
   props: {
     baby: {
-      type: Object,
-      default: () => {}
+      type: Object as () => Props['baby'],
+      default: () => initBaby()
     }
   },
-  computed: {
-    editRoute() {
-      return {
-        name: 'babies-edit-id',
-        params: {
-          id: this.baby.id
-        }
+  setup(props: Props, ctx: SetupContext) {
+    const store = useStore<RootState>()
+
+    // $moment inside $store is a hack to bypass type checking
+    const { calcAge } = useDateTime(store.value.$moment)
+
+    const editRoute = computed(() => ({
+      name: 'babies-edit-id',
+      params: {
+        id: props.baby.id
       }
-    },
-    age() {
-      const age = this.calcAge(this.baby.birthday)
-      if (age[0] > 0) {
-        return `${age[0]} tuổi ${age[1]} tháng`
-      } else {
-        return `${age[1]} tháng ${age[2]} ngày`
-      }
+    }))
+
+    const age = computed(() => {
+      const today = ctx.root.$moment().toJSON()
+      const age = calcAge(props.baby.birthday, today)
+      return age[0] > 0
+        ? `${age[0]} tuổi ${age[1]} tháng`
+        : `${age[1]} tháng ${age[2]} ngày`
+    })
+
+    return {
+      editRoute,
+      age
     }
   }
-}
+})
 </script>
 
 <style scoped lang="stylus">

@@ -2,17 +2,30 @@
   <v-icon :large="large" :color="color">{{ icon }}</v-icon>
 </template>
 
-<script>
-const MAPS = {
+<script lang="ts">
+import { defineComponent, computed } from '@vue/composition-api'
+import { SexId } from '~/store/babies/models'
+
+type Maps = {
+  [k: number]: string
+}
+
+type Props = {
+  sexId: SexId | null
+  large: boolean
+  color: string
+}
+
+const MAPS: Maps = {
   1: 'icon-boy',
   2: 'icon-girl'
 }
 
-export default {
+export default defineComponent({
   props: {
     sexId: {
-      type: Number,
-      default: undefined
+      type: Number as () => SexId,
+      default: null
     },
     large: {
       type: Boolean,
@@ -20,13 +33,14 @@ export default {
     },
     color: {
       type: String,
-      default: undefined
+      default: null
     }
   },
-  computed: {
-    icon() {
-      return MAPS[this.sexId] || undefined
-    }
+  setup(props: Props) {
+    const icon = computed(() =>
+      props.sexId !== null ? MAPS[props.sexId] || null : null
+    )
+    return { icon }
   }
-}
+})
 </script>

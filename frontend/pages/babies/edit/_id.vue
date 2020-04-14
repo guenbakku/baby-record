@@ -12,7 +12,7 @@
           <v-divider />
           <v-card-text v-show="isInitializationSuccess">
             <baby-form
-              ref="form"
+              ref="formRef"
               :errors="errors"
               :data="baby"
               @initialized="formInitialized = true"
@@ -28,7 +28,7 @@
             <v-spacer />
             <double-confirm-dialog
               :loading="loading"
-              :check-value="baby.name"
+              :check-value="baby ? baby.name : ''"
               @confirmed="deleteBaby()"
             >
               <template v-slot:activator="{ on }">
@@ -38,7 +38,8 @@
                 <div>
                   Bạn có chắc chắn muốn xóa thông tin em bé này? Tất cả ghi chép
                   của em bé đều sẽ bị xóa. Hãy nhập tên em bé
-                  <b>"{{ baby.name }}"</b> vào ô bên dưới để xác nhận.
+                  <b>"{{ baby ? baby.name : '' }}"</b> vào ô bên dưới để xác
+                  nhận.
                 </div>
               </template>
             </double-confirm-dialog>
@@ -49,108 +50,142 @@
   </v-layout>
 </template>
 
-<script>
-import Loading from '~/components/core/card-text/Loading'
-import Error from '~/components/core/card-text/Error'
-import DoubleConfirmDialog from '~/components/core/DoubleConfirmDialog'
-import BabyForm from '~/components/babies/BabyForm'
-import InitializationStatusMixin from '~/mixins/initialization-status.mixin'
+<script lang="ts">
+import {
+  defineComponent,
+  ref,
+  computed,
+  SetupContext,
+  onMounted
+} from '@vue/composition-api'
+import { Location } from 'vue-router'
+import useInitializationStatus from '~/hooks/use-initialization-status'
+import Loading from '~/components/core/card-text/Loading.vue'
+import Error from '~/components/core/card-text/Error.vue'
+import DoubleConfirmDialog from '~/components/core/DoubleConfirmDialog.vue'
+import BabyForm from '~/components/babies/BabyForm.vue'
+import { BabyError } from '~/components/babies/models'
+import { Baby } from '~/store/babies/models'
 
-export default {
+export default defineComponent({
   components: { Loading, Error, DoubleConfirmDialog, BabyForm },
-  mixins: [InitializationStatusMixin],
-  data: () => ({
-    baby: undefined,
-    errors: {},
-    loading: false,
-    formInitialized: false
-  }),
-  computed: {
-    babyId: function() {
-      return this.$route.params.id
-    },
-    listRoute: function() {
-      return {
-        name: 'babies'
-      }
-    }
-  },
-  mounted() {
-    this.setInitializing()
-    Promise.all([this.getBaby()])
-      .then(res => {
-        this.setInitializationSuccess()
-      })
-      // eslint-disable-next-line handle-callback-err
-      .catch(err => {
-        this.setInitializationError()
-      })
-  },
-  methods: {
-    getBaby: function() {
-      return this.$store
-        .dispatch('babies/viewBaby', { babyId: this.babyId })
+  setup(_, ctx: SetupContext) {
+    const {
+      isInitializing,
+      isInitializationSuccess,
+      isInitializationError,
+      setInitializing,
+      setInitializationSuccess,
+      setInitializationError
+    } = useInitializationStatus()
+
+    const formRef = ref<any>(undefined)
+    const baby = ref<Baby | undefined>(undefined)
+    const errors = ref<BabyError>({})
+    const loading = ref<boolean>(false)
+    const formInitialized = ref<boolean>(false)
+
+    const babyId = computed(() => ctx.root.$route.params.id)
+    const listRoute = computed<Location>(() => ({
+      name: 'babies'
+    }))
+
+    const getBaby = () => {
+      return ctx.root.$store
+        .dispatch('babies/viewBaby', { babyId: babyId.value })
         .then(res => {
-          this.baby = res.data.data
+          baby.value = res.data.data
           return res
         })
         .catch(err => {
           if (err.response && err.response.status === 404) {
-            this.$store.commit('flash/error', {
+            ctx.root.$store.commit('flash/error', {
               text: 'Không tìm thấy thông tin'
             })
           }
           throw err
         })
-    },
-    editBaby: function() {
-      this.loading = true
-      this.errors = {}
-      const baby = this.$refs.form.getData()
-      this.$store
+    }
+
+    const editBaby = () => {
+      loading.value = true
+      errors.value = {}
+      const baby = formRef.value.getData() // TODO: declare form type
+      ctx.root.$store
         .dispatch('babies/editBaby', {
-          babyId: this.babyId,
+          babyId: babyId.value,
           baby
         })
-        .then(res => {
-          this.$store.commit('flash/success', {
+        .then(_ => {
+          ctx.root.$store.commit('flash/success', {
             text: 'Sửa thông tin em bé thành công'
           })
-          this.$router.push(this.listRoute)
+          ctx.root.$router.push(listRoute.value)
         })
         .catch(err => {
           if (err.response && err.response.status === 422) {
-            this.$store.commit('flash/error', {
+            ctx.root.$store.commit('flash/error', {
               text: 'Vui lòng kiểm tra lại dữ liệu nhập vào'
             })
-            this.errors = err.response.data.data.parsedErrors
+            errors.value = err.response.data.data.parsedErrors
           }
         })
         .finally(() => {
-          this.loading = false
+          loading.value = false
         })
-    },
-    deleteBaby: function() {
-      this.loading = true
-      this.$store
-        .dispatch('babies/deleteBaby', { babyId: this.babyId })
-        .then(res => {
-          this.$store.commit('flash/success', {
+    }
+
+    const deleteBaby = () => {
+      loading.value = true
+      ctx.root.$store
+        .dispatch('babies/deleteBaby', { babyId: babyId.value })
+        .then(_ => {
+          ctx.root.$store.commit('flash/success', {
             text: 'Xóa thông tin em bé thành công'
           })
-          this.$router.push(this.listRoute)
+          ctx.root.$router.push(listRoute.value)
         })
         .catch(err => {
           if (err.response && err.response.status === 404) {
-            this.$store.commit('flash/error', {
+            ctx.root.$store.commit('flash/error', {
               text: 'Không tìm thấy thông tin'
             })
           }
         })
         .then(() => {
-          this.loading = false
+          loading.value = false
         })
     }
+
+    onMounted(() => {
+      setInitializing()
+      Promise.all([getBaby()])
+        .then(_ => {
+          setInitializationSuccess()
+        })
+        .catch(_ => {
+          setInitializationError()
+        })
+    })
+
+    return {
+      isInitializing,
+      isInitializationSuccess,
+      isInitializationError,
+      setInitializing,
+      setInitializationSuccess,
+      setInitializationError,
+      formRef,
+      baby,
+      errors,
+      loading,
+      formInitialized,
+      babyId,
+      listRoute,
+      getBaby,
+      editBaby,
+      deleteBaby
+    }
   }
-}
+})
 </script>

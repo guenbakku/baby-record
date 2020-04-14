@@ -1,5 +1,5 @@
 import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin'
-import pkg from './package'
+import pkg from './package.json'
 
 const BASE_PATH = '/frontend'
 
@@ -81,6 +81,7 @@ export default {
    ** Plugins to load before mounting the App
    */
   plugins: [
+    '@/plugins/composition-api',
     '@/plugins/es-shim',
     '@/plugins/object-path',
     '@/plugins/moment',
@@ -106,6 +107,16 @@ export default {
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
   },
+
+  buildModules: [
+    [
+      '@nuxt/typescript-build',
+      {
+        typeCheck: true,
+        ignoreNotFoundWarnings: true
+      }
+    ]
+  ],
 
   /*
    ** Build configuration

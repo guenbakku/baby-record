@@ -36,8 +36,15 @@
   </v-dialog>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent, ref, computed } from '@vue/composition-api'
+
+type Props = {
+  loading: boolean
+  checkValue: string | undefined
+}
+
+export default defineComponent({
   props: {
     loading: {
       type: Boolean,
@@ -48,14 +55,16 @@ export default {
       default: undefined
     }
   },
-  data: () => ({
-    dialog: false,
-    inputValue: ''
-  }),
-  computed: {
-    isMatched: function() {
-      return this.inputValue === this.checkValue
+  setup(props: Props) {
+    const dialog = ref(false)
+    const inputValue = ref('')
+    const isMatched = computed(() => inputValue.value === props.checkValue)
+
+    return {
+      dialog,
+      inputValue,
+      isMatched
     }
   }
-}
+})
 </script>

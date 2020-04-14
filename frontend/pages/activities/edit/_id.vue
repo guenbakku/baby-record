@@ -4,7 +4,7 @@
       <v-card>
         <v-form @submit.prevent="editActivity">
           <v-card-actions>
-            <v-btn icon :to="getRouteToActivitiesPage()" active-class="dummy">
+            <v-btn :to="getRouteToActivitiesPage()" icon active-class="dummy">
               <v-icon>keyboard_backspace</v-icon>
             </v-btn>
             <span class="subheading">Sửa {{ title.toLowerCase() }}</span>
@@ -14,7 +14,7 @@
             <component
               :is="component"
               v-if="activity"
-              ref="form"
+              ref="formRef"
               :data="activity"
               :errors="errors"
             />
@@ -22,13 +22,13 @@
           </v-card-text>
           <v-divider />
           <v-card-actions v-if="activity">
-            <v-btn type="submit" color="success" :loading="loading">
+            <v-btn :loading="loading" type="submit" color="success">
               Sửa
             </v-btn>
             <v-spacer />
             <confirm-dialog :loading="loading" @confirmed="deleteActivity()">
               <template v-slot:activator="{ on }">
-                <v-btn color="error" :loading="loading" v-on="on">Xóa</v-btn>
+                <v-btn :loading="loading" color="error" v-on="on">Xóa</v-btn>
               </template>
               <template v-slot:message>
                 Bạn có chắc chắn muốn xóa ghi chép này?
@@ -41,111 +41,136 @@
   </v-layout>
 </template>
 
-<script>
+<script lang="ts">
+import {
+  defineComponent,
+  ref,
+  computed,
+  onMounted,
+  SetupContext
+} from '@vue/composition-api'
+import { useStore } from '@u3u/vue-hooks'
+import { Location } from 'vue-router'
+import { RootState } from '~/store/models'
 import { loadComponents, getMaps } from '~/components/activity-forms/maps'
-import ConfirmDialog from '~/components/core/ConfirmDialog'
+import ConfirmDialog from '~/components/core/ConfirmDialog.vue'
+import { ActivityItem } from '~/components/activities/models'
 
-export default {
+export default defineComponent({
   useBabySwitch: true,
   components: {
     ...loadComponents(),
     ConfirmDialog
   },
-  data: () => ({
-    activity: undefined,
-    errors: {},
-    loading: false
-  }),
-  computed: {
-    date: function() {
-      return this.$store.state.activities.date
-    },
-    type: function() {
-      return this.activity ? this.activity.activity_type.code : undefined
-    },
-    component: function() {
-      return this.type ? getMaps()[this.type].component : undefined
-    },
-    title: function() {
-      return this.type ? getMaps()[this.type].title : ''
-    },
-    activityId: function() {
-      return this.$route.params.id
+  setup(_, ctx: SetupContext) {
+    const store = useStore<RootState>()
+
+    const formRef = ref<any>(null)
+    const activity = ref<ActivityItem>()
+    const errors = ref<any>()
+    const loading = ref<boolean>(false)
+
+    const date = computed(() => store.value.state.activities.date)
+    const type = computed<string | undefined>(() =>
+      activity.value ? activity.value.activity_type.code : undefined
+    )
+    const component = computed(() =>
+      type.value ? getMaps()[type.value].component : undefined
+    )
+    const title = computed(() =>
+      type.value ? getMaps()[type.value].title : ''
+    )
+    const activityId = computed(() => ctx.root.$route.params.id)
+
+    const getRouteToActivitiesPage = (inputDate?: string): Location => {
+      const paramDate = inputDate || date.value || ''
+      return { name: 'activities-date', params: { date: paramDate } }
     }
-  },
-  mounted: function() {
-    this.getActivity()
-  },
-  methods: {
-    test: function() {
-      alert('OK')
-    },
-    getRouteToActivitiesPage: function(date = undefined) {
-      date = date || this.date
-      return { name: 'activities-date', params: { date } }
-    },
-    getActivity: function() {
-      this.$store
-        .dispatch('activities/viewActivity', { activityId: this.activityId })
+
+    const getActivity = () => {
+      store.value
+        .dispatch('activities/viewActivity', { activityId: activityId.value })
         .then(res => {
-          this.activity = res.data.data
+          activity.value = res.data.data
         })
         .catch(err => {
           if (err.response && err.response.status === 404) {
-            this.$store.commit('flash/error', {
+            store.value.commit('flash/error', {
               text: 'Không tìm thấy ghi chép'
             })
           }
         })
-    },
-    editActivity: function() {
-      this.loading = true
-      this.errors = {}
-      const activity = this.$refs.form.getData()
-      this.$store
+    }
+
+    const editActivity = () => {
+      loading.value = true
+      errors.value = {}
+      const activity = formRef.value.getData()
+      store.value
         .dispatch('activities/editActivity', {
-          activityId: this.activityId,
+          activityId: activityId.value,
           activity
         })
-        .then(res => {
-          this.$store.commit('flash/success', {
+        .then(_ => {
+          store.value.commit('flash/success', {
             text: 'Sửa ghi chép thành công'
           })
-          this.$router.push(this.getRouteToActivitiesPage())
+          ctx.root.$router.push(getRouteToActivitiesPage())
         })
         .catch(err => {
           if (err.response && err.response.status === 422) {
-            this.$store.commit('flash/error', {
+            store.value.commit('flash/error', {
               text: 'Vui lòng kiểm tra lại dữ liệu nhập vào'
             })
-            this.errors = err.response.data.data.parsedErrors
+            errors.value = err.response.data.data.parsedErrors
           }
         })
         .finally(() => {
-          this.loading = false
+          loading.value = false
         })
-    },
-    deleteActivity: function() {
-      this.loading = true
-      this.$store
-        .dispatch('activities/deleteActivity', { activityId: this.activityId })
-        .then(res => {
-          this.$store.commit('flash/success', {
+    }
+
+    const deleteActivity = () => {
+      loading.value = true
+      store.value
+        .dispatch('activities/deleteActivity', { activityId: activityId.value })
+        .then(_ => {
+          store.value.commit('flash/success', {
             text: 'Xóa ghi chép thành công'
           })
-          this.$router.push(this.getRouteToActivitiesPage())
+          ctx.root.$router.push(getRouteToActivitiesPage())
         })
         .catch(err => {
           if (err.response && err.response.status === 404) {
-            this.$store.commit('flash/error', {
+            ctx.root.$store.commit('flash/error', {
               text: 'Không tìm thấy ghi chép'
             })
           }
         })
         .finally(() => {
-          this.loading = false
+          loading.value = false
         })
     }
+
+    onMounted(() => {
+      getActivity()
+    })
+
+    return {
+      formRef,
+      activity,
+      errors,
+      loading,
+      date,
+      type,
+      component,
+      title,
+      activityId,
+      getRouteToActivitiesPage,
+      getActivity,
+      editActivity,
+      deleteActivity
+    }
   }
-}
+})
 </script>

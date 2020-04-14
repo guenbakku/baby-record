@@ -29,19 +29,29 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent, ref } from '@vue/composition-api'
+import { Location } from 'vue-router'
+
+export type SpeedDialItem = {
+  key: string
+  to: Location
+  title: string
+}
+
+export default defineComponent({
   name: 'SpeedDial',
   props: {
     items: {
-      type: Array,
+      type: Array as () => SpeedDialItem[],
       default: () => []
     }
   },
-  data: () => ({
-    fab: false
-  })
-}
+  setup() {
+    const fab = ref(false)
+    return { fab }
+  }
+})
 </script>
 
 <style lang="stylus">

@@ -30,46 +30,53 @@
   </div>
 </template>
 
-<script>
-import pkg from '~/package'
+<script lang="ts">
+import { defineComponent, SetupContext, ref } from '@vue/composition-api'
+import { Context } from '@nuxt/types/app'
+import { AxiosError } from 'axios'
+import pkg from '~/package.json'
 
-export default {
-  data() {
-    return {
-      form: {
-        email: null,
-        password: null
-      },
-      loading: false,
-      brand: pkg.title.toUpperCase()
-    }
-  },
-  fetch({ redirect, store }) {
+type Form = {
+  email: string | null
+  password: string | null
+}
+
+export default defineComponent({
+  fetch({ redirect, store }: Context) {
     if (store.getters['auth/isAuthenticated']) {
-      redirect(302, { name: 'activities-date' })
+      redirect({ name: 'activities-date' })
     }
   },
-  methods: {
-    authenticate() {
-      this.loading = true
-      this.$store
-        .dispatch('auth/authenticate', this.form)
-        .then(res => {
-          this.$router.push({ name: 'activities-date' })
+  setup(_, ctx: SetupContext) {
+    const loading = ref<boolean>(false)
+    const brand = pkg.title.toUpperCase()
+    const form = ref<Form>({
+      email: null,
+      password: null
+    })
+
+    const authenticate = () => {
+      loading.value = true
+      ctx.root.$store
+        .dispatch('auth/authenticate', form.value)
+        .then(_ => {
+          ctx.root.$router.push({ name: 'activities-date' })
         })
-        .catch(err => {
+        .catch((err: AxiosError) => {
           if (err.response && err.response.status === 401) {
-            this.$store.commit('flash/error', {
+            ctx.root.$store.commit('flash/error', {
               text: 'Email hoặc mật khẩu không chính xác'
             })
           }
         })
         .finally(() => {
-          this.loading = false
+          loading.value = false
         })
     }
+
+    return { form, loading, brand, authenticate }
   }
-}
+})
 </script>
 
 <style lang="stylus" scoped>
