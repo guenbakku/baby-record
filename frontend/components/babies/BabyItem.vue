@@ -53,8 +53,17 @@ export default defineComponent({
     }))
 
     const age = computed(() => {
-      const today = ctx.root.$moment().toJSON()
-      const age = calcAge(props.baby.birthday, today)
+      const today = ctx.root
+        .$moment()
+        .startOf('day')
+        .toJSON()
+
+      const birthday = ctx.root
+        .$moment(props.baby.birthday)
+        .startOf('day')
+        .toJSON()
+
+      const age = calcAge(birthday, today)
       return age[0] > 0
         ? `${age[0]} tuổi ${age[1]} tháng`
         : `${age[1]} tháng ${age[2]} ngày`

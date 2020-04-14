@@ -8,9 +8,9 @@
     <v-text-field
       v-model="form.birthday"
       :error-messages="errors ? errors.birthday : undefined"
-      label="Ngày tháng năm sinh"
+      label="Ngày giờ sinh"
       required
-      type="date"
+      type="datetime-local"
     />
     <v-select
       v-model="form.sex_id"
@@ -85,9 +85,25 @@ export default defineComponent({
       sex_id: SexId.boy
     }
 
+    const propsToForm = (props: Props['data']): Form => {
+      const form: Form = JSON.parse(JSON.stringify(props))
+      form.birthday = ctx.root
+        .$moment(form.birthday)
+        .format('YYYY-MM-DD[T]HH:mm')
+      return form
+    }
+
+    const formToProps = (form: Form): Props['data'] => {
+      const props: Props['data'] = JSON.parse(JSON.stringify(form))
+      props.birthday = ctx.root.$moment(props.birthday).toISOString()
+      return props
+    }
+
     const { form, getData, updateForm } = useForm<Props['data'], Form>(
       initForm,
-      props.data
+      props.data,
+      propsToForm,
+      formToProps
     )
 
     watch(() => props.data, data => updateForm(data))
