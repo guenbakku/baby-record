@@ -57,7 +57,7 @@ export const mutations: MutationTree<State> = {
 export const actions: ActionTree<State, RootState> = {
   /**
    * Get babies list
-   * @param {Object} param0
+   * @param param0 - object param 0
    */
   getBabies({ commit }) {
     return this.$axios
@@ -75,8 +75,8 @@ export const actions: ActionTree<State, RootState> = {
 
   /**
    * Add baby
-   * @param {Object} param0
-   * @param {Object} param1
+   * @param param0 - object param 0
+   * @param param1 - object param 1
    */
   addBaby(_, { baby }: { baby: Baby }) {
     return this.$axios.post<any, AxiosResponse<AddResponse>>('babies', baby)
@@ -84,8 +84,8 @@ export const actions: ActionTree<State, RootState> = {
 
   /**
    * View baby
-   * @param {Object} param0
-   * @param {Object} param1
+   * @param param0 - object param 0
+   * @param param1 - object param 1
    */
   viewBaby(_, { babyId }: { babyId: string }) {
     return this.$axios.get<any, AxiosResponse<BabyViewResponse>>(
@@ -95,8 +95,8 @@ export const actions: ActionTree<State, RootState> = {
 
   /**
    * Edit baby
-   * @param {Object} param0
-   * @param {Object} param1
+   * @param param0 - object param 0
+   * @param param1 - object param 1
    */
   editBaby(_, { babyId, baby }: { babyId: string; baby: Baby }) {
     return this.$axios.put<any, AxiosResponse<EditResponse>>(
@@ -107,8 +107,8 @@ export const actions: ActionTree<State, RootState> = {
 
   /**
    * Delete baby
-   * @param {Object} param0
-   * @param {Object} param1
+   * @param param0 - object param 0
+   * @param param1 - object param 1
    */
   deleteBaby(_, { babyId }: { babyId: string }) {
     return this.$axios.delete<any, AxiosResponse<DeleteResponse>>(

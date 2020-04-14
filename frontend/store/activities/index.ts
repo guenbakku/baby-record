@@ -37,8 +37,8 @@ export const mutations: MutationTree<State> = {
 export const actions: ActionTree<State, RootState> = {
   /**
    * Get activities of provided babyId in provided date
-   * @param {Object} param0
-   * @param {Object} param1
+   * @param param0 - object param 0
+   * @param param1 - object param 1
    */
   getActivities(
     { commit },
@@ -80,8 +80,8 @@ export const actions: ActionTree<State, RootState> = {
 
   /**
    * Add activity of provided babyId to database
-   * @param {Object} param0
-   * @param {Object} param1
+   * @param param0 - object param 0
+   * @param param1 - object param 1
    */
   addActivity(_, { babyId, activity }: { babyId: string; activity: any }) {
     return this.$axios.post<any, AxiosResponse<AddResponse>>(
@@ -95,8 +95,8 @@ export const actions: ActionTree<State, RootState> = {
 
   /**
    * View activity
-   * @param {Object} param0
-   * @param {Object} param1
+   * @param param0 - object param 0
+   * @param param1 - object param 1
    */
   viewActivity(_, { activityId }: { activityId: string }) {
     return this.$axios.get<any, AxiosResponse<ActivityViewResponse>>(
@@ -106,8 +106,8 @@ export const actions: ActionTree<State, RootState> = {
 
   /**
    * Edit activity
-   * @param {Object} param0
-   * @param {Object} param1
+   * @param param0 - object param 0
+   * @param param1 - object param 1
    */
   editActivity(
     _,
@@ -121,8 +121,8 @@ export const actions: ActionTree<State, RootState> = {
 
   /**
    * Delete activity
-   * @param {Object} param0
-   * @param {Object} param1
+   * @param param0 - object param 0
+   * @param param1 - object param 1
    */
   deleteActivity(_, { activityId }: { activityId: string }) {
     return this.$axios.delete<any, AxiosResponse<DeleteResponse>>(
