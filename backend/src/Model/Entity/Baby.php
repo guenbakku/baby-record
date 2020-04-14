@@ -1,7 +1,10 @@
 <?php
 namespace App\Model\Entity;
 
+use Cake\Core\Configure;
+use Cake\I18n\Time;
 use Cake\ORM\Entity;
+use Guenbakku\Middleware\Http\ClientTimezoneMiddleware;
 
 /**
  * Baby Entity
@@ -34,4 +37,20 @@ class Baby extends Entity
         'modified' => false,
         'activities' => true
     ];
+
+    /**
+     * Convert value set to field 'birthday' to Cake\I18n\Time object
+     * and set that timezone to the value of settings in server side.
+     *
+     * @param Any
+     * @return \Cake\I18n\Time $time
+     */
+    protected function _setBirthday($val)
+    {
+        if (!($val instanceof Time)) {
+            $val = new Time($val, ClientTimezoneMiddleware::getClientTimezone());
+        }
+        $val->setTimezone(Configure::read('App.defaultTimezone'));
+        return $val;
+    }
 }

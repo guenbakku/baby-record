@@ -1,19 +1,22 @@
 import { reactive } from '@vue/composition-api'
 
+type PropToForm<P = any, F = any> = (props: P) => F
+type FormToProp<F = any, P = any> = (form: F) => P
+
 const isEmpty = (props: {}) => {
   return Object.keys(props).length === 0
 }
 
 const useForm = <P extends {} = {}, F extends {} = {}>(
   initForm: F,
-  props: P
+  props: P,
+  propsToForm: PropToForm<P, F>,
+  formToProps: FormToProp<F, P>
 ) => {
-  const propsToForm = (props: P): F => JSON.parse(JSON.stringify(props))
-
   const form = reactive<F>(isEmpty(props) ? initForm : propsToForm(props))
 
-  const getData = (): F => {
-    return JSON.parse(JSON.stringify(form)) as F
+  const getData = () => {
+    return formToProps(form as F)
   }
 
   const updateForm = (props: P) => {

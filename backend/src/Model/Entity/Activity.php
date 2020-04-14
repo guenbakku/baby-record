@@ -2,8 +2,8 @@
 namespace App\Model\Entity;
 
 use Cake\Core\Configure;
-use Cake\ORM\Entity;
 use Cake\I18n\Time;
+use Cake\ORM\Entity;
 use Guenbakku\Middleware\Http\ClientTimezoneMiddleware;
 
 /**

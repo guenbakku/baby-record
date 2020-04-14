@@ -59,8 +59,17 @@ export default defineComponent({
     const babies = computed(() => store.value.state.babies.babies)
 
     const age = computed(() => {
-      const today = ctx.root.$moment().toJSON()
-      const age = calcAge(currentBaby.value.birthday, today)
+      const today = ctx.root
+        .$moment()
+        .startOf('day')
+        .toJSON()
+
+      const birthday = ctx.root
+        .$moment(currentBaby.value.birthday)
+        .startOf('day')
+        .toJSON()
+
+      const age = calcAge(birthday, today)
       return age[0] > 0
         ? `${age[0]} tuổi ${age[1]} tháng`
         : `${age[1]} tháng ${age[2]} ngày`
