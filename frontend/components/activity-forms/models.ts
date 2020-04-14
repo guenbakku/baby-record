@@ -17,6 +17,8 @@ export const declareProps = <D, E>() => ({
   },
   errors: {
     type: Object as () => E,
-    default: {}
+    default() {
+      return {}
+    }
   }
 })

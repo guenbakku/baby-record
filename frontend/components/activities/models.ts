@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-export type ActivityItem<T extends {}> = {
+export type ActivityItem<T extends {} = {}> = {
   id: string
   started: string
   memo: string
@@ -9,7 +9,7 @@ export type ActivityItem<T extends {}> = {
   }
 } & T
 
-export const initActivityItem = <T extends {}>(
+export const initActivityItem = <T extends {} = {}>(
   activity: T
 ): ActivityItem<T> => ({
   id: '',
