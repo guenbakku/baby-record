@@ -4,7 +4,6 @@ namespace App\Model\Table;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
-use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
 
 /**
@@ -93,7 +92,7 @@ class ActivityTypesTable extends Table
         return $this->find()
             ->select(['id', 'code'])
             ->map(function (\Cake\ORM\Entity $entity) {
-                return Inflector::camelize(Inflector::pluralize($entity->code));
+                return $entity->tableName;
             })
             ->toArray();
     }
