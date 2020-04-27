@@ -4,6 +4,7 @@ namespace App\Model\Table;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
 
 /**
@@ -125,6 +126,25 @@ class ActivitiesTable extends Table
     {
         $rules->add($rules->existsIn(['activity_type_id'], 'ActivityTypes'));
         $rules->add($rules->existsIn(['baby_id'], 'Babies'));
+
+        // Check if entity containing only one activity_block
+        $rules->add(function ($entity, $options) {
+            $activityTypesTb = TableRegistry::getTableLocator()->get('ActivityTypes');
+            $activityTypeCodes = $activityTypesTb->getCodes();
+            $count = 0;
+            foreach ($activityTypeCodes as $activityTypeCode) {
+                if (isset($entity->{$activityTypeCode})) {
+                    $count++;
+                }
+                if ($count > 1) {
+                    break;
+                }
+            }
+            return $count === 1;
+        }, 'onlyOneSubActivity', [
+            'errorField' => 'activity',
+            'message' => __('Please set only one activity block'),
+        ]);
 
         return $rules;
     }
