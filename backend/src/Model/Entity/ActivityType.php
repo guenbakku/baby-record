@@ -2,6 +2,7 @@
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\Utility\Inflector;
 
 /**
  * ActivityType Entity
@@ -34,4 +35,9 @@ class ActivityType extends Entity
         'modified' => false,
         'activities' => true
     ];
+
+    protected function _getTableName()
+    {
+        return Inflector::camelize(Inflector::pluralize($this->code));
+    }
 }
