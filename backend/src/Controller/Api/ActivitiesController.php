@@ -53,6 +53,7 @@ class ActivitiesController extends AppController
             $entity = $event->getSubject()->entity;
             if (empty($entity->getErrors())) {
                 $entity->baby_id = $babyId;
+                $entity->activity_type_id = $this->detectActivityType($entity)->id;
             }
         });
 
@@ -127,5 +128,28 @@ class ActivitiesController extends AppController
         }
 
         return $query;
+    }
+
+    /**
+     * Auto detect activity_type_id of one activity data
+     *
+     * @param Entity $entity
+     * @return Entity $activityType
+     * @throws \Cake\Http\Exception\BadRequestException
+     */
+    protected function detectActivityType(\Cake\ORM\Entity $entity)
+    {
+        $activityTypesTb = TableRegistry::getTableLocator()->get('ActivityTypes');
+        $activityTypes = $activityTypesTb->find()
+            ->select(['id', 'code']);
+
+        foreach ($activityTypes as $activityType) {
+            $code = $activityType->code;
+            if (isset($entity->{$code})) {
+                return $activityType;
+            }
+        }
+
+        throw new BadRequestException(__('Could not detect activity type'));
     }
 }
