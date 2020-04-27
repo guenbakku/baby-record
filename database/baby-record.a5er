@@ -38,6 +38,290 @@ ShowTag=1
 ShowCommonAttributes=0
 
 [Relation]
+Entity1=Activities
+Entity2=meal_activities
+RelationType1=2
+RelationType2=2
+Fields1=id
+Fields2=activity_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",2,8932,3273,5366,R,R
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20200427100641
+LineMode=2
+Bar1=893
+Bar2=327
+Bar3=537
+TermPos1=R
+TermPos2=R
+
+[Relation]
+Entity1=meal_statuses
+Entity2=meal_activities
+RelationType1=2
+RelationType2=3
+Fields1=id
+Fields2=meal_status_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,3121,3848,2987,R,R
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20200427095403
+LineMode=0
+Bar1=312
+Bar2=385
+Bar3=299
+TermPos1=R
+TermPos2=R
+
+[Entity]
+PName=meal_statuses
+LName=Meal statuses
+Comment=
+TableOption=
+Page=MAIN
+Left=2800
+Top=1850
+Field="ID","id","INT","NOT NULL",0,"","",$FFFFFFFF,""
+Field="Code","code","VARCHAR(64)","NOT NULL",,"","",$FFFFFFFF,""
+Field="Label","label","VARCHAR(64)","NOT NULL",,"","",$FFFFFFFF,""
+Field="Sort No.","sort_no","INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="Created time","created","DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+Field="Updated time","modified","DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20200427095305
+Position="MAIN",2800,1850
+
+[Relation]
+Entity1=dishes
+Entity2=dishes_meal_activities
+RelationType1=2
+RelationType2=3
+Fields1=id
+Fields2=meal_activity_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,4155,4541,4787,R,R
+Dependence=0
+Caption=
+PName=
+LineMode=0
+Bar1=416
+Bar2=454
+Bar3=479
+TermPos1=R
+TermPos2=R
+
+[Relation]
+Entity1=meal_activities
+Entity2=dishes_meal_activities
+RelationType1=2
+RelationType2=3
+Fields1=id
+Fields2=id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,8508,4385,4720,R,R
+Dependence=1
+Caption=
+PName=
+LineMode=0
+Bar1=851
+Bar2=438
+Bar3=472
+TermPos1=R
+TermPos2=R
+
+[Relation]
+Entity1=files
+Entity2=files_meal_activities
+RelationType1=2
+RelationType2=3
+Fields1=id
+Fields2=file_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",5,7254,527,4076,R,R
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20200427094808
+LineMode=5
+Bar1=725
+Bar2=53
+Bar3=408
+TermPos1=R
+TermPos2=R
+
+[Relation]
+Entity1=meal_activities
+Entity2=files_meal_activities
+RelationType1=2
+RelationType2=3
+Fields1=id
+Fields2=meal_activity_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",0,5594,6448,4872,R,R
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20200427094723
+LineMode=0
+Bar1=559
+Bar2=645
+Bar3=487
+TermPos1=R
+TermPos2=R
+
+[Entity]
+PName=dishes_meal_activities
+LName=Dishes of meal activities
+Comment=
+TableOption=
+Page=MAIN
+Left=2800
+Top=2250
+Field="ID","id","UUID","NOT NULL",0,"","",$FFFFFFFF,""
+Field="Dish ID","dish_id","UUID","NOT NULL",,"","",$FFFFFFFF,""
+Field="Meal activity ID","meal_activity_id","UUID","NOT NULL",,"","",$FFFFFFFF,""
+Field="Created time","created","DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+Field="Updated time","modified","DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20200427095025
+Position="MAIN",2800,2250,436,138
+
+[Relation]
+Entity1=users
+Entity2=dishes
+RelationType1=2
+RelationType2=3
+Fields1=id
+Fields2=user_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",1,7046,6100,5405,R,R
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20200427094500
+LineMode=1
+Bar1=705
+Bar2=610
+Bar3=540
+TermPos1=R
+TermPos2=R
+
+[Entity]
+PName=dishes
+LName=List of dishes
+Comment=
+TableOption=
+Page=MAIN
+Left=3400
+Top=2250
+Field="ID","id","UUID","NOT NULL",0,"","",$FFFFFFFF,""
+Field="User ID","user_id","UUID","NOT NULL",,"","",$FFFFFFFF,""
+Field="Name","name","VARCHAR(64)","NOT NULL",,"","",$FFFFFFFF,""
+Field="Memo","memo","VARCHAR(512)",,,"","",$FFFFFFFF,""
+Field="Created time","created","DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+Field="Updated time","modified","DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20200427112200
+Position="MAIN",3400,2250,380,159
+
+[Entity]
+PName=files_meal_activities
+LName=Files of meal activities
+Comment=
+TableOption=
+Page=MAIN
+Left=2800
+Top=2050
+Field="ID","id","UUID","NOT NULL",0,"","",$FFFFFFFF,""
+Field="File ID","file_id","UUID","NOT NULL",,"","",$FFFFFFFF,""
+Field="Meal Activity ID","meal_activity_id","UUID","NOT NULL",,"","",$FFFFFFFF,""
+Field="Created time","created","DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+Field="Updated time","modified","DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20200427095038
+Position="MAIN",2800,2050
+
+[Entity]
+PName=meal_activities
+LName=Meal activities
+Comment=
+TableOption=
+Page=MAIN
+Left=2250
+Top=1850
+Field="ID","id","UUID","NOT NULL",0,"","",$FFFFFFFF,""
+Field="Activity ID","activity_id","UUID","NOT NULL",,"","",$FFFFFFFF,""
+Field="Meal status ID","meal_status_id","INT","NOT NULL",,"","",$FFFFFFFF,""
+Field="Created time","created","DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+Field="Updated time","modified","DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20200427095325
+Position="MAIN",2250,1850,402,138
+
+[Relation]
+Entity1=users
+Entity2=files
+RelationType1=2
+RelationType2=3
+Fields1=id
+Fields2=user_id
+Cardinarity1=
+Cardinarity2=
+Position="MAIN",3,5312,3088,810,R,R
+Dependence=0
+Caption=
+PName=
+ModifiedDateTime=20200427093348
+LineMode=3
+Bar1=531
+Bar2=309
+Bar3=81
+TermPos1=R
+TermPos2=R
+
+[Entity]
+PName=files
+LName=Files
+Comment=Manage uploaded files
+TableOption=
+Page=MAIN
+Left=1500
+Top=1500
+Field="ID","id","UUID","NOT NULL",0,"","",$FFFFFFFF,""
+Field="User id","user_id","UUID","NOT NULL",,"","",$FFFFFFFF,""
+Field="Path","path","VARCHAR(512)","NOT NULL",,"","",$FFFFFFFF,""
+Field="MIME Content type","mime_type","VARCHAR(64)","NOT NULL",,"","",$FFFFFFFF,""
+Field="Size","size","INT","NOT NULL",,"","Bytes",$FFFFFFFF,""
+Field="Created time","created","DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+Field="Updated time","modified","DATETIME","NOT NULL",,"","",$FFFFFFFF,""
+EffectMode=None
+Color=$000000
+BkColor=$FFFFFF
+ModifiedDateTime=20200501152339
+Position="MAIN",1500,1500
+
+[Relation]
 Entity1=Sexes
 Entity2=babies
 RelationType1=2
