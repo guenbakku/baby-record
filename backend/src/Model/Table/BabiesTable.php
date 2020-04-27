@@ -52,7 +52,7 @@ class BabiesTable extends Table
         ]);
         $this->belongsTo('Sexes', [
             'foreignKey' => 'sex_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',

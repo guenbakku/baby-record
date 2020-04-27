@@ -50,7 +50,7 @@ class ActivitiesTable extends Table
 
         $this->belongsTo('ActivityTypes', [
             'foreignKey' => 'activity_type_id',
-            'joinType' => 'INNER'
+            'joinType' => 'LEFT'
         ]);
         $this->belongsTo('Babies', [
             'foreignKey' => 'baby_id',
@@ -69,6 +69,10 @@ class ActivitiesTable extends Table
             'dependent' => true
         ]);
         $this->hasOne('DiaperActivities', [
+            'foreignKey' => 'activity_id',
+            'dependent' => true
+        ]);
+        $this->hasOne('MealActivities', [
             'foreignKey' => 'activity_id',
             'dependent' => true
         ]);

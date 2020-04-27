@@ -33,7 +33,10 @@ class ActivitiesController extends AppController
             // Also contain sub activity tables
             $activityTypesTb = TableRegistry::getTableLocator()->get('ActivityTypes');
             $activityTypeTables = $activityTypesTb->getTableNames();
-            $query->contain(array_merge($activityTypeTables, ['ActivityTypes']));
+            $query->contain(array_merge($activityTypeTables, [
+                'ActivityTypes',
+                'MealActivities' => ['MealStatuses', 'Dishes', 'Files']
+            ]));
 
             // Create search conditions
             $query = $this->genIndexConditions($query);
@@ -68,7 +71,10 @@ class ActivitiesController extends AppController
             // Also contain sub activity tables
             $activityTypesTb = TableRegistry::getTableLocator()->get('ActivityTypes');
             $activityTypeTables = $activityTypesTb->getTableNames();
-            $query->contain(array_merge($activityTypeTables, ['ActivityTypes']));
+            $query->contain(array_merge($activityTypeTables, [
+                'ActivityTypes',
+                'MealActivities' => ['MealStatuses', 'Dishes', 'Files']
+            ]));
         });
 
         return $this->Crud->execute();

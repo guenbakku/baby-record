@@ -64,6 +64,14 @@ class ActivityTypesSeed extends AbstractSeed
                 'id' => 6,
                 'code' => 'custom_activity',
                 'label' => 'Custom',
+                'sort_no' => 7,
+                'created' => $now,
+                'modified' => $now
+            ],
+            [
+                'id' => 7,
+                'code' => 'meal_activity',
+                'label' => 'Meal',
                 'sort_no' => 6,
                 'created' => $now,
                 'modified' => $now
