@@ -47,6 +47,10 @@ class ActivitiesController extends AppController
 
     public function add()
     {
+        $this->Crud->setConfig('actions.add.saveOptions', [
+            'associated' => ['MealActivities.Dishes', 'MealActivities.Files']
+        ]);
+
         $babyId = $this->request->getQuery('baby_id');
         if (!$babyId) {
             throw new BadRequestException(__('Query parameter `baby_id` is required.'));
@@ -54,10 +58,12 @@ class ActivitiesController extends AppController
 
         $this->Crud->on('beforeSave', function (Event $event) use ($babyId) {
             $entity = $event->getSubject()->entity;
-            if (empty($entity->getErrors())) {
-                $entity->baby_id = $babyId;
-                $entity->activity_type_id = $this->detectActivityType($entity)->id;
+            if ($entity->getErrors()) {
+                return;
             }
+
+            $entity->baby_id = $babyId;
+            $entity->activity_type_id = $this->detectActivityType($entity)->id;
         });
 
         return $this->Crud->execute();
@@ -82,6 +88,10 @@ class ActivitiesController extends AppController
 
     public function edit()
     {
+        $this->Crud->setConfig('actions.add.saveOptions', [
+            'associated' => ['MealActivities.Dishes', 'MealActivities.Files']
+        ]);
+
         $this->Crud->on('beforeSave', function (Event $event) {
             $activityId = $this->request->getParam('id');
             $entity = $event->getSubject()->entity;

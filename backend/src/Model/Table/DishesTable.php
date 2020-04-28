@@ -50,6 +50,10 @@ class DishesTable extends Table
             'targetForeignKey' => 'meal_activity_id',
             'joinTable' => 'dishes_meal_activities'
         ]);
+        $this->hasMany('DishesMealActivities', [
+            'foreignKey' => 'dish_id',
+            'dependent' => true
+        ]);
     }
 
     /**

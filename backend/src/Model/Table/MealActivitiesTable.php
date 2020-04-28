@@ -61,6 +61,14 @@ class MealActivitiesTable extends Table
             'targetForeignKey' => 'file_id',
             'joinTable' => 'files_meal_activities'
         ]);
+        $this->hasMany('DishesMealActivities', [
+            'foreignKey' => 'meal_activity_id',
+            'dependent' => true
+        ]);
+        $this->hasMany('FilesMealActivities', [
+            'foreignKey' => 'meal_activity_id',
+            'dependent' => true
+        ]);
     }
 
     /**

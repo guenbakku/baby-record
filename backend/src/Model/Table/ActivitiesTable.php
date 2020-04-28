@@ -58,31 +58,38 @@ class ActivitiesTable extends Table
         ]);
         $this->hasOne('BottleMilkActivities', [
             'foreignKey' => 'activity_id',
-            'dependent' => true
+            'dependent' => true,
+            'cascadeCallbacks' => true
         ]);
         $this->hasOne('BreastMilkActivities', [
             'foreignKey' => 'activity_id',
-            'dependent' => true
+            'dependent' => true,
+            'cascadeCallbacks' => true
         ]);
         $this->hasOne('CustomActivities', [
             'foreignKey' => 'activity_id',
-            'dependent' => true
+            'dependent' => true,
+            'cascadeCallbacks' => true
         ]);
         $this->hasOne('DiaperActivities', [
             'foreignKey' => 'activity_id',
-            'dependent' => true
+            'dependent' => true,
+            'cascadeCallbacks' => true
         ]);
         $this->hasOne('MealActivities', [
             'foreignKey' => 'activity_id',
-            'dependent' => true
+            'dependent' => true,
+            'cascadeCallbacks' => true
         ]);
         $this->hasOne('PumpMilkActivities', [
             'foreignKey' => 'activity_id',
-            'dependent' => true
+            'dependent' => true,
+            'cascadeCallbacks' => true
         ]);
         $this->hasOne('TemperatureActivities', [
             'foreignKey' => 'activity_id',
-            'dependent' => true
+            'dependent' => true,
+            'cascadeCallbacks' => true
         ]);
     }
 
