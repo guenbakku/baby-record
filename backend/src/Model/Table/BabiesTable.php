@@ -44,6 +44,7 @@ class BabiesTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('UserIdSetter');
 
         $this->hasMany('Activities', [
             'foreignKey' => 'baby_id',

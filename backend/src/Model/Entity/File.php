@@ -29,7 +29,7 @@ class File extends Entity
      * @var array
      */
     protected $_accessible = [
-        'user_id' => true,
+        'user_id' => false,
         'path' => true,
         'content_type' => true,
         'size' => true,

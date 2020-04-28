@@ -29,7 +29,7 @@ class Baby extends Entity
      * @var array
      */
     protected $_accessible = [
-        'user_id' => true,
+        'user_id' => false,
         'name' => true,
         'birthday' => true,
         'sex_id' => true,

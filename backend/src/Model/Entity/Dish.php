@@ -28,7 +28,7 @@ class Dish extends Entity
      * @var array
      */
     protected $_accessible = [
-        'user_id' => true,
+        'user_id' => false,
         'name' => true,
         'memo' => true,
         'created' => false,

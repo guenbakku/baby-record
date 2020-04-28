@@ -51,6 +51,11 @@ class ActivitiesController extends AppController
             'associated' => ['MealActivities.Dishes', 'MealActivities.Files']
         ]);
 
+        // Pass identity into table object to use in its event
+        $identity = $this->Authentication->getIdentity();
+        TableRegistry::getTableLocator()->get('Files')->setIdentity($identity);
+        TableRegistry::getTableLocator()->get('Dishes')->setIdentity($identity);
+
         $babyId = $this->request->getQuery('baby_id');
         if (!$babyId) {
             throw new BadRequestException(__('Query parameter `baby_id` is required.'));

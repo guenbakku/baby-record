@@ -40,6 +40,7 @@ class FilesTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('UserIdSetter');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
