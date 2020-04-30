@@ -39,7 +39,10 @@ class ApplicationTest extends IntegrationTestCase
         $app->bootstrap();
         $plugins = $app->getPlugins();
 
-        $this->assertCount(3, $plugins);
+        $this->assertCount(6, $plugins);
+        $this->assertSame('Authentication', $plugins->get('Authentication')->getName());
+        $this->assertSame('Authorization', $plugins->get('Authorization')->getName());
+        $this->assertSame('Crud', $plugins->get('Crud')->getName());
         $this->assertSame('Bake', $plugins->get('Bake')->getName());
         $this->assertSame('Migrations', $plugins->get('Migrations')->getName());
         $this->assertSame('DebugKit', $plugins->get('DebugKit')->getName());
@@ -77,8 +80,9 @@ class ApplicationTest extends IntegrationTestCase
 
         $middleware = $app->middleware($middleware);
 
-        $this->assertInstanceOf(ErrorHandlerMiddleware::class, $middleware->get(0));
-        $this->assertInstanceOf(AssetMiddleware::class, $middleware->get(1));
-        $this->assertInstanceOf(RoutingMiddleware::class, $middleware->get(2));
+        $this->assertInstanceOf(\Guenbakku\Middleware\Http\CorsMiddleware::class, $middleware->get(0));
+        $this->assertInstanceOf(ErrorHandlerMiddleware::class, $middleware->get(1));
+        $this->assertInstanceOf(AssetMiddleware::class, $middleware->get(2));
+        $this->assertInstanceOf(RoutingMiddleware::class, $middleware->get(3));
     }
 }
