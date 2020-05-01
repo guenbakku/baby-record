@@ -78,6 +78,38 @@ return [
             'role' => 'user',
             'plugin' => false,
             'prefix' => 'Api',
+            'controller' => 'Dishes',
+            'action' => ['index', 'add'],
+            'allowed' => true
+        ],
+        [
+            'role' => 'user',
+            'plugin' => false,
+            'prefix' => 'Api',
+            'controller' => 'Dishes',
+            'action' => ['edit', 'view', 'delete'],
+            'allowed' => new Owner()
+        ],
+        [
+            'role' => 'user',
+            'plugin' => false,
+            'prefix' => 'Api',
+            'controller' => 'Files',
+            'action' => ['index', 'add', 'upload'],
+            'allowed' => true
+        ],
+        [
+            'role' => 'user',
+            'plugin' => false,
+            'prefix' => 'Api',
+            'controller' => 'Files',
+            'action' => ['edit', 'view', 'delete', 'download'],
+            'allowed' => new Owner()
+        ],
+        [
+            'role' => 'user',
+            'plugin' => false,
+            'prefix' => 'Api',
             'controller' => 'Codes',
             'action' => ['view'],
             'bypassAuth' => true

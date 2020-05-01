@@ -49,7 +49,7 @@ class AppController extends Controller
         ]);
 
         $this->loadComponent('RequireAcceptHeader', [
-            'requires' => ['application/json'],
+            'requires' => ['application/json', 'application/octet-stream'],
         ]);
 
         $this->loadComponent('HttpStatus');

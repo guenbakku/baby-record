@@ -1,10 +1,14 @@
 <?php
 namespace App\Model\Table;
 
+use App\Utility\Flysystem;
+use Cake\ORM\Entity;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Utility\Text;
+use Mimey\MimeTypes;
 
 /**
  * Files Model
@@ -76,15 +80,25 @@ class FilesTable extends Table
             ->allowEmptyString('path', false);
 
         $validator
-            ->scalar('content_type')
-            ->maxLength('content_type', 64)
-            ->requirePresence('content_type', 'create')
-            ->allowEmptyString('content_type', false);
+            ->scalar('mime_type')
+            ->maxLength('mime_type', 64)
+            ->requirePresence('mime_type', 'create')
+            ->allowEmptyString('mime_type', false)
+            ->inList(
+                'mime_type',
+                ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/tiff'],
+                __('You are not allowed to uploaded this type of file')
+            );
 
         $validator
             ->integer('size')
             ->requirePresence('size', 'create')
-            ->allowEmptyString('size', false);
+            ->allowEmptyString('size', false)
+            ->lessThanOrEqual(
+                'size',
+                10485760,
+                __('Uploaded file is too large. Max is {0} MB', 10)
+            );
 
         return $validator;
     }
@@ -101,5 +115,76 @@ class FilesTable extends Table
         $rules->add($rules->existsIn(['user_id'], 'Users'));
 
         return $rules;
+    }
+
+    /**
+     * Save php://input into file in storage.
+     *
+     * @param void
+     * @return Entity meta info ([size, path, ...])
+     */
+    public function saveRawInputToTemporaryStorage()
+    {
+        // Write upload content to local disk to get meta info
+        // before moving it to storage
+        $stream = fopen('php://input', 'r+');
+        $tmpfile = tmpfile();
+        $tmppath = stream_get_meta_data($tmpfile)['uri'];
+        file_put_contents($tmppath, $stream);
+        fclose($stream);
+
+        // Validate uploaded file
+        // and move it to storage if there is not any error.
+        $mimeType = mime_content_type($tmppath);
+        $extension = (new MimeTypes)->getExtension($mimeType);
+        $path = Text::uuid() . '.' . $extension;
+        $meta = [
+            'size' => filesize($tmppath),
+            'mime_type' => $mimeType,
+            'path' => $path,
+        ];
+        $entity = $this->newEntity($meta);
+        if (!$entity->getErrors()) {
+            $stream = fopen($tmppath, 'r+');
+            $filesystem = Flysystem::getFilesystem();
+            $filesystem->writeStream($entity->temporary_path, $stream);
+            fclose($stream);
+        }
+
+        return $entity;
+    }
+
+    /**
+     * Move file from temporary to persistent storage
+     *
+     * @param string $path
+     * @return boolean
+     */
+    public function moveFileToPersistentStorage($path)
+    {
+        $meta = [
+            'path' => $path,
+        ];
+        $entity = $this->newEntity($meta, ['validate' => false]);
+        $filesystem = Flysystem::getFilesystem();
+        $result = $filesystem->rename(
+            $entity->temporary_path,
+            $entity->persistentPath
+        );
+
+        return $result;
+    }
+
+    /**
+     * Return file stream from storage
+     *
+     * @param string $savePath
+     * @return resource|false stream to get file content
+     */
+    public function getFileResourceFromStorage(string $savePath)
+    {
+        $filesystem = Flysystem::getFilesystem();
+        $resource = $filesystem->readStream($savePath);
+        return $resource;
     }
 }

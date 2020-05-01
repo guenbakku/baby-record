@@ -93,7 +93,7 @@ class ActivitiesController extends AppController
 
     public function edit()
     {
-        $this->Crud->setConfig('actions.add.saveOptions', [
+        $this->Crud->setConfig('actions.edit.saveOptions', [
             'associated' => ['MealActivities.Dishes', 'MealActivities.Files']
         ]);
 

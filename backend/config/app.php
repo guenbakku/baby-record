@@ -383,4 +383,40 @@ return [
     'Session' => [
         'defaults' => 'php',
     ],
+
+    'Storage' => [
+        'prefix' => [
+            'temporary' => 'temporary',
+            'persistent' => 'persistent'
+        ],
+
+        /**
+         * Configuration of Flysystem's adapter
+         * Following setting of each adapter is according to document of Flysystem's adapter
+         * More info: https://flysystem.thephpleague.com/
+         *
+         * Usable adapters are:
+         * - 'Local' - local filesystem adapter
+         * - 'AwsS3Adapter' - AWS S3(v3) adapter
+         */
+        'flysystem' => [
+            'local' => [
+                'adapter' => 'Local',
+                'root' => ROOT . DS . 'storage',
+            ],
+            'awsS3' => [
+                'adapter' => 'AwsS3Adapter',
+                'auth' => [
+                    'credentials' => [
+                        'key' => env('S3_CREDENTIAL_KEY', null),
+                        'secret' => env('S3_CREDENTIAL_SECRET', null),
+                    ],
+                    'region' => env('S3_REGION', null),
+                    'version' => 'latest',
+                ],
+                'bucket' => env('S3_BUCKET', null)
+            ],
+            'uses' => env('FLYSYSTEM', 'local'), // default
+        ],
+    ]
 ];

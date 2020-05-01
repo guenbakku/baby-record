@@ -23,13 +23,16 @@ class CodesController extends AppController
     protected $whitelist = [
         'ActivityTypes',
         'Sexes',
+        'MealStatuses'
     ];
 
     public function view($slug)
     {
         $model = $this->_uriToModelName($slug);
         if (!in_array($model, $this->whitelist, true)) {
-            throw new NotFoundException("Could not find table with provided slug: $slug");
+            throw new NotFoundException(
+                "Could not find any table in whitelist with provided slug: $slug"
+            );
         }
 
         $empty = filter_var($this->request->getQuery('empty', false), \FILTER_VALIDATE_BOOLEAN);

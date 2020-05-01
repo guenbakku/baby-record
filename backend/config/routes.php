@@ -121,7 +121,18 @@ Router::prefix('api', function (RouteBuilder $routes) {
             'me' => ['action' => 'me', 'method' => 'GET'],
             'token' => ['action'=> 'token', 'method' => 'POST']
         ],
-        'only' => ['me', 'token'],
+        'only' => ['me', 'token']
+    ]);
+    $routes->resources('Files', [
+        'inflect' => 'dasherize',
+        'map' => [
+            'upload' => ['action' => 'upload', 'method' => 'POST'],
+            'download' => ['action' => 'download', 'method' => 'GET', 'path' => ':fileId']
+        ],
+        'connectOptions' => [
+            'fileId' => '[a-zA-Z0-9\-]+',
+            'pass' => ['fileId']
+        ]
     ]);
 
     $routes->fallbacks(DashedRoute::class);

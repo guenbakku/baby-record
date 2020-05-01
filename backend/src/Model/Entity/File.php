@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Entity;
 
+use Cake\Core\Configure;
 use Cake\ORM\Entity;
 
 /**
@@ -31,11 +32,51 @@ class File extends Entity
     protected $_accessible = [
         'user_id' => false,
         'path' => true,
-        'content_type' => true,
+        'mime_type' => true,
         'size' => true,
         'created' => false,
         'modified' => false,
         'user' => true,
         'meal_activities' => true
     ];
+
+    /**
+     * Virtual fields that should be included to JSON
+     */
+    protected $_virtual = ['url'];
+
+    /**
+     * Return url to download current file
+     *
+     * @param   void
+     * @return  string
+     */
+    protected function _getUrl()
+    {
+        if ($this->id) {
+            return implode('/', [
+                trim(Configure::read('App.fullBaseUrl'), '/'),
+                'files/download',
+                $this->id
+            ]);
+        }
+
+        return null;
+    }
+
+    protected function _getTemporaryPath()
+    {
+        return implode('/', [
+            trim(Configure::read('Storage.prefix.temporary'), '/'),
+            $this->path
+        ]);
+    }
+
+    protected function _getPersistentPath()
+    {
+        return implode('/', [
+            trim(Configure::read('Storage.prefix.persistent'), '/'),
+            $this->path
+        ]);
+    }
 }
