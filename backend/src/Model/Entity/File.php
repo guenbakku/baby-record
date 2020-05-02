@@ -79,4 +79,9 @@ class File extends Entity
             $this->path
         ]);
     }
+
+    protected function _getMetaFilePath()
+    {
+        return $this->_getTemporaryPath() . '.json';
+    }
 }

@@ -30,19 +30,6 @@ class FilesController extends AppController
         return $this->Crud->execute();
     }
 
-    // public function add()
-    // {
-    //     // Pass identity into table object to use in its event
-    //     $identity = $this->Authentication->getIdentity();
-    //     TableRegistry::getTableLocator()->get('Files')->setIdentity($identity);
-
-    //     $this->Crud->on('beforeSave', function (Event $event) {
-    //         $meta = $this->Files->saveRawInputToStorage();
-    //         $event->getSubject()->entity = $meta;
-    //     });
-    //     return $this->Crud->execute();
-    // }
-
     public function upload()
     {
         $filesTb = TableRegistry::getTableLocator()->get('Files');
@@ -65,18 +52,18 @@ class FilesController extends AppController
         $userId = $this->Authentication->getIdentity()->getIdentifier();
 
         $filesTb = TableRegistry::getTableLocator()->get('Files');
-        $file = $filesTb->find()
+        $entity = $filesTb->find()
             ->where([
                 'id' => $fileId,
                 'user_id' => $userId
             ])
             ->first();
 
-        if (!$file) {
+        if (!$entity) {
             throw new NotFoundException();
         }
 
-        $resource = $filesTb->getFileResourceFromStorage($file->path);
+        $resource = $filesTb->getFileResourceFromStorage($entity->persistent_path);
         if (!$resource) {
             throw new InternalErrorException('Could not get file resource');
         }
@@ -84,8 +71,8 @@ class FilesController extends AppController
         $this->HttpStatus->set('ok');
         $response = $this->response
             ->withBody(new Stream($resource))
-            ->withType($file->mime_type)
-            ->withDownload(basename($file->path));
+            ->withType($entity->mime_type)
+            ->withDownload(basename($entity->path));
 
         return $response;
     }

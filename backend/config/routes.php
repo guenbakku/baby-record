@@ -127,12 +127,9 @@ Router::prefix('api', function (RouteBuilder $routes) {
         'inflect' => 'dasherize',
         'map' => [
             'upload' => ['action' => 'upload', 'method' => 'POST'],
-            'download' => ['action' => 'download', 'method' => 'GET', 'path' => ':fileId']
+            'download' => ['action' => 'download', 'method' => 'GET']
         ],
-        'connectOptions' => [
-            'fileId' => '[a-zA-Z0-9\-]+',
-            'pass' => ['fileId']
-        ]
+        'only' => ['index', 'view', 'delete', 'upload', 'download']
     ]);
 
     $routes->fallbacks(DashedRoute::class);

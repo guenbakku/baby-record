@@ -117,6 +117,21 @@ class FilesTable extends Table
         return $rules;
     }
 
+    public function beforeDelete(
+        \Cake\Event\Event $event,
+        \Cake\Datasource\EntityInterface $entity,
+        \ArrayObject $options)
+    {
+        $filesystem = Flysystem::getFilesystem();
+        $result = $filesystem->delete($entity->persistent_path);
+        if (!$result) {
+            $entity->errors('path', [
+                'deleteFileError' => __('Could not delete file at path: {0}', $entity->path)
+            ]);
+            return false;
+        }
+    }
+
     /**
      * Save php://input into file in storage.
      *
@@ -145,10 +160,14 @@ class FilesTable extends Table
         ];
         $entity = $this->newEntity($meta);
         if (!$entity->getErrors()) {
+            // Write file itself
             $stream = fopen($tmppath, 'r+');
             $filesystem = Flysystem::getFilesystem();
             $filesystem->writeStream($entity->temporary_path, $stream);
             fclose($stream);
+
+            // Write meta info to file
+            $filesystem->write($entity->meta_file_path, json_encode($entity));
         }
 
         return $entity;
@@ -157,34 +176,48 @@ class FilesTable extends Table
     /**
      * Move file from temporary to persistent storage
      *
-     * @param string $path
-     * @return boolean
+     * @param string $path save path that does not include prefix
+     * @return Entity|false
      */
-    public function moveFileToPersistentStorage($path)
+    public function moveFileToPersistentStorage(string $path)
     {
+        $filesystem = Flysystem::getFilesystem();
+
         $meta = [
             'path' => $path,
         ];
         $entity = $this->newEntity($meta, ['validate' => false]);
-        $filesystem = Flysystem::getFilesystem();
+
+        // Get full saved meta of file
+        $fullMetaJson = $filesystem->read($entity->meta_file_path);
+        if (!$fullMetaJson) {
+            return false;
+        }
+        $fullMeta = json_decode($fullMetaJson, true);
+        $entity = $this->newEntity($fullMeta, ['validate' => false]);
+
+        // Move file to persistent storage
         $result = $filesystem->rename(
             $entity->temporary_path,
             $entity->persistentPath
         );
+        if (!$result) {
+            return false;
+        }
 
-        return $result;
+        return $entity;
     }
 
     /**
      * Return file stream from storage
      *
-     * @param string $savePath
+     * @param string $fullSavePath
      * @return resource|false stream to get file content
      */
-    public function getFileResourceFromStorage(string $savePath)
+    public function getFileResourceFromStorage(string $fullSavePath)
     {
         $filesystem = Flysystem::getFilesystem();
-        $resource = $filesystem->readStream($savePath);
+        $resource = $filesystem->readStream($fullSavePath);
         return $resource;
     }
 }
