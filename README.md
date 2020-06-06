@@ -9,9 +9,7 @@
 
 1. `master`     
     Contains source code which is ready to release
-1. `dev`
-    Contains developing source code
-1. `deploy`
+1. `deployment`
     Contains deployment script
 1. `doc`
     Contains documentation
@@ -42,4 +40,8 @@
 
 ### Deployment
 
-Refer `README.md` in branch `deploy`.
+Refer `README.md` in branch `deployment`.
+
+### Screenshots
+
+![Screenshots](./assets/screenshots.png)
