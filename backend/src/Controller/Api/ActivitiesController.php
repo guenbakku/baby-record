@@ -53,6 +53,7 @@ class ActivitiesController extends AppController
             $entity = $event->getSubject()->entity;
             if (empty($entity->getErrors())) {
                 $entity->baby_id = $babyId;
+                $entity->activity_type_id = $this->detectActivityType($entity)->id;
             }
         });
 
@@ -76,28 +77,18 @@ class ActivitiesController extends AppController
     public function edit()
     {
         $this->Crud->on('beforeSave', function (Event $event) {
-            $activityTypesTb = TableRegistry::getTableLocator()->get('ActivityTypes');
-            $activityTypeCodes = $activityTypesTb->getCodes();
-            $mustClean = false;
-            foreach ($activityTypeCodes as $field) {
-                if (isset($event->getSubject()->entity->{$field})) {
-                    $mustClean = true;
-                    break;
-                }
-            }
+            $activityId = $this->request->getParam('id');
+            $entity = $event->getSubject()->entity;
 
-            // Delete all sub records of current activity
-            if ($mustClean) {
-                $conn = ConnectionManager::get('default');
-                $conn->transactional(function ($conn) use ($activityTypesTb) {
-                    $activityId = $this->request->getParam('id');
-                    $activityTypeTables = $activityTypesTb->getTableNames();
-
-                    foreach ($activityTypeTables as $tableName) {
-                        $table = TableRegistry::getTableLocator()->get($tableName);
-                        $table->deleteAll(['activity_id' => $activityId]);
-                    }
-                });
+            // Insert id of sub activity record
+            $activityType = $this->detectActivityType($entity);
+            $subActivitiesTb = TableRegistry::getTableLocator()->get($activityType->tableName);
+            $subActivity = $subActivitiesTb->find()
+                ->select('id')
+                ->where(['activity_id' => $activityId])
+                ->first();
+            if ($subActivity) {
+                $entity->{$activityType->code}->id = $subActivity->id;
             }
         });
 
@@ -127,5 +118,28 @@ class ActivitiesController extends AppController
         }
 
         return $query;
+    }
+
+    /**
+     * Auto detect activity_type_id of one activity data
+     *
+     * @param Entity $entity
+     * @return Entity $activityType
+     * @throws \Cake\Http\Exception\BadRequestException
+     */
+    protected function detectActivityType(\Cake\ORM\Entity $entity)
+    {
+        $activityTypesTb = TableRegistry::getTableLocator()->get('ActivityTypes');
+        $activityTypes = $activityTypesTb->find()
+            ->select(['id', 'code']);
+
+        foreach ($activityTypes as $activityType) {
+            $code = $activityType->code;
+            if (isset($entity->{$code})) {
+                return $activityType;
+            }
+        }
+
+        throw new BadRequestException(__('Could not detect activity type'));
     }
 }

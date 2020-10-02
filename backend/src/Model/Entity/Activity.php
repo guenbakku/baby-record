@@ -38,7 +38,7 @@ class Activity extends Entity
      * @var array
      */
     protected $_accessible = [
-        'activity_type_id' => true,
+        'activity_type_id' => false,
         'baby_id' => true,
         'started' => true,
         'memo' => true,
