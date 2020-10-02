@@ -2,6 +2,7 @@
 namespace App\Controller\Api;
 
 use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
 
 /**
  * Babies Controller
@@ -23,24 +24,18 @@ class BabiesController extends AppController
 
     public function add()
     {
-        $this->Crud->on('beforeSave', function (Event $event) {
-            $entity = $event->getSubject()->entity;
-            if (empty($entity->getErrors())) {
-                $entity->user_id = $this->Authentication->getIdentity()->getIdentifier();
-            }
-        });
+        // Pass identity into table object to use in its event
+        TableRegistry::getTableLocator()->get('Babies')
+            ->setIdentity($this->Authentication->getIdentity());
 
         return $this->Crud->execute();
     }
 
     public function edit()
     {
-        $this->Crud->on('beforeSave', function (Event $event) {
-            $entity = $event->getSubject()->entity;
-            if (empty($entity->getErrors())) {
-                $entity->user_id = $this->Authentication->getIdentity()->getIdentifier();
-            }
-        });
+        // Pass identity into table object to use in its event
+        TableRegistry::getTableLocator()->get('Babies')
+            ->setIdentity($this->Authentication->getIdentity());
 
         return $this->Crud->execute();
     }
