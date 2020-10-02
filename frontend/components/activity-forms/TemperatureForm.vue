@@ -39,9 +39,7 @@ type Form = ActivityForm<{
 }>
 
 type Props = {
-  data: Form & {
-    activity_type_id: number
-  }
+  data: Form
   errors: ActivityError<{
     temperature_activity?: {
       temperature?: string
@@ -72,7 +70,6 @@ export default defineComponent({
     const formToProps = (form: Form) => ({
       started: ctx.root.$moment(form.started).toISOString(),
       memo: form.memo,
-      activity_type_id: 5,
       temperature_activity: {
         temperature: form.temperature_activity.temperature
       }

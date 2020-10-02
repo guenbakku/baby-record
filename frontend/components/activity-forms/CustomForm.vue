@@ -34,9 +34,7 @@ type Form = ActivityForm<{
 }>
 
 type Props = {
-  data: Form & {
-    activity_type_id: number
-  }
+  data: Form
   errors: ActivityError<{
     custom_activity?: {
       title?: string
@@ -67,7 +65,6 @@ export default defineComponent({
     const formToProps = (form: Form): Props['data'] => ({
       started: ctx.root.$moment(form.started).toISOString(),
       memo: form.memo,
-      activity_type_id: 6,
       custom_activity: {
         title: form.custom_activity.title
       }
