@@ -50,6 +50,7 @@ class Activity extends Entity
         'breast_milk_activity' => true,
         'custom_activity' => true,
         'diaper_activity' => true,
+        'measurement_activity' => true,
         'pump_milk_activity' => true,
         'temperature_activity' => true
     ];

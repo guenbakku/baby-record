@@ -72,6 +72,10 @@ class ActivitiesTable extends Table
             'foreignKey' => 'activity_id',
             'dependent' => true
         ]);
+        $this->hasOne('MeasurementActivities', [
+            'foreignKey' => 'activity_id',
+            'dependent' => true
+        ]);
         $this->hasOne('PumpMilkActivities', [
             'foreignKey' => 'activity_id',
             'dependent' => true
