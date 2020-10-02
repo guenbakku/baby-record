@@ -31,6 +31,10 @@ const MAPS: Maps = {
     component: 'DiaperActivity',
     color: 'blueviolet'
   },
+  measurement_activity: {
+    component: 'MeasurementActivity',
+    color: 'slateblue'
+  },
   pump_milk_activity: {
     component: 'PumpMilkActivity',
     color: 'royalblue'

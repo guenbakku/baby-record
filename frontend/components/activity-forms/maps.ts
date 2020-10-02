@@ -25,13 +25,17 @@ const MAPS: Maps = {
     title: 'Bú bình',
     component: 'BottleMilkForm'
   },
-  pump_milk_activity: {
-    title: 'Vắt sữa',
-    component: 'PumpMilkForm'
-  },
   diaper_activity: {
     title: 'Thay tã',
     component: 'DiaperForm'
+  },
+  measurement_activity: {
+    title: 'Số đo',
+    component: 'MeasurementForm'
+  },
+  pump_milk_activity: {
+    title: 'Vắt sữa',
+    component: 'PumpMilkForm'
   },
   temperature_activity: {
     title: 'Nhiệt độ',
