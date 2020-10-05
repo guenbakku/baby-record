@@ -19,12 +19,11 @@
 import { defineComponent, computed } from '@vue/composition-api'
 import { ActivityItem, initActivityItem } from './models'
 import { getTypeStyle, getEditRoute } from './utils'
+import { SimpleSubActivity, DiaperSubActivity } from '~/store/activities/models'
 
 /* eslint-disable camelcase */
 type DiaperActivity = {
-  diaper_activity: {
-    [k: string]: boolean
-  }
+  diaper_activity: SimpleSubActivity<DiaperSubActivity>
 }
 
 type Props = {
@@ -59,7 +58,7 @@ export default defineComponent({
         is_shit: 'Ị'
       }
       for (const key in events) {
-        if (!(key in content) || content[key] === false) {
+        if (!(key in content) || (content as any)[key] === false) {
           delete events[key]
         }
       }

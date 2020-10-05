@@ -19,14 +19,14 @@
 import { defineComponent, computed, SetupContext } from '@vue/composition-api'
 import { ActivityItem, initActivityItem } from './models'
 import { getTypeStyle, getEditRoute } from './utils'
+import {
+  SimpleSubActivity,
+  BottleMilkSubActivity
+} from '~/store/activities/models'
 
 /* eslint-disable camelcase */
 type BottleMilkActivity = {
-  bottle_milk_activity: {
-    duration: number
-    breast_volume: number
-    fomular_volume: number
-  }
+  bottle_milk_activity: SimpleSubActivity<BottleMilkSubActivity>
 }
 
 type Props = {

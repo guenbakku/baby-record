@@ -2,37 +2,47 @@ import { CancelTokenSource } from 'axios'
 import { BaseRecord, IndexResponse, ViewResponse } from '../models'
 
 /* eslint-disable camelcase */
-export type BaseActivity = BaseRecord & {
+export type SubActivity<T extends {} = {}> = BaseRecord & {
   activity_id: string
-}
+} & T
 
-export type BottleMilkActivity = BaseActivity & {
+export type SimpleSubActivity<SubActivity extends {}> = Omit<
+  SubActivity,
+  'created' | 'modified' | 'id' | 'activity_id'
+>
+
+export type BottleMilkSubActivity = SubActivity<{
   duration: number
   breast_volume: number
   fomular_volume: number
-}
+}>
 
-export type BreastMilkActivity = BaseActivity & {
+export type BreastMilkSubActivity = SubActivity<{
   duration: number
-}
+}>
 
-export type CustomActivity = BaseActivity & {
+export type CustomSubActivity = SubActivity<{
   title: string
-}
+}>
 
-export type DiaperActivity = BaseActivity & {
+export type DiaperSubActivity = SubActivity<{
   is_pee: boolean
   is_shit: boolean
-}
+}>
 
-export type PumpMilkActivity = BaseActivity & {
+export type MeasurementSubActivity = SubActivity<{
+  height?: number
+  weight?: number
+}>
+
+export type PumpMilkSubActivity = SubActivity<{
   duration: number
   volume: number
-}
+}>
 
-export type TemperatureActivity = BaseActivity & {
+export type TemperatureSubActivity = SubActivity<{
   temperature: number
-}
+}>
 
 export type ActivityType = BaseRecord & {
   code: string
@@ -55,12 +65,13 @@ export type Activity = BaseRecord & {
   started: string
   memo: string
   activity_type: ActivityType
-  bottle_milk_activity?: BottleMilkActivity
-  breast_milk_activity?: BreastMilkActivity
-  custom_activity?: CustomActivity
-  diaper_activity?: DiaperActivity
-  pump_milk_activity?: PumpMilkActivity
-  temperature_activity?: TemperatureActivity
+  bottle_milk_activity?: BottleMilkSubActivity
+  breast_milk_activity?: BreastMilkSubActivity
+  custom_activity?: CustomSubActivity
+  diaper_activity?: DiaperSubActivity
+  measurement_activity?: MeasurementSubActivity
+  pump_milk_activity?: PumpMilkSubActivity
+  temperature_activity?: TemperatureSubActivity
 }
 
 export type ActivityIndexResponse = IndexResponse<Activity[]>

@@ -19,12 +19,14 @@
 import { defineComponent, computed } from '@vue/composition-api'
 import { ActivityItem, initActivityItem } from './models'
 import { getTypeStyle, getEditRoute } from './utils'
+import {
+  SimpleSubActivity,
+  TemperatureSubActivity
+} from '~/store/activities/models'
 
 /* eslint-disable camelcase */
 type TemperatureActivity = {
-  temperature_activity: {
-    temperature: number
-  }
+  temperature_activity: SimpleSubActivity<TemperatureSubActivity>
 }
 
 type Props = {

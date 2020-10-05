@@ -19,13 +19,14 @@
 import { defineComponent, computed } from '@vue/composition-api'
 import { ActivityItem, initActivityItem } from './models'
 import { getTypeStyle, getEditRoute } from './utils'
+import {
+  SimpleSubActivity,
+  MeasurementSubActivity
+} from '~/store/activities/models'
 
 /* eslint-disable camelcase */
 type MeasurementActivity = {
-  measurement_activity: {
-    height?: number
-    weight?: number
-  }
+  measurement_activity: SimpleSubActivity<MeasurementSubActivity>
 }
 
 type Props = {

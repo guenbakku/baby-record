@@ -19,12 +19,11 @@
 import { defineComponent, computed } from '@vue/composition-api'
 import { ActivityItem, initActivityItem } from './models'
 import { getTypeStyle, getEditRoute } from './utils'
+import { SimpleSubActivity, CustomSubActivity } from '~/store/activities/models'
 
 /* eslint-disable camelcase */
 type CustomActivity = {
-  custom_activity: {
-    title: string
-  }
+  custom_activity: SimpleSubActivity<CustomSubActivity>
 }
 
 type Props = {
