@@ -103,18 +103,32 @@ class ActivitiesController extends AppController
      */
     protected function genIndexConditions($query)
     {
-        $val = Hash::get($this->request->getQuery(), 'filter.from');
-        if (!in_array($val, [null, ''], true)) {
+        /**
+         * Check if url query item is empty or not.
+         */
+        $isEmpty = function($val) {
+            return in_array($val, [null, ''], true);
+        };
+
+        $urlQuery = $this->request->getQuery();
+
+        $val = Hash::get($urlQuery, 'filter.from');
+        if (!$isEmpty($val)) {
             $val = new Time($val, ClientTimezoneMiddleware::getClientTimezone());
             $val->setTimezone(Configure::read('App.defaultTimezone'));
             $query->where(['started >=' => $val]);
         }
 
-        $val = Hash::get($this->request->getQuery(), 'filter.to');
-        if (!in_array($val, [null, ''], true)) {
+        $val = Hash::get($urlQuery, 'filter.to');
+        if (!$isEmpty($val)) {
             $val = new Time($val, ClientTimezoneMiddleware::getClientTimezone());
             $val->setTimezone(Configure::read('App.defaultTimezone'));
             $query->where(['started <=' => $val]);
+        }
+
+        $val = Hash::get($urlQuery, 'filter.activity_type_code');
+        if (!$isEmpty($val)) {
+            $query->where(['ActivityTypes.code' => $val]);
         }
 
         return $query;
