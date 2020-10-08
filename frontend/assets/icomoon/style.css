@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?pa8zcj');
-  src:  url('fonts/icomoon.eot?pa8zcj#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?pa8zcj') format('truetype'),
-    url('fonts/icomoon.woff?pa8zcj') format('woff'),
-    url('fonts/icomoon.svg?pa8zcj#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?4dbrtb');
+  src:  url('fonts/icomoon.eot?4dbrtb#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?4dbrtb') format('truetype'),
+    url('fonts/icomoon.woff?4dbrtb') format('woff'),
+    url('fonts/icomoon.svg?4dbrtb#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -13,6 +13,7 @@
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
+  speak: never;
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -24,6 +25,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-weight-scale:before {
+  content: "\e905";
+}
 .icon-logout:before {
   content: "\e904";
 }
