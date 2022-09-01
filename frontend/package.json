@@ -22,7 +22,7 @@
     "axios-extensions": "^3.1.2",
     "change-case": "^3.1.0",
     "cross-env": "^5.2.1",
-    "moment-timezone": "^0.5.27",
+    "moment-timezone": "^0.5.35",
     "nuxt": "^2.10.1",
     "object-path": "^0.11.4",
     "promise.allsettled": "^1.0.1",
