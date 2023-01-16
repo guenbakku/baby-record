@@ -24,7 +24,7 @@
     "cross-env": "^5.2.1",
     "moment-timezone": "^0.5.35",
     "nuxt": "^2.15.8",
-    "object-path": "^0.11.4",
+    "object-path": "^0.11.8",
     "promise.allsettled": "^1.0.1",
     "qs": "^6.9.7",
     "vue-i18n": "^8.15.0",
